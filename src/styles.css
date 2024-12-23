@@ -1,1 +1,38 @@
-/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.cdnfonts.com/css/share-tech-mono");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .navbar {
+    @apply fixed top-0 !z-[999] shadow-lg w-full;
+  }
+  .accordion-button {
+    @apply w-full px-8 py-6 text-left flex items-center justify-between;
+  }
+  .adres-cart {
+    @apply min-w-[25rem] min-h-[15rem] border rounded-lg shadow-md;
+  }
+  .cart-info {
+    @apply min-w-[20rem] min-h-[10rem] border rounded-lg shadow-md;
+  }
+}
+@layer base {
+  :root {
+    font-family: "Gill Sans", "Gill Sans MT", sans-serif;
+    font-size: 10px !important;
+    color: rgb(80, 80, 80);
+    height: 100vh;
+    position: relative;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar,
+  .scrollbar-hide {
+    display: none;
+  }
+}
+@layer utilities {
+  .transition {
+    transition: transform 2s;
+  }
+}

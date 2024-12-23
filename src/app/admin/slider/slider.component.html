@@ -1,0 +1,243 @@
+
+<div class="md:max-w-6xl px-4 py-8">
+  <app-carousel></app-carousel>
+  <div class="mt-10">
+    <div class="accordion-button p-0 border-b">
+      <div class="flex w-full justify-between items-center rounded-lg">
+        <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5">Roles</h1>
+        <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center" onclick="toggleAccordion(2)">
+          Add  <i class="fa-solid fa-plus pl-1"></i>
+        </div>
+      </div>
+    </div>
+    <div
+    id="accordion2"
+    class="relative overflow-hidden transition-all max-h-0 duration-700 px-20">
+      <div class="w-full mb-20 mt-8">
+        <form action="">
+          <textarea name="editor1" rows="10" class="w-full border"></textarea>
+          <a routerLink="/" class="block px-4 py-2 text-sm hover:bg-white bg-gray-200 border rounded-md text-center w-full">
+            Edit <i class="fa-solid fa-pen-to-square"></i>
+          </a>
+        </form>
+      </div>
+  </div>
+  </div>
+    <div class="flex items-center pb-2 border-b mb-5 mt-24">
+      <span class="w-1/6 text-center">
+        <input type="checkbox" onclick="toggleSelect()" />
+      </span>
+      <span class="w-1/3">
+        <span class="text-xs uppercase text-gray-600 font-bold">Contact Info</span>
+      </span>
+      <span class="w-1/5">
+        <span class="text-xs uppercase text-gray-600 font-bold">Gender</span>
+      </span>
+      <span class="w-1/5">
+        <span class="text-xs uppercase text-gray-600 font-bold">City</span>
+      </span>
+      <span class="w-1/5">
+        <span class="text-xs uppercase text-gray-600 font-bold">Phone</span>
+      </span>
+      <span class="w-1/5">
+        <span class="text-xs uppercase text-gray-600 font-bold">Created At</span>
+      </span>
+      <span class="w-1/5">
+        <span class="text-xs uppercase text-gray-600 font-bold"></span>
+      </span>
+    </div>
+    <div id="users" class="space-y-5 px-5">
+      <!-- User 1 -->
+      <div class="flex items-center p-4 rounded-md shadow">
+        <span class="w-1/6 text-center">
+          <input type="checkbox" class="contact-checkbox mr-4">
+        </span>
+        <span class="w-1/3">
+          <div class="flex items-center">
+            <img src="https://randomuser.me/api/portraits/thumb/men/1.jpg" alt="User 1" class="w-12 h-12 rounded-full">
+            <div class="ml-4">
+              <span class="capitalize block text-gray-800">John Doe</span>
+              <span class="text-sm block text-gray-600">john.doe&#64;example.com</span>
+            </div>
+          </div>
+        </span>
+        <span class="w-1/5">
+          <div class="inline-flex rounded-md bg-indigo-50 p-2 font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20 mb-3 mx-2 capitalize text-sm min-w-20"><i class="mt-1 mr-2 fa-solid fa-check "></i> Male </div>
+        </span>
+        <span class="w-1/5">
+          <span class="text-xs uppercase text-gray-600 font-bold">New York</span>
+        </span>
+        <span class="w-1/5">
+          <span class="text-xs uppercase text-gray-600 font-bold">123-456-7890</span>
+        </span>
+        <span class="w-1/5">
+          <span class="text-xs uppercase text-gray-600 font-bold">2024-01-01</span>
+        </span>
+        <span class="w-1/5">
+          <a routerLink="/admin" class="block px-4 py-2 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center">
+            Edit <i class="fa-solid fa-pen-to-square pl-1"></i>
+        </a>
+        </span>
+      </div>
+      <!-- User 2 -->
+      <div class="flex items-center p-4 rounded-md shadow">
+        <span class="w-1/6 text-center">
+          <input type="checkbox" class="contact-checkbox mr-4">
+        </span>
+        <span class="w-1/3">
+          <div class="flex items-center">
+            <img src="https://randomuser.me/api/portraits/thumb/women/1.jpg" alt="User 2" class="w-12 h-12 rounded-full">
+            <div class="ml-4">
+              <span class="capitalize block text-gray-800">Jane Doe</span>
+              <span class="text-sm block text-gray-600">jane.doe&#64;example.com</span>
+            </div>
+          </div>
+        </span>
+        <span class="w-1/5">
+          <div class="inline-flex rounded-md bg-pink-50 p-2 font-medium text-pink-700 ring-1 ring-inset ring-pink-600/20 mb-3 mx-2 capitalize text-sm min-w-20"><i class="mt-1 mr-2 fa-solid fa-check "></i> Female </div>
+        </span>
+        <span class="w-1/5">
+          <span class="text-xs uppercase text-gray-600 font-bold">Los Angeles</span>
+        </span>
+        <span class="w-1/5">
+          <span class="text-xs uppercase text-gray-600 font-bold">987-654-3210</span>
+        </span>
+        <span class="w-1/5">
+          <span class="text-xs uppercase text-gray-600 font-bold">2024-02-01</span>
+        </span>
+        <span class="w-1/5">
+          <a routerLink="/admin" class="block px-4 py-2 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center">
+            Edit <i class="fa-solid fa-pen-to-square pl-1"></i>
+        </a>
+        </span>
+      </div>
+      <!-- User 3 -->
+      <div class="flex items-center p-4 rounded-md shadow">
+        <span class="w-1/6 text-center">
+          <input type="checkbox" class="contact-checkbox mr-4">
+        </span>
+        <span class="w-1/3">
+          <div class="flex items-center">
+            <img src="https://randomuser.me/api/portraits/thumb/men/2.jpg" alt="User 3" class="w-12 h-12 rounded-full">
+            <div class="ml-4">
+              <span class="capitalize block text-gray-800">Jake Doe</span>
+              <span class="text-sm block text-gray-600">jake.doe&#64;example.com</span>
+            </div>
+          </div>
+        </span>
+        <span class="w-1/5">
+          <div class="inline-flex rounded-md bg-indigo-50 p-2 font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20 mb-3 mx-2 capitalize text-sm min-w-20"><i class="mt-1 mr-2 fa-solid fa-check "></i> Male </div>
+        </span>
+        <span class="w-1/5">
+          <span class="text-xs uppercase text-gray-600 font-bold">Chicago</span>
+        </span>
+        <span class="w-1/5">
+          <span class="text-xs uppercase text-gray-600 font-bold">555-123-4567</span>
+        </span>
+        <span class="w-1/5">
+          <span class="text-xs uppercase text-gray-600 font-bold">2024-03-01</span>
+        </span>
+        <span class="w-1/5">
+          <a routerLink="/admin" class="block px-4 py-2 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center">
+            Edit <i class="fa-solid fa-pen-to-square pl-1"></i>
+        </a>
+        </span>
+      </div>
+      <!-- User 1 -->
+      <div class="flex items-center p-4 rounded-md shadow">
+        <span class="w-1/6 text-center">
+          <input type="checkbox" class="contact-checkbox mr-4">
+        </span>
+        <span class="w-1/3">
+          <div class="flex items-center">
+            <img src="https://randomuser.me/api/portraits/thumb/men/1.jpg" alt="User 1" class="w-12 h-12 rounded-full">
+            <div class="ml-4">
+              <span class="capitalize block text-gray-800">John Doe</span>
+              <span class="text-sm block text-gray-600">john.doe&#64;example.com</span>
+            </div>
+          </div>
+        </span>
+        <span class="w-1/5">
+          <div class="inline-flex rounded-md bg-indigo-50 p-2 font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20 mb-3 mx-2 capitalize text-sm min-w-20"><i class="mt-1 mr-2 fa-solid fa-check "></i> Male </div>
+        </span>
+        <span class="w-1/5">
+          <span class="text-xs uppercase text-gray-600 font-bold">New York</span>
+        </span>
+        <span class="w-1/5">
+          <span class="text-xs uppercase text-gray-600 font-bold">123-456-7890</span>
+        </span>
+        <span class="w-1/5">
+          <span class="text-xs uppercase text-gray-600 font-bold">2024-01-01</span>
+        </span>
+        <span class="w-1/5">
+          <a routerLink="/admin" class="block px-4 py-2 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center">
+            Edit <i class="fa-solid fa-pen-to-square pl-1"></i>
+        </a>
+        </span>
+      </div>
+      <!-- User 2 -->
+      <div class="flex items-center p-4 rounded-md shadow">
+        <span class="w-1/6 text-center">
+          <input type="checkbox" class="contact-checkbox mr-4">
+        </span>
+        <span class="w-1/3">
+          <div class="flex items-center">
+            <img src="https://randomuser.me/api/portraits/thumb/women/1.jpg" alt="User 2" class="w-12 h-12 rounded-full">
+            <div class="ml-4">
+              <span class="capitalize block text-gray-800">Jane Doe</span>
+              <span class="text-sm block text-gray-600">jane.doe&#64;example.com</span>
+            </div>
+          </div>
+        </span>
+        <span class="w-1/5">
+          <div class="inline-flex rounded-md bg-pink-50 p-2 font-medium text-pink-700 ring-1 ring-inset ring-pink-600/20 mb-3 mx-2 capitalize text-sm min-w-20"><i class="mt-1 mr-2 fa-solid fa-check "></i> Female </div>
+        </span>
+        <span class="w-1/5">
+          <span class="text-xs uppercase text-gray-600 font-bold">Los Angeles</span>
+        </span>
+        <span class="w-1/5">
+          <span class="text-xs uppercase text-gray-600 font-bold">987-654-3210</span>
+        </span>
+        <span class="w-1/5">
+          <span class="text-xs uppercase text-gray-600 font-bold">2024-02-01</span>
+        </span>
+        <span class="w-1/5">
+          <a routerLink="/admin" class="block px-4 py-2 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center">
+            Edit <i class="fa-solid fa-pen-to-square pl-1"></i>
+        </a>
+        </span>
+      </div>
+      <!-- User 3 -->
+      <div class="flex items-center p-4 rounded-md shadow">
+        <span class="w-1/6 text-center">
+          <input type="checkbox" class="contact-checkbox mr-4">
+        </span>
+        <span class="w-1/3">
+          <div class="flex items-center">
+            <img src="https://randomuser.me/api/portraits/thumb/men/2.jpg" alt="User 3" class="w-12 h-12 rounded-full">
+            <div class="ml-4">
+              <span class="capitalize block text-gray-800">Jake Doe</span>
+              <span class="text-sm block text-gray-600">jake.doe&#64;example.com</span>
+            </div>
+          </div>
+        </span>
+        <span class="w-1/5">
+          <div class="inline-flex rounded-md bg-indigo-50 p-2 font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20 mb-3 mx-2 capitalize text-sm min-w-20"><i class="mt-1 mr-2 fa-solid fa-check "></i> Male </div>
+        </span>
+        <span class="w-1/5">
+          <span class="text-xs uppercase text-gray-600 font-bold">Chicago</span>
+        </span>
+        <span class="w-1/5">
+          <span class="text-xs uppercase text-gray-600 font-bold">555-123-4567</span>
+        </span>
+        <span class="w-1/5">
+          <span class="text-xs uppercase text-gray-600 font-bold">2024-03-01</span>
+        </span>
+        <span class="w-1/5">
+          <a routerLink="/admin" class="block px-4 py-2 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center">
+            Edit <i class="fa-solid fa-pen-to-square pl-1"></i>
+        </a>
+        </span>
+      </div>
+  </div>
+</div>

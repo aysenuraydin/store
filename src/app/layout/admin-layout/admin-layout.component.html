@@ -1,0 +1,107 @@
+<div class="h-screen w-screen">
+<div class="flex h-full mt-32">
+  <div class="basis-1/4 h-full">
+  <div class="fixed bg-white w-64 h-full hidden md:block shadow-2xl z-30">
+
+    <!-- Brand Logo / Name -->
+    <div class="flex items-center px-6 py-3 h-16">
+      <div class="text-2xl font-bold tracking-tight text-gray-800">Dashing Admin.</div>
+    </div>
+    <!-- @end Brand Logo / Name -->
+
+    <div class="px-4 py-2">
+      <ul>
+        <li>
+          <a routerLink="admin"
+            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
+            <i class="fa-brands fa-microsoft text-gray-400 text-3xl mr-6"></i>
+            Dasboard
+          </a>
+        </li>
+        <li>
+          <a routerLink="informations"
+            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
+            <i class="fa-solid fa-circle-info text-gray-400 text-3xl mr-6"></i>
+            Informations
+          </a>
+        </li>
+        <li>
+          <a routerLink="products"
+            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
+            <i class="fa-solid fa-shirt text-gray-400 text-3xl mr-6"></i>
+            Products
+          </a>
+        </li>
+        <li>
+          <a routerLink="categories"
+            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
+            <i class="fa-solid fa-tags text-gray-400 text-3xl mr-6"></i>
+            Categories
+          </a>
+        </li>
+        <li>
+          <a routerLink="users"
+            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
+            <i class="fa-solid fa-users text-gray-400 text-3xl mr-6"></i>
+            Users
+          </a>
+        </li>
+        <li>
+          <a routerLink="roles"
+            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
+            <i class="fa-solid fa-user-tag text-gray-400 text-3xl mr-6"></i>
+            Roles
+          </a>
+        </li>
+        <li>
+          <a routerLink="orders"
+            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
+            <i class="fa-solid fa-box text-gray-400 text-3xl mr-6"></i>
+            Orders
+          </a>
+        </li>
+        <li>
+          <a routerLink="comments"
+            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
+            <i class="fa-solid fa-comment text-gray-400 text-3xl mr-6"></i>
+            Comments
+          </a>
+        </li>
+        <li>
+          <a routerLink="subscribes"
+            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
+            <i class="fa-solid fa-bell text-gray-400 text-3xl mr-6"></i>
+            Subscribes
+          </a>
+        </li>
+        <li>
+          <a routerLink="messages"
+            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
+            <i class="fa-solid fa-envelope text-gray-400 text-3xl mr-6"></i>
+            Messages
+          </a>
+        </li>
+        <li>
+          <a routerLink="banner"
+            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
+            <i class="fa-solid fa-scroll text-gray-400 text-3xl mr-6"></i>
+            Banner
+          </a>
+        </li>
+        <li>
+          <a routerLink="slider"
+            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
+            <i class="fa-solid fa-arrows-left-right text-gray-400 text-3xl mr-6"></i>
+            Slider
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  </div>
+  <div class="basis-3/4 h-full">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+</div>
+

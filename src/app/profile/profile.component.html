@@ -1,0 +1,296 @@
+<div class="min-h-[90vh] mt-32 mx-auto max-w-7xl pb-40">
+    <ul>
+      <li class="mt-10">
+        <button
+          type="button"
+          class="accordion-button p-0"
+          onclick="toggleAccordion(1)">
+          <div class="flex w-full p-5 rounded-lg">
+            <div class="w-full">
+              <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5 ">
+                My User Information
+              </h1>
+              <hr class="divide w-full">
+            </div>
+          </div>
+        </button>
+        <div
+          id="accordion1"
+          class="relative transition-all max-h-screen px-10">
+          <div class="flex">
+            <div class="flex h-full w-full">
+              <div class="bg-white px-8 w-full my-8">
+                <h2 class="text-2xl font-semibold text-gray-600 mb-6 text-center">Membership Information</h2>
+                <form>
+                  <div class="mb-4">
+                    <input type="text" id="name" name="name" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" placeholder="Name">
+                  </div>
+                  <div class="mb-4">
+                    <input type="text" id="surname" name="surname" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" placeholder="Surname">
+                  </div>
+                  <div class="mb-4">
+                    <input type="tel" id="tel" name="tel" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" placeholder="Phone Number">
+                  </div>
+                  <div class="mb-4">
+                    <input type="email" id="email" name="email" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" placeholder="Email">
+                  </div>
+                  <button type="submit" class="w-full p-4 bg-gray-800 text-white rounded-sm hover:bg-gray-600">
+                    Update
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <div class="flex h-full w-full">
+              <div class="bg-white px-8 w-full my-8">
+                <h2 class="text-2xl font-semibold text-gray-600 mb-6 text-center">Password Update</h2>
+                <form>
+                  <div class="mb-6">
+                    <input type="password" id="password" name="password" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" placeholder="Current Password">
+                  </div>
+                  <div class="mb-6">
+                    <input type="password" id="password" name="password" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" placeholder="New Password">
+                  </div>
+                  <div class="mb-6">
+                    <input type="password" id="confirm-password" name="confirm-password" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none mb-6" placeholder="Confirm New Password">
+                  </div>
+                  <button type="submit" class="w-full p-4 bg-gray-800 text-white rounded-sm hover:bg-gray-600 mt-[1.85rem]">
+                    Update
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="mt-10">
+        <button
+          type="button"
+          class="accordion-button p-0"
+          onclick="toggleAccordion(2)">
+          <div class="flex w-full p-5 rounded-lg">
+            <div class="w-full">
+              <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5 ">My Address Information</h1>
+              <hr class="divide w-full">
+            </div>
+          </div>
+        </button>
+        <div
+          id="accordion2"
+          class="relative overflow-hidden transition-all max-h-0 duration-700 px-10">
+          <div class="flex gap-4 overflow-y-auto scrollbar-hide mx-9">
+            <div class="adres-cart">
+              <div class="bg-gray-50 p-3 font-semibold border-b">Home</div>
+              <div class="px-3 pb-2">
+                <div class="p-3">
+                  <h1 class="font-semibold">Ayşenur Aydın</h1>
+                  <p>Palm Grove Street, Aydin Architecture
+                    Orchard Park, Springfield, IL 62701</p>
+                  <p> United States </p>
+                  <p> 551*****98</p>
+                </div>
+                  <div class="flex justify-between px-3">
+                    <a href="/" class="text-gray-500 self-center"><i class="fa-solid fa-trash mr-1"></i>Delete</a>
+                    <a href="/" class="border rounded-lg p-2 border-gray-400 text-gray-500 px-7">Edit Adress</a>
+                  </div>
+              </div>
+            </div>
+            <div class="adres-cart">
+              <div class="bg-gray-50 p-3 font-semibold border-b">Home</div>
+              <div class="px-3 pb-2">
+                <div class="p-3">
+                  <h1 class="font-semibold">Ayşenur Aydın</h1>
+                  <p>Palm Grove Street, Aydin Architecture
+                    Orchard Park, Springfield, IL 62701</p>
+                  <p> United States </p>
+                  <p> 551*****98</p>
+                </div>
+                  <div class="flex justify-between px-3">
+                    <a href="/" class="text-gray-500 self-center"><i class="fa-solid fa-trash mr-1"></i>Delete</a>
+                    <a href="/" class="border rounded-lg p-2 border-gray-400 text-gray-500 px-7">Edit Adress</a>
+                  </div>
+              </div>
+            </div>
+            <div class="adres-cart">
+              <div class="bg-gray-50 p-3 font-semibold border-b">Home</div>
+              <div class="px-3 pb-2">
+                <div class="p-3">
+                  <h1 class="font-semibold">Ayşenur Aydın</h1>
+                  <p>Palm Grove Street, Aydin Architecture
+                    Orchard Park, Springfield, IL 62701</p>
+                  <p> United States </p>
+                  <p> 551*****98</p>
+                </div>
+                  <div class="flex justify-between px-3">
+                    <a href="/" class="text-gray-500 self-center"><i class="fa-solid fa-trash mr-1"></i>Delete</a>
+                    <a href="/" class="border rounded-lg p-2 border-gray-400 text-gray-500 px-7">Edit Adress</a>
+                  </div>
+              </div>
+            </div>
+            <div class="adres-cart">
+              <div class="bg-gray-50 p-3 font-semibold border-b">Home</div>
+              <div class="px-3 pb-2">
+                <div class="p-3">
+                  <h1 class="font-semibold">Ayşenur Aydın</h1>
+                  <p>Palm Grove Street, Aydin Architecture
+                    Orchard Park, Springfield, IL 62701</p>
+                  <p> United States </p>
+                  <p> 551*****98</p>
+                </div>
+                  <div class="flex justify-between px-3">
+                    <a href="/" class="text-gray-500 self-center"><i class="fa-solid fa-trash mr-1"></i>Delete</a>
+                    <a href="/" class="border rounded-lg p-2 border-gray-400 text-gray-500 px-7">Edit Adress</a>
+                  </div>
+              </div>
+            </div>
+            <div class="adres-cart">
+              <div class="bg-gray-50 p-3 font-semibold border-b">Home</div>
+              <div class="px-3 pb-2">
+                <div class="p-3">
+                  <h1 class="font-semibold">Ayşenur Aydın</h1>
+                  <p>Palm Grove Street, Aydin Architecture
+                    Orchard Park, Springfield, IL 62701</p>
+                  <p> United States </p>
+                  <p> 551*****98</p>
+                </div>
+                  <div class="flex justify-between px-3">
+                    <a href="/" class="text-gray-500 self-center"><i class="fa-solid fa-trash mr-1"></i>Delete</a>
+                    <a href="/" class="border rounded-lg p-2 border-gray-400 text-gray-500 px-7">Edit Adress</a>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="mt-10">
+        <button
+          type="button"
+          class="accordion-button p-0"
+          onclick="toggleAccordion(3)">
+          <div class="flex w-full p-5 rounded-lg">
+            <div class="w-full">
+              <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5 ">My Saved Cards</h1>
+              <hr class="divide w-full">
+            </div>
+          </div>
+        </button>
+        <div
+          id="accordion3"
+          class="relative overflow-hidden transition-all max-h-0 duration-700 px-10">
+            <div class="flex gap-4 overflow-y-auto scrollbar-hide mx-9">
+              <div class="cart-info">
+                <div class="px-3 pt-4">
+                  <div class="flex justify-between px-3">
+                    <h1 class="font-semibold pb-5">Aydın Cart Name</h1>
+                    <a href="/" class="text-gray-500 px-1">
+                      <i class="fa-solid fa-pen-to-square text-xl"></i>
+                    </a>
+                  </div>
+                  <div class="flex justify-between items-center">
+                  <div class="p-3 w-1/2">
+                    <p>517786******3777</p>
+                    <p>10/2018</p>
+                  </div>
+                  <i class="w-1/4 fa-brands fa-cc-visa text-5xl text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="cart-info">
+                <div class="px-3 pt-4">
+                  <div class="flex justify-between px-3">
+                    <h1 class="font-semibold pb-5">Aydın Cart Name</h1>
+                    <a href="/" class="text-gray-500 px-1">
+                      <i class="fa-solid fa-pen-to-square text-xl"></i>
+                    </a>
+                  </div>
+                  <div class="flex justify-between items-center">
+                  <div class="p-3 w-1/2">
+                    <p>517786******3777</p>
+                    <p>10/2018</p>
+                  </div>
+                  <i class="w-1/4 fa-brands fa-cc-visa text-5xl text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="cart-info">
+                <div class="px-3 pt-4">
+                  <div class="flex justify-between px-3">
+                    <h1 class="font-semibold pb-5">Aydın Cart Name</h1>
+                    <a href="/" class="text-gray-500 px-1">
+                      <i class="fa-solid fa-pen-to-square text-xl"></i>
+                    </a>
+                  </div>
+                  <div class="flex justify-between items-center">
+                  <div class="p-3 w-1/2">
+                    <p>517786******3777</p>
+                    <p>10/2018</p>
+                  </div>
+                  <i class="w-1/4 fa-brands fa-cc-visa text-5xl text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="cart-info">
+                <div class="px-3 pt-4">
+                  <div class="flex justify-between px-3">
+                    <h1 class="font-semibold pb-5">Aydın Cart Name</h1>
+                    <a href="/" class="text-gray-500 px-1">
+                      <i class="fa-solid fa-pen-to-square text-xl"></i>
+                    </a>
+                  </div>
+                  <div class="flex justify-between items-center">
+                  <div class="p-3 w-1/2">
+                    <p>517786******3777</p>
+                    <p>10/2018</p>
+                  </div>
+                  <i class="w-1/4 fa-brands fa-cc-visa text-5xl text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </li>
+      <li class="mt-10">
+        <button
+          type="button"
+          class="accordion-button p-0"
+          onclick="toggleAccordion(4)">
+          <div class="flex w-full p-5 rounded-lg">
+            <div class="w-full">
+              <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5 ">My Notification Preferences</h1>
+              <hr class="divide w-full">
+            </div>
+          </div>
+        </button>
+        <div
+          id="accordion4"
+          class="relative overflow-hidden transition-all max-h-0 duration-700 px-10">
+          <div class="px-6">
+            <div class="border my-4 p-3 bg-gray-50 flex">
+              <input type="checkbox" name="e-mail" id="e-mail" class="min-w-8">
+              <label for="e-mail" class="text-gray-900 pl-5">
+                <h1 class="font-semibold min-w-24">E-mail</h1>
+                <p class="text-gray-500">I want to receive emails about campaigns and boutique newsletters that might interest me.</p>
+              </label>
+
+            </div>
+            <div class="border my-4 p-3 bg-gray-50 flex">
+              <input type="checkbox" name="sms" id="sms" class="min-w-8">
+              <label for="sms" class="text-gray-900 pl-5">
+                <h3 class="font-semibold min-w-24">SMS</h3>
+                <p class="text-gray-500">I want to receive SMS messages about campaigns that might interest me.</p>
+              </label>
+            </div>
+            <div class="border my-4 p-3 bg-gray-50 flex">
+              <input type="checkbox" name="p-number" id="p-number" class="min-w-8">
+              <label for="p-number" class="text-gray-900 pl-5">
+                <h1 class="font-semibold min-w-24">Phone Call</h1>
+                <p class="text-gray-500"> I want to receive calls about campaigns that might interest me.</p>
+            </label>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+</div>

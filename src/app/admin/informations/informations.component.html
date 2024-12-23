@@ -1,0 +1,242 @@
+
+<div class="md:max-w-6xl px-4 py-8">
+  <ul>
+    <li class="mt-10">
+      <div class="accordion-button p-0 border-b">
+        <div class="flex w-full justify-between items-center rounded-lg">
+          <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5">About</h1>
+          <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center hover:cursor-pointer" onclick="toggleAccordion(1)">
+            Edit  <i class="fa-solid fa-edit pl-1"></i>
+          </div>
+        </div>
+      </div>
+      <div
+        id="accordion1"
+        class="relative transition-all max-h-screen px-20 pt-10">
+          <span>
+            <form action="">
+              <textarea name="editor1" rows="10" class="w-full border"></textarea>
+              <a routerLink="/" class="block px-4 py-2 text-sm bg-gray-200 border rounded-md text-center w-full hover:bg-white hover:cursor-pointer">
+                Edit <i class="fa-solid fa-pen-to-square"></i>
+              </a>
+            </form>
+          </span>
+      </div>
+    </li>
+    <li class="mt-10">
+      <div class="accordion-button p-0 border-b">
+        <div class="flex w-full justify-between items-center rounded-lg">
+          <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5">Contact</h1>
+          <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center hover:cursor-pointer" onclick="toggleAccordion(2)">
+            Edit  <i class="fa-solid fa-edit pl-1"></i>
+          </div>
+        </div>
+      </div>
+      <div
+      id="accordion2"
+      class="relative overflow-hidden transition-all max-h-0 duration-700  pt-10 px-20">
+        <span class="w-3/4">
+          <form action="">
+            <textarea name="editor1" rows="10" class="w-full border"></textarea>
+            <a routerLink="/" class="block px-4 py-2 text-sm hover:bg-white bg-gray-200 border rounded-md text-center w-full hover:cursor-pointer">
+              Edit <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+          </form>
+        </span>
+    </div>
+    </li>
+    <li class="mt-10">
+      <div class="accordion-button p-0 border-b">
+        <div class="flex w-full justify-between items-center rounded-lg">
+          <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5">Faqs</h1>
+          <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center hover:cursor-pointer" onclick="toggleAccordion(3)">
+            Edit  <i class="fa-solid fa-edit pl-1"></i>
+          </div>
+        </div>
+      </div>
+      <div
+        id="accordion3"
+        class="relative overflow-hidden transition-all max-h-0 duration-700 px-10  pt-10">
+          <div class="flex gap-4 overflow-y-auto scrollbar-hide mx-9">
+              <span class="w-full">
+                <form action="">
+                  <div>
+                    <input type="text" name="" id="" class="w-full border p-2 my-1 rounded-md" placeholder="question">
+                    <textarea name="" id="" class="w-full border p-2 my-1 rounded-md" placeholder="answer"></textarea>
+                  </div>
+                  <a routerLink="/" class="block px-4 py-2 text-sm text-gray-700 hover:bg-white bg-gray-200 border rounded-md text-center w-full">
+                    Edit Question <i class="fa-solid fa-edit pl-1"></i>
+                  </a>
+                </form>
+                <div class="faq-list pt-10">
+                  <ul>
+                    <li>
+                      <div class="flex">
+                        <div class="w-3/4 border-l pl-5 my-2 border-gray-600">
+                          <h1 class="font-semibold text-lg">Lorem ipsum dolor sit amet.</h1>
+                          <p class="text-gray-600">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea, dignissimos non commodi ratione praesentium nulla.</p>
+                        </div>
+                        <div class="w-1/4 flex items-center justify-end">
+                          <a routerLink="/" class="inline-block mx-1 px-2 py-2 text-sm text-gray-700 hover:bg-white bg-gray-200 hover:border rounded-md text-center w-14">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                          </a>
+                          <a routerLink="/" class="inline-block mx-1 px-2 py-2 text-sm text-gray-700 hover:bg-white bg-gray-200 hover:border rounded-md text-center w-14">
+                            <i class="fa-solid fa-trash"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="flex">
+                        <div class="w-3/4 border-l pl-5 my-2 border-gray-600">
+                          <h1 class="font-semibold text-lg">Lorem ipsum dolor sit amet.</h1>
+                          <p class="text-gray-600">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea, dignissimos non commodi ratione praesentium nulla.</p>
+                        </div>
+                        <div class="w-1/4 flex items-center  justify-end">
+                          <a routerLink="/" class="inline-block mx-1 px-2 py-2 text-sm text-gray-700 hover:bg-white bg-gray-200 hover:border rounded-md text-center w-14">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                          </a>
+                          <a routerLink="/" class="inline-block mx-1 px-2 py-2 text-sm text-gray-700 hover:bg-white bg-gray-200 hover:border rounded-md text-center w-14">
+                            <i class="fa-solid fa-trash"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="flex">
+                        <div class="w-3/4 border-l pl-5 my-2 border-gray-600">
+                          <h1 class="font-semibold text-lg">Lorem ipsum dolor sit amet.</h1>
+                          <p class="text-gray-600">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea, dignissimos non commodi ratione praesentium nulla.</p>
+                        </div>
+                        <div class="w-1/4 flex items-center  justify-end">
+                          <a routerLink="/" class="inline-block mx-1 px-2 py-2 text-sm text-gray-700 hover:bg-white bg-gray-200 hover:border rounded-md text-center w-14">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                          </a>
+                          <a routerLink="/" class="inline-block mx-1 px-2 py-2 text-sm text-gray-700 hover:bg-white  bg-gray-200 hover:border rounded-md text-center w-14">
+                            <i class="fa-solid fa-trash"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="flex">
+                        <div class="w-3/4 border-l pl-5 my-2 border-gray-600">
+                          <h1 class="font-semibold text-lg">Lorem ipsum dolor sit amet.</h1>
+                          <p class="text-gray-600">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ea, dignissimos non commodi ratione praesentium nulla.</p>
+                        </div>
+                        <div class="w-1/4 flex items-center  justify-end">
+                          <a routerLink="/" class="inline-block mx-1 px-2 py-2 text-sm text-gray-700 hover:bg-white bg-gray-200 hover:border rounded-md text-center w-14">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                          </a>
+                          <a routerLink="/" class="inline-block mx-1 px-2 py-2 text-sm text-gray-700 hover:bg-white bg-gray-200 hover:border rounded-md text-center w-14">
+                            <i class="fa-solid fa-trash"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </span>
+          </div>
+      </div>
+    </li>
+    <li class="mt-10">
+      <div class="accordion-button p-0 border-b">
+        <div class="flex w-full justify-between items-center rounded-lg">
+          <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5">İnfo</h1>
+          <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center hover:cursor-pointer" onclick="toggleAccordion(4)">
+            Edit <i class="fa-solid fa-edit pl-1"></i>
+          </div>
+        </div>
+      </div>
+      <div
+        id="accordion4"
+        class="relative overflow-hidden transition-all max-h-0 duration-700 px-10  pt-10">
+        <div class="p-10 w-full mx-auto">
+          <form action="">
+            <div class="flex">
+              <label for="email" class="w-1/6 pt-3">Email</label>
+              <input type="text" name="email" id="email" class="border p-3 my-1 w-5/6 rounded-md " placeholder="Email" value="aysenur@aydin.com">
+            </div>
+            <div class="flex">
+              <label for="pNum" class="w-1/6 pt-3">Phone Number</label>
+              <input type="text" name="pNum" id="pNum" class="w-5/6 border p-3 my-1 rounded-md " placeholder="Phone Number" value="+12 345 6789">
+            </div>
+            <div class="flex">
+              <label for="adress" class="w-1/6 pt-3">Adress</label>
+              <textarea name="adress" id="adress" class="w-5/6 border p-3 my-1 rounded-lg" placeholder="Adress" rows="10">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis veritatis quae totam.</textarea>
+            </div>
+            <div class="flex">
+              <label class="w-1/6"></label> <!-- Boş bir alan -->
+              <a routerLink="/" class="block px-4 py-2 text-sm hover:bg-white rounded-md text-center w-5/6 text-gray-700  bg-gray-200 border">
+                Save <i class="fa-regular fa-floppy-disk"></i>
+              </a>
+            </div>
+          </form>
+
+
+        </div>
+      </div>
+    </li>
+    <li class="mt-10">
+      <div class="accordion-button p-0 border-b">
+        <div class="flex w-full justify-between items-center rounded-lg">
+          <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5">Social Media</h1>
+          <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center hover:cursor-pointer" onclick="toggleAccordion(5)">
+            Edit  <i class="fa-solid fa-edit pl-1"></i>
+          </div>
+        </div>
+      </div>
+      <div
+        id="accordion5"
+        class="relative overflow-hidden transition-all max-h-0 duration-700 px-10  pt-10">
+        <div class="p-10 w-full mx-auto">
+          <form action="">
+            <div class="flex">
+              <label for="email" class="w-1/6 pt-3">İnstagram</label>
+              <input type="text" name="email" id="email" class="border p-3 my-1 w-5/6 rounded-md " placeholder="Email" value="İnstagram Adress">
+            </div>
+            <div class="flex">
+              <label for="pNum" class="w-1/6 pt-3">Facebook</label>
+              <input type="text" name="pNum" id="pNum" class="w-5/6 border p-3 my-1 rounded-md " placeholder="Phone Number" value="Facebook Adress">
+            </div>
+            <div class="flex">
+              <label for="pNum" class="w-1/6 pt-3">Twitter</label>
+              <input type="text" name="pNum" id="pNum" class="w-5/6 border p-3 my-1 rounded-md " placeholder="Phone Number" value="Twitter Adress">
+            </div>
+            <div class="flex">
+              <label for="pNum" class="w-1/6 pt-3">Githup</label>
+              <input type="text" name="pNum" id="pNum" class="w-5/6 border p-3 my-1 rounded-md " placeholder="Phone Number" value="Githup Adress">
+            </div>
+            <div class="flex">
+              <label class="w-1/6"></label>
+              <a routerLink="/" class="block px-4 py-2 text-sm hover:white border rounded-md text-center w-5/6 hover:bg-white bg-gray-200 text-gray-700 hover:border">
+                Save <i class="fa-regular fa-floppy-disk"></i>
+              </a>
+            </div>
+          </form>
+
+
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
