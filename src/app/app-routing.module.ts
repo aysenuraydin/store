@@ -6,25 +6,7 @@ import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { FAQsComponent } from './faqs/faqs.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { CartComponent } from './cart/cart.component';
 import { FavoriteComponent } from './favorite/favorite.component';
-import { OrderComponent } from './order/order.component';
-
-
-
-// const routes: Routes = [
-//   { path: '', component: HomeComponent },
-//   { path: 'about', component: AboutComponent },
-//   { path: 'contact', component: ContactComponent },
-//   { path: 'faqs', component: FAQsComponent },
-//   { path: 'not-found', component: NotFoundComponent },
-//   { path: 'shopping-cart', component: ShoppingCartComponent },
-//   { path: 'cart', component: AddCartsComponent },
-//   { path: 'fav', component: AddFavComponent },
-//   { path: 'search', component: SearchBarComponent },
-//   { path: 'modal', component: ModalComponent },
-//   { path: 'add-product', component: AddProductModalComponent }
-// ];
 
 const routes: Routes = [
   {

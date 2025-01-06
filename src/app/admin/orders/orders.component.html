@@ -1,10 +1,10 @@
-
-<div class="md:max-w-6xl px-4 py-8">
+<div class="md:max-w-6xl py-8 h-screen mx-auto">
   <div class="mt-10">
     <div class="accordion-button p-0 border-b">
-      <div class="flex w-full justify-between items-center rounded-lg">
-        <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5">Orders</h1>
-        <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center" onclick="toggleAccordion(2)">
+      <div class="flex w-full justify-between items-center rounded-lg" onclick="toggleAccordion(2)">
+        <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5">
+          <i class="fa-solid fa-box text-gray-400 text-3xl mr-6"></i>Orders</h1>
+        <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center bg-white">
           Add  <i class="fa-solid fa-plus pl-1"></i>
         </div>
       </div>
@@ -22,8 +22,7 @@
       </div>
   </div>
   </div>
-  <hr class="divide mb-5 pt-20">
-        <div class="flex items-center px-5 pb-2 border-b mb-5">
+        <div class="flex items-center px-5 pb-2 border-b mb-5 mt-16">
           <span class="w-1/6 text-center">
             <input type="checkbox" onclick="toggleSelect()" />
           </span>
@@ -48,7 +47,7 @@
         </div>
         <div id="users" class="space-y-5 px-5">
           <!-- User 1 -->
-          <div class="flex items-center p-4 rounded-md shadow">
+          <div class="flex items-center p-4 rounded-md shadow border bg-white">
             <span class="w-1/6 text-center">
               <input type="checkbox" class="contact-checkbox mr-4">
             </span>
@@ -73,14 +72,17 @@
             <span class="w-1/5">
               <span class="text-xs uppercase text-gray-600 font-bold">2024-01-01</span>
             </span>
-            <span class="w-1/5">
-              <a routerLink="/admin" class="block px-4 py-2 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center">
-                Edit <i class="fa-solid fa-pen-to-square pl-1"></i>
-            </a>
+            <span class="w-1/5 flex items-center justify-end">
+              <a routerLink="/" class="inline-block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </a>
+              <a routerLink="/" class="inline-block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14">
+                <i class="fa-solid fa-trash"></i>
+              </a>
             </span>
           </div>
           <!-- User 2 -->
-          <div class="flex items-center p-4 rounded-md shadow">
+          <div class="flex items-center p-4 rounded-md shadow border bg-white">
             <span class="w-1/6 text-center">
               <input type="checkbox" class="contact-checkbox mr-4">
             </span>
@@ -105,14 +107,17 @@
             <span class="w-1/5">
               <span class="text-xs uppercase text-gray-600 font-bold">2024-02-01</span>
             </span>
-            <span class="w-1/5">
-              <a routerLink="/admin" class="block px-4 py-2 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center">
-                Edit <i class="fa-solid fa-pen-to-square pl-1"></i>
-            </a>
+            <span class="w-1/5 flex items-center justify-end">
+              <a routerLink="/" class="inline-block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </a>
+              <a routerLink="/" class="inline-block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14">
+                <i class="fa-solid fa-trash"></i>
+              </a>
             </span>
           </div>
           <!-- User 3 -->
-          <div class="flex items-center p-4 rounded-md shadow">
+          <div class="flex items-center p-4 rounded-md shadow border bg-white">
             <span class="w-1/6 text-center">
               <input type="checkbox" class="contact-checkbox mr-4">
             </span>
@@ -137,14 +142,17 @@
             <span class="w-1/5">
               <span class="text-xs uppercase text-gray-600 font-bold">2024-03-01</span>
             </span>
-            <span class="w-1/5">
-              <a routerLink="/admin" class="block px-4 py-2 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center">
-                Edit <i class="fa-solid fa-pen-to-square pl-1"></i>
-            </a>
+            <span class="w-1/5 flex items-center justify-end">
+              <a routerLink="/" class="inline-block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </a>
+              <a routerLink="/" class="inline-block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14">
+                <i class="fa-solid fa-trash"></i>
+              </a>
             </span>
           </div>
           <!-- User 1 -->
-          <div class="flex items-center p-4 rounded-md shadow">
+          <div class="flex items-center p-4 rounded-md shadow border bg-white">
             <span class="w-1/6 text-center">
               <input type="checkbox" class="contact-checkbox mr-4">
             </span>
@@ -169,14 +177,17 @@
             <span class="w-1/5">
               <span class="text-xs uppercase text-gray-600 font-bold">2024-01-01</span>
             </span>
-            <span class="w-1/5">
-              <a routerLink="/admin" class="block px-4 py-2 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center">
-                Edit <i class="fa-solid fa-pen-to-square pl-1"></i>
-            </a>
+            <span class="w-1/5 flex items-center justify-end">
+              <a routerLink="/" class="inline-block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </a>
+              <a routerLink="/" class="inline-block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14">
+                <i class="fa-solid fa-trash"></i>
+              </a>
             </span>
           </div>
           <!-- User 2 -->
-          <div class="flex items-center p-4 rounded-md shadow">
+          <div class="flex items-center p-4 rounded-md shadow border bg-white">
             <span class="w-1/6 text-center">
               <input type="checkbox" class="contact-checkbox mr-4">
             </span>
@@ -201,14 +212,17 @@
             <span class="w-1/5">
               <span class="text-xs uppercase text-gray-600 font-bold">2024-02-01</span>
             </span>
-            <span class="w-1/5">
-              <a routerLink="/admin" class="block px-4 py-2 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center">
-                Edit <i class="fa-solid fa-pen-to-square pl-1"></i>
-            </a>
+            <span class="w-1/5 flex items-center justify-end">
+              <a routerLink="/" class="inline-block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </a>
+              <a routerLink="/" class="inline-block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14">
+                <i class="fa-solid fa-trash"></i>
+              </a>
             </span>
           </div>
           <!-- User 3 -->
-          <div class="flex items-center p-4 rounded-md shadow">
+          <div class="flex items-center p-4 rounded-md shadow border bg-white">
             <span class="w-1/6 text-center">
               <input type="checkbox" class="contact-checkbox mr-4">
             </span>
@@ -233,27 +247,15 @@
             <span class="w-1/5">
               <span class="text-xs uppercase text-gray-600 font-bold">2024-03-01</span>
             </span>
-            <span class="w-1/5">
-              <a routerLink="/admin" class="block px-4 py-2 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center">
-                Edit <i class="fa-solid fa-pen-to-square pl-1"></i>
-            </a>
+            <span class="w-1/5 flex items-center justify-end">
+              <a routerLink="/" class="inline-block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </a>
+              <a routerLink="/" class="inline-block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14">
+                <i class="fa-solid fa-trash"></i>
+              </a>
             </span>
           </div>
       </div>
+      <pagination/>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

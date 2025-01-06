@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -12,7 +11,6 @@ import { CartComponent } from './cart/cart.component';
 import { DenemeComponent } from './contact/deneme/deneme.component';
 import { AboutComponent } from './about/about.component';
 import { ProductModule } from './product/product.module';
-import { CarouselComponent } from './home/carousel/carousel.component';
 import { CollectionsComponent } from './home/collections/collections.component';
 import { MostPopularComponent } from './home/most-popular/most-popular.component';
 import { ProfileModule } from './profile/profile.module';
@@ -26,7 +24,10 @@ import { CartConfirmComponent } from './cart/cart-confirm/cart-confirm.component
 import { CartModule } from './cart/cart.module';
 import { AsdfghComponent } from './asdfgh/asdfgh.component';
 import { FormsModule } from '@angular/forms';
-
+import { HttpClientInMemoryWebApiModule} from 'angular-in-memory-web-api';
+import { HttpClientModule } from '@angular/common/http';
+import { InMemoryDataService } from './services/in-memory-data.service';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { FormsModule } from '@angular/forms';
     AsdfghComponent,
   ],
   imports: [
+    CKEditorModule,
     BrowserModule,
     AppRoutingModule,
     ProfileModule,
@@ -58,9 +60,11 @@ import { FormsModule } from '@angular/forms';
     CartModule,
     LayoutModule,
     FormsModule,
+    HttpClientModule,
+    HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false })
   ],
   exports: [
-    CarouselComponent,
+    // CarouselComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

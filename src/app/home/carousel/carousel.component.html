@@ -2,11 +2,8 @@
   <div class="carousel relative w-full h-full">
     <div class="overflow-hidden rounded-xl">
       <div class="carousel-slides relative w-full flex gap-6 snap-x snap-mandatory scroll-smooth overflow-x-auto -mb-10 pt-2 pb-12">
-        <div class="snap-always snap-center shrink-0 relative overflow-hidden aspect-[3/2] w-full rounded-lg ">
-          <img class="shrink-0 my-0 object-cover object-bottom w-full h-full" src="https://cache.manuka.com.tr/elfinder/files/Home2024/Bohomania/lp/desktop/kapak.webp">
-        </div>
-        <div class="snap-always snap-center shrink-0 relative overflow-hidden aspect-[3/2] w-full rounded-lg ">
-          <img class="shrink-0 my-0 object-cover object-bottom w-full h-full" src="https://cache.manuka.com.tr/elfinder/files/Home2024/Bohomania/home/desktop/tr/slider1_1.webp">
+        <div class="snap-always snap-center shrink-0 relative overflow-hidden aspect-[3/2] w-full rounded-lg" *ngFor="let slider of getSliders() let i = index">
+          <img class="shrink-0 my-0 object-cover object-bottom w-full h-full" [src]="slider.imgUrl">
         </div>
       </div>
     </div>
@@ -20,3 +17,5 @@
     </div>
   </div>
 </div>
+
+

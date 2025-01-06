@@ -12,7 +12,7 @@ const routes: Routes = [
       canActivate: [],
       children: [
         { path: 'product-list', component: ProductListComponent },
-        { path: 'product-detail', component: ProductDetailComponent }
+        { path: 'product-detail/:id', component: ProductDetailComponent }
       ]
     }
 ]

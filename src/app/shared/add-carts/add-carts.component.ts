@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-add-carts',
+  selector: 'add-carts',
   templateUrl: './add-carts.component.html',
   styleUrl: './add-carts.component.css'
 })

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-add-fav',
+  selector: 'add-fav',
   templateUrl: './add-fav.component.html',
   styleUrl: './add-fav.component.css'
 })

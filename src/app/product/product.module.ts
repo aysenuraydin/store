@@ -4,15 +4,14 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { DetailComponent } from './product-detail/detail/detail.component';
 import { DescriptionComponent } from './product-detail/description/description.component';
 import { ProductListComponent } from './product-list/product-list.component';
-import { ProductComponent } from './product.component';
 import { ProductRoutingModule } from './product-routing.module';
 import { CategoriesComponent } from './categories/categories.component';
-import { PaginationComponent } from './pagination/pagination.component';
 import { RecentlyViewedComponent } from './recently-viewed/recently-viewed.component';
-import { PComponent } from './p/p.component';
 import { CommentComponent } from './product-detail/comment/comment.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
+import { ProductComponent } from './product.component';
+import { BreadcrumbComponent } from './product-detail/breadcrumb/breadcrumb.component';
 
 @NgModule({
   declarations: [
@@ -22,21 +21,19 @@ import { SharedModule } from '../shared/shared.module';
     DetailComponent,
     DescriptionComponent,
     CategoriesComponent,
-    PaginationComponent,
     RecentlyViewedComponent,
-    PComponent,
-    CommentComponent
+    CommentComponent,
+    BreadcrumbComponent
   ],
   imports: [
     RouterModule,
     CommonModule,
     ProductRoutingModule,
-    SharedModule
+    SharedModule,
   ],
   exports: [
-    PComponent,
-    PaginationComponent,
     RecentlyViewedComponent,
+    ProductComponent,
   ]
 })
 export class ProductModule { }

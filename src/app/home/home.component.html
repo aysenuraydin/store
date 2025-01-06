@@ -1,6 +1,5 @@
-<!-- <app-header></app-header> -->
-<app-carousel></app-carousel>
-<app-most-popular></app-most-popular>
+<carousel/>
+<most-popular/>
 <div>
 
   <div class="bg-white">
@@ -49,26 +48,16 @@
           <h2 id="products-heading" class="sr-only">Products</h2>
 
           <div class="grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-10 lg:grid-cols-4 pb-20">
-            <app-p></app-p>
-            <app-p></app-p>
-            <app-p></app-p>
-            <app-p></app-p>
-            <app-p></app-p>
-            <app-p></app-p>
-            <app-p></app-p>
-            <app-p></app-p>
-            <app-p></app-p>
-            <app-p></app-p>
-            <app-p></app-p>
-            <app-p></app-p>
+              <product *ngFor="let prd of getProducts()" [product]="prd"/>
           </div>
-          <app-pagination></app-pagination>
+          <pagination/>
         </section>
       </main>
   </div>
 </div>
-<app-recently-viewed></app-recently-viewed>
-<app-collections></app-collections>
-<app-stats></app-stats>
+<recently-viewed/>
+<collections/>
+<stats/>
+
 
 

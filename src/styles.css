@@ -16,6 +16,9 @@
   .cart-info {
     @apply min-w-[20rem] min-h-[10rem] border rounded-lg shadow-md;
   }
+  .ql-formats {
+    @apply scale-50;
+  }
 }
 @layer base {
   :root {
