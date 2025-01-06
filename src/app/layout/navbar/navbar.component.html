@@ -1,5 +1,5 @@
-<nav class="bg-gray-800 navbar">
-  <app-banners></app-banners>
+<nav class="bg-gray-800 navbar shadow-md shadow-[#00000057]">
+  <banners/>
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
     <div class="relative flex h-16 items-center justify-between">
       <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -23,7 +23,9 @@
         </div>
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">
-            <!-- <a routerLink="/" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Deneme</a> -->
+
+
+
             <div class="relative group/categories">
               <div>
                 <button routerLink="/product/product-list" type="button" class="inline-flex w-full justify-center gap-x-1.5 rounded-md p-3 py-5 text-sm font-semibold shadow-sm text-gray-300" id="menu-button" aria-expanded="true" aria-haspopup="true">
@@ -34,15 +36,17 @@
 
               <div class="absolute left-0 z-10 mt-2 w-56 top-[3rem] origin-top-right rounded-md bg-white shadow-lg hidden group-hover/categories:block" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                 <div class="py-1" role="none">
-                  <a routerLink="/product/product-list" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 mx-2" role="menuitem" tabindex="-1" id="menu-item-0">Dress</a>
-                  <a routerLink="/product/product-list" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 mx-2" role="menuitem" tabindex="-1" id="menu-item-1">Shorts</a>
-                  <a routerLink="/product/product-list" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 mx-2" role="menuitem" tabindex="-1" id="menu-item-2">Pants</a>
-                  <a routerLink="/product/product-list" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 mx-2" role="menuitem" tabindex="-1" id="menu-item-2">Jeans</a>
-                  <a routerLink="/product/product-list" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 mx-2" role="menuitem" tabindex="-1" id="menu-item-2">Pants</a>
-
+                  <a *ngFor="let category of getCategories()" routerLink="/product/product-list" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 mx-2" role="menuitem" tabindex="-1" id="menu-item-0">{{ category.name }}</a>
                 </div>
               </div>
             </div>
+
+
+
+
+
+
+
           </div>
         </div>
       </div>
@@ -110,14 +114,6 @@
         </div>
 
       </div>
-    </div>
-  </div>
-
-  <!-- Mobile menu, show/hide based on menu state. -->
-  <div class="sm:hidden" id="mobile-menu">
-    <div class="space-y-1 px-2 pb-3 pt-2">
-      <a href="#" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white" aria-current="page">Dashboard</a>
-      <a routerLink="/product-list" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Categories</a>
     </div>
   </div>
 </nav>

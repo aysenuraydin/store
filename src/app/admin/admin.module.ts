@@ -17,7 +17,7 @@ import { SubscribesComponent } from './subscribes/subscribes.component';
 import { CommentsComponent } from './comments/comments.component';
 import { LayoutModule } from '../layout/layout.module';
 import { FormsModule } from '@angular/forms';
-
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 @NgModule({
   declarations: [
     AdminComponent,
@@ -41,6 +41,7 @@ import { FormsModule } from '@angular/forms';
     SharedModule,
     LayoutModule,
     FormsModule,
+    CKEditorModule
   ]
 })
 export class AdminModule { }

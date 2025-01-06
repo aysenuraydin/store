@@ -1,0 +1,12 @@
+
+<div #editorElement class="w-full">
+  <ckeditor [editor]="Editor" [config]="config" *ngIf="Editor && config" [(ngModel)]="content" (change)="onContentChange($event)"/>
+  <!--
+    <div class="p-5 border">
+      content :{{content}}
+    </div>
+    <textarea class="border" [(ngModel)]="content" (input)="onContentChange($event) "></textarea>
+  -->
+</div>
+
+

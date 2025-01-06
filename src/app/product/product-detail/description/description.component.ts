@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-description',
+  selector: 'description',
   templateUrl: './description.component.html',
   styleUrl: './description.component.css'
 })
 export class DescriptionComponent {
-
+  @Input() description: string |undefined;
 }

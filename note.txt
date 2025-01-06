@@ -1,0 +1,21 @@
+ng new --no-standalone
+
+npm install --save @ckeditor/ckeditor5-angular @ckeditor/ckeditor5-build-classic --legacy-peer-deps
+
+npm install -D tailwindcss
+npx tailwindcss init
+
+npm install angular-in-memory-web-api@0.19.0 --legacy-peer-deps --save
+npm install angular-in-memory-web-api@latest --legacy-peer-deps
+
+jquery
+Quill
+fff
+
+----------------------
+
+npm install ckeditor5 --save-dev --legacy-peer-deps
+npm install @ckeditor/ckeditor5-angular --save-dev --legacy-peer-deps
+
+npm install --save  @ckeditor/ckeditor5 @ckeditor/ckeditor5-angular--legacy-peer-deps
+

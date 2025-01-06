@@ -1,4 +1,4 @@
-<div class="min-h-[90vh] mt-32 mx-auto max-w-7xl pb-40">
+<div class="min-h-[90vh] mt-32 mx-auto max-w-7xl pb-40 pr-20">
     <ul>
       <li class="mt-10">
         <button
@@ -71,9 +71,11 @@
           class="accordion-button p-0"
           onclick="toggleAccordion(2)">
           <div class="flex w-full p-5 rounded-lg">
-            <div class="w-full">
-              <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5 ">My Address Information</h1>
-              <hr class="divide w-full">
+            <div class="flex w-full justify-between items-center rounded-lg border-b">
+              <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5">My Address Information</h1>
+              <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center">
+                Add  <i class="fa-solid fa-plus pl-1"></i>
+              </div>
             </div>
           </div>
         </button>
@@ -161,6 +163,12 @@
                   </div>
               </div>
             </div>
+            <div class="adres-cart">
+              <div class="bg-gray-50 p-3 font-semibold border-b">&nbsp;</div>
+                <div class="text-center p-24 cursor-pointer text-xl hover:scale-110">
+                  <i class="fa-solid fa-plus pr-2"></i>Add Adress &nbsp;
+                </div>
+            </div>
           </div>
         </div>
       </li>
@@ -170,9 +178,11 @@
           class="accordion-button p-0"
           onclick="toggleAccordion(3)">
           <div class="flex w-full p-5 rounded-lg">
-            <div class="w-full">
-              <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5 ">My Saved Cards</h1>
-              <hr class="divide w-full">
+            <div class="flex w-full justify-between items-center rounded-lg border-b">
+              <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5">My Saved Cards</h1>
+              <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center">
+                Add  <i class="fa-solid fa-plus pl-1"></i>
+              </div>
             </div>
           </div>
         </button>
@@ -246,6 +256,11 @@
                   </div>
                   <i class="w-1/4 fa-brands fa-cc-visa text-5xl text-gray-300"></i>
                   </div>
+                </div>
+              </div>
+              <div class="cart-info">
+                <div class="text-center cursor-pointer text-xl hover:scale-110 pt-16">
+                  <i class="fa-solid fa-plus pr-2"></i>Add Cart
                 </div>
               </div>
             </div>

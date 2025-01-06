@@ -1,5 +1,10 @@
 
-$(document).ready(function() {
+$(function(){
+
+    $('.alert-button').click(function(event) {
+      $(this).closest('.alert').toggleClass('hidden').toggleClass('block');
+    });
+
     let defaultTransform = 0;
 
     let next = $('#next');
@@ -221,13 +226,6 @@ $(document).ready(function() {
     return Math.floor(Math.random() * max);
   }
 
-  let i = 1;
-
-  setInterval(() => {
-    ++i;
-    console.log(i);
-  }, 3000);
-
 //scrol button
 
 
@@ -256,5 +254,7 @@ $(document).ready(function() {
       checkbox.checked = !allSelected;
     });
   }
-CKEDITOR.replace( 'editor1' );
+
+
+
 

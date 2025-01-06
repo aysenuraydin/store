@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-users',
+  selector: 'users',
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
 })
