@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Contact } from '../models/contact';
-import { ContactService } from '../services/contact.service';
+import { Message } from '../models/message';
+import { MessageService } from '../services/message.service';
 import { InformationsService } from '../services/informations.service';
 import { Info } from '../models/informations';
 
@@ -10,19 +10,19 @@ import { Info } from '../models/informations';
   styleUrl: './contact.component.css'
 })
 export class ContactComponent {
-  contact: Contact = new Contact();
+  contact: Message = new Message();
   info: Info = new Info();
 
     constructor(private informationsService: InformationsService,
-      private contactService: ContactService) {}
+      private MessageService: MessageService) {}
 
     ngOnInit(): void {
       this.info = this.informationsService.getInfo();
     }
 
-    saveContact(contact:Contact):void{
-      this.contactService.createContact(contact);
-      this.contact = new Contact();
+    saveContact(contact:Message):void{
+      this.MessageService.createContact(contact);
+      this.contact = new Message();
     }
 
 }

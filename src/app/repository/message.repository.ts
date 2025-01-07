@@ -1,10 +1,10 @@
-import { Contact } from "../models/contact";
+import { Message } from "../models/message";
 
-export class ContactRepository {
-  private contact: Contact[];
+export class MessageRepository {
+  private contact: Message[];
 
   constructor() {
-      this.contact = new Array<Contact>(
+      this.contact = new Array<Message>(
           { id:1, firstname: 'Aysenur', lastname: 'Aydın',  company: 'Aysenur Aydın Mimarlık', email: 'ays1@ayd.com', phoneNumber: 123456789 ,message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, ea!', createdAt: new Date(), isArchive:false, isAccept:true},
           { id:2, firstname: 'Aysenur', lastname: 'Aydın',  company: 'Aysenur Aydın Mimarlık', email: 'ays2@ayd.com', phoneNumber: 123456789 ,message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, ea!', createdAt: new Date(), isArchive:true, isAccept:true},
           { id:3, firstname: 'Aysenur', lastname: 'Aydın',  company: 'Aysenur Aydın Mimarlık', email: 'ays3@ayd.com', phoneNumber: 123456789 ,message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, ea!', createdAt: new Date(), isArchive:true, isAccept:true},
@@ -13,7 +13,7 @@ export class ContactRepository {
           { id:6, firstname: 'Aysenur', lastname: 'Aydın',  company: 'Aysenur Aydın Mimarlık', email: 'ays6@ayd.com', phoneNumber: 123456789 ,message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, ea!', createdAt: new Date(), isArchive:false, isAccept:true},
       );
   }
-  getContacts(): Contact[] {
+  getContacts(): Message[] {
     return this.contact;
 }
 }

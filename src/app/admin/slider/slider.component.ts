@@ -21,10 +21,10 @@ export class SliderComponent {
     return this.sliderService.getSliders().reverse().slice(0,5);
   }
   getActiveBanners(): Slider[] {
-    return this.sliderService.getActiveSliders();
+    return this.sliderService.getActiveSliders().reverse().slice(0,10);
   }
   getDisableBanners(): Slider[] {
-    return this.sliderService.getDisableSliders();
+    return this.sliderService.getDisableSliders().reverse().slice(0,10);;
   }
   saveSlider(slider:Slider):void{
     slider.id

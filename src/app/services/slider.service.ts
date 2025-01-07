@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SliderRepository } from '../repository/slider.repository';
 import { Slider } from '../models/slider';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class SliderService {
     private dataSource: SliderRepository;
     private sliders: Slider[];
 
-    constructor() {
+    constructor(private http: HttpClient) {
       this.dataSource = new SliderRepository();
       this.sliders = new Array<Slider>();
 
@@ -24,7 +25,7 @@ export class SliderService {
       return this.sliders.filter(s=>s.isActive);
     }
     getDisableSliders() :Slider[] {
-      return this.sliders.filter(i=>!i.isActive).reverse();
+      return this.sliders.filter(i=>!i.isActive);
     }
 
     getSlider(id:number) :Slider | undefined {

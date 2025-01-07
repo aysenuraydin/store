@@ -1,61 +1,55 @@
 
-import { Injectable } from '@angular/core';
+import { forwardRef, Inject, Injectable } from '@angular/core';
 import { Product } from '../models/product';
-import { ProductRepository } from '../repository/product.repository';
 import { CategoryService } from './category.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { forkJoin, map, Observable, of, switchMap, pipe } from 'rxjs';
+import { Category } from '../models/category';
+import { CategoryProductService } from './category-product.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
+  private apiUrl:string = 'api/product';
 
-  private dataSource: ProductRepository;
-  private products: Product[];
+  constructor(   private http: HttpClient ) {}
 
-  constructor(private categoryService: CategoryService) {
-    this.dataSource = new ProductRepository();
-    this.products = new Array<Product>();
-
-    this.dataSource.getProducts().forEach(p => this.products.push(p));
+  getProducts() :Observable<Product[]> {
+    return this.http.get<Product[]>(this.apiUrl).pipe(
+      map(categories => categories)
+    );
   }
-
-  getProducts() :Product[] {
-    return this.products;
+  getProductsByCategoryId(id:number) :Observable<Product[]> {
+    return this.http.get<Product[]>(this.apiUrl).pipe(
+      map(products => products.filter(product => product.categoryId === id))
+    );
   }
-  getProduct(id:number) :Product | undefined {
-    return this.products.find(i=>i.id==id);
+  getProduct(id:number) : Observable<Product>{
+    return this.http.get<Product>(this.apiUrl+'/'+id);
   }
-
-  getProductsWithCategoryNames() {
-    return this.products.map(product => ({
-      ...product,
-      categoryName: this.categoryService.getCategoryNameById(product.categoryId || 0),
-      categoryColor: this.categoryService.getCategoryColorById(product.categoryId || 0),
-    }));
+  createProduct(subscribe: Product): Observable<Product> {
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.getProducts().pipe(
+      map(subscribes => {
+        const lastId = subscribes.length > 0 ? subscribes.at(-1)?.id ?? 0 : 0;
+        subscribe.id = lastId + 1;
+        return subscribe;
+      }),
+      switchMap((c) => {
+        return this.http.post<Product>(this.apiUrl, c, httpOptions);
+      })
+    );
   }
-
-  createProduct(product: Product): void{
-    product.id=(this.products.at(-1)?.id?? 0) + 1;
-    // product.createdAt= new Date();
-    this.products.push(product);
-  }
-
-  updateProduct(product: Product): void {
-    const index = this.products.findIndex(p => p.id === product.id);
-    if (index !== -1) {
-      this.products[index] = product;
+  updateProduct(subscribe: Product): Observable<any>  {
+    const httpOptions= {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
+    return this.http.put(this.apiUrl, subscribe, httpOptions)
   }
-
-  deleteProduct(id: number): void {
-    const index = this.products.findIndex(p => p.id === id);
-    if (index !== -1) {
-      this.products.splice(index, 1);
-    }
+  deleteProduct(id: number): Observable<Product>  {
+    return this.http.delete<Product>(this.apiUrl+'/'+id)
   }
-
 }
-
-// <a class="btn btn-primary ml-2" [queryParams]="{page:1, order: 'newest'}" routerLink="/products">En Yeni Ürünler</a>
-// <a [routerLink]="['/products',2]">detay</a>
-

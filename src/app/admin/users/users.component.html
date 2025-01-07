@@ -1,5 +1,5 @@
 
-<div class="md:max-w-6xl py-8 h-screen mx-auto">
+<div class="md:max-w-6xl py-8 h-[100vh] mx-auto">
   <div class="mt-10">
     <div class="accordion-button p-0 border-b">
       <div class="flex w-full justify-between items-center rounded-lg" onclick="toggleAccordion(2)">
@@ -46,7 +46,8 @@
             <span class="text-xs uppercase text-gray-600 font-bold"></span>
           </span>
         </div>
-        <div id="users" class="space-y-5 px-5">
+        <div id="users" class="space-y-5 px-5 h-[65vh] overflow-scroll">
+          @defer ()  {
           <!-- User 1 -->
           <div class="flex items-center p-4 rounded-md shadow border bg-white">
             <span class="w-1/6 text-center">
@@ -257,6 +258,14 @@
               </a>
             </span>
           </div>
+
+        } @placeholder (minimum 1s) {
+          <div class="pt-10 flex justify-center items-center">
+            <i class="fa-solid fa-spinner text-5xl animate-spin text-gray-500 mr-5"></i> Loading..
+          </div>
+        }
       </div>
       <pagination/>
 </div>
+
+

@@ -3,7 +3,7 @@ import { Banner } from '../../models/banner';
 import { BannerService } from '../../services/banner.service';
 import { InformationsService } from '../../services/informations.service';
 import { About, Faqs, Info, SocialMedia } from '../../models/informations';
-import { Contact } from '../../models/contact';
+import { Message } from '../../models/message';
 
 @Component({
   selector: 'informations',

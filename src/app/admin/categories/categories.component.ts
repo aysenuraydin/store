@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Category } from '../../models/category';
 import { CategoryService } from '../../services/category.service';
+import { CategoryProductService } from '../../services/category-product.service';
 
 @Component({
   selector: 'categories',
@@ -9,29 +10,55 @@ import { CategoryService } from '../../services/category.service';
 })
 export class CategoriesComponent {
   category: Category = new Category();
-  class:string ="";
+  categories: Category[] = [];
 
-  constructor(private categoryService: CategoryService) { }
+  constructor(
+    private categoryService: CategoryService,
+    private categoryProductService: CategoryProductService
+  ) { }
 
   ngOnInit(): void {
+    this.getCategories();
   }
 
-  getCategories(): Category[] {
-    return this.categoryService.getCategories().reverse().slice(0,8);
+  getCategories(): void{
+    this.categoryService.getCategories()
+        .subscribe(
+          (data) => {
+            this.categories = data.reverse().slice(0,10);
+        }
+      );
   }
   saveCategory(category:Category):void{
     category.id
-      ? this.categoryService.updateCategory(category)
-      : this.categoryService.createCategory(category);
+      ? this.updateCategory(category)
+      : this.createCategory(category);
 
       this.cancel();
   }
+  updateCategory(category:Category):void{
+    this.categoryService.updateCategory(category).subscribe(() => {
+      this.getCategories();
+    });
+  }
+  createCategory(category: Category): void {
+    this.categoryService.createCategory(category).subscribe(() => {
+      this.getCategories();
+    });
+  }
   deleteCategory(id:number):void{
-    this.categoryService.deleteCategory(id);
-    this.cancel();
+    this.categoryProductService.deleteCategory(id).subscribe(() => {
+      this.getCategories();
+      this.cancel();
+    });
   }
   editCategory(id:number):void{
-    this.category = this.categoryService.getCategory(id)?? new Category();
+    this.categoryService.getCategory(id)
+    .subscribe(
+      (data) => {
+        this.category = data;
+      }
+    );
   }
   cancel():void{
     this.category = new Category();

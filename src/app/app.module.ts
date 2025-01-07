@@ -22,7 +22,6 @@ import { FavoriteComponent } from './favorite/favorite.component';
 import { OrderModule } from './order/order.module';
 import { CartConfirmComponent } from './cart/cart-confirm/cart-confirm.component';
 import { CartModule } from './cart/cart.module';
-import { AsdfghComponent } from './asdfgh/asdfgh.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientInMemoryWebApiModule} from 'angular-in-memory-web-api';
 import { HttpClientModule } from '@angular/common/http';
@@ -45,7 +44,6 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     CartComponent,
     FavoriteComponent,
     CartConfirmComponent,
-    AsdfghComponent,
   ],
   imports: [
     CKEditorModule,

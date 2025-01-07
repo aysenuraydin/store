@@ -13,8 +13,9 @@ export class SubscribeComponent {
   constructor(private subscribeService: SubscribeService) {}
 
   saveSubscribe(prd:Subscribe):void{
-    this.subscribeService.createSubscribe(prd);
+    this.subscribeService.createSubscribe(prd).subscribe();
     this.subscribe = new Subscribe();
   }
+
 }
 

@@ -1,4 +1,4 @@
-<div class="min-h-screen">
+<div class="min-h-[100vh]">
 <div class="md:max-w-6xl py-8  mx-auto">
   <div class="mt-10">
     <div class="accordion-button p-0 border-b">
@@ -20,7 +20,26 @@
       </div>
       <div
         id="accordion1"
-        class="relative transition-all max-h-screen px-20 pt-10">
+        class="relative transition-all max-h-screen duration-700 px-10  pt-10">
+          <div class="bg-white p-10 rounded-2xl shadow-lg mx-10">
+            <cktext [(content)]="about.message" (contentChange)="onMessageChange($event)"/>
+            <button class="block px-4 py-2 mt-3 text-sm bg-gray-200 border rounded-md text-center w-full hover:bg-white hover:cursor-pointer" (click)="saveAbout(about)"> Save <i class="fa-regular fa-floppy-disk"></i> </button>
+          </div>
+      </div>
+    </li>
+
+    <!-- <li class="mt-10">
+      <div class="accordion-button p-0 border-b">
+        <div class="flex w-full justify-between items-center rounded-lg overflow-hidden" onclick="toggleAccordion(2)">
+          <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5">About</h1>
+          <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center hover:cursor-pointer bg-white">
+            Edit  <i class="fa-solid fa-edit pl-1"></i>
+          </div>
+        </div>
+      </div>
+      <div
+        id="accordion2"
+        class="relative transition-all max-h-[100vh] px-20 pt-10">
           <span>
             <div class="bg-white p-10 rounded-2xl shadow-lg">
               <cktext [(content)]="about.message" (contentChange)="onMessageChange($event)"/>
@@ -28,7 +47,8 @@
             </div>
           </span>
       </div>
-    </li>
+    </li> -->
+
     <li class="mt-10">
       <div class="accordion-button p-0 border-b">
         <div class="flex w-full justify-between items-center rounded-lg" onclick="toggleAccordion(3)">
@@ -40,11 +60,11 @@
       </div>
       <div
         id="accordion3"
-        class="relative overflow-hidden transition-all max-h-0 duration-700 px-10  pt-10">
-          <div class="flex gap-4 overflow-y-auto scrollbar-hide mx-9">
-              <span class="w-full">
-                <div class="bg-white p-10 rounded-2xl shadow-lg">
-                  <div class="bg-white p-10 rounded-2xl shadow-lg">
+        class="relative overflow-hidden transition-all max-h-0 duration-700">
+          <div class="flex overflow-y-auto scrollbar-hide mx-10">
+              <span class="w-full p-10">
+                <div class="bg-white rounded-2xl shadow-lg p-10">
+                  <div class="bg-white p-10 rounded-2xl">
                     <input type="hidden" [(ngModel)]="faq.id">
                     <input type="text" name="" id="" class="w-full border p-2 my-1 mb-2 rounded-md" placeholder="question" [(ngModel)]="faq.question">
                     <textarea name="adress" id="adress" class="w-full border p-3 my-1 rounded-lg" placeholder="Adress" rows="4" [(ngModel)]="faq.answer"></textarea>
@@ -64,9 +84,9 @@
                   </div>
                 </div>
                 <div class="faq-list pt-10">
-                  <ul>
+                  <ul class="max-h-[25rem] overflow-scroll">
                     <li *ngFor="let f of getFaqs()">
-                      <div class="flex shadow my-5 m-1 border p-2 rounded-md bg-white" [id]="f.id">
+                      <div class="flex shadow-lg my-5 m-1 border p-2 rounded-md bg-white" [id]="f.id">
                         <div class="w-3/4 pl-5 my-2 border-gray-600">
                           <h1 class="font-semibold text-lg">{{f.question}}</h1>
                           <p class="text-gray-600">{{f.answer}}</p>
@@ -84,7 +104,7 @@
                     <li *ngIf="getFaqs().length == 0">
                       <div class="p-6 bg-gray-100">
                       <i class="fa-solid fa-xmark"></i>
-                      No products available.
+                      No faqs available.
                       </div>
                     </li>
                   </ul>
@@ -93,7 +113,7 @@
           </div>
       </div>
     </li>
-    <li class="mt-10">
+    <li class="mt-16">
       <div class="accordion-button p-0 border-b">
         <div class="flex w-full justify-between items-center rounded-lg" onclick="toggleAccordion(4)">
           <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5">İnfo</h1>

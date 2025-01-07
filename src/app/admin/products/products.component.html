@@ -1,6 +1,6 @@
 
 
-<div class="md:max-w-6xl py-8  mx-auto">
+<div class="md:max-w-6xl py-8 h-[100vh] mx-auto">
   <div class="mt-10">
     <div class="accordion-button p-0 border-b">
       <div class="flex w-full justify-between items-center rounded-lg "  onclick="toggleAccordion(2)">
@@ -56,8 +56,7 @@
         <div class="mb-4 flex w-1/2 mr-2">
           <label for="categoryId" class="w-1/3 mt-3">Category</label>
           <select [(ngModel)]="product.categoryId" for="categoryId" class="mt-1 p-2 w-2/3 border  rounded-lg text-gray-800 outline-none">
-            <option value="0">Category</option>
-            <option *ngFor="let category of getCategories()" value="{{ category.id }}">{{ category.name }}</option>
+            <option *ngFor="let category of categories" value="{{ category.id }}">{{ category.name }}</option>
         </select>
           </div>
           <div class="mb-3 flex w-1/2 ml-2">
@@ -127,8 +126,9 @@
             <a routerLink="/" class="inline-block px-4 py-2 text-sm text-white bg-gray-700 rounded-md text-center uppercase min-w-15"><i class="fa-solid fa-trash"></i> Selected </a>
           </div>
         </div>
-        <div id="users" class="space-y-5">
-          <div class="flex items-center px-4 rounded-md shadow border bg-white" *ngFor="let prd of getProductsWithCategoriesName() let i = index"
+        @defer ()  {
+        <div id="users" class="space-y-5 h-[65vh] overflow-scroll">
+          <div class="flex items-center px-4 rounded-md shadow border bg-white" *ngFor="let prd of productsWithCategoriesName let i = index"
           [ngClass]="(prd.id==product.id)?' border-[#5f5f5f7c] shadow-xl':''">
             <span class="w-1/12 text-center">
               <input type="checkbox" class="contact-checkbox mr-4">
@@ -138,19 +138,19 @@
             </span>
             <span class="w-1/3">
               <div class="flex items-center">
-                <img [src]="prd.imgUrl || 'https://via.placeholder.com/150'" [alt]="product.name" class="w-40">
+                <img [src]="prd.imgUrl || 'https://via.placeholder.com/150'" [alt]="prd.name" class="w-40">
                 <div class="ml-4">
                   <span class="capitalize block text-gray-800">{{prd.name}}</span>
                 </div>
               </div>
             </span>
             <span class="w-1/12 text-center">
-              $ {{prd?.price| number:'1.2-2'}}
+              $ {{prd.price| number:'1.2-2'}}
             </span>
             <span class="w-1/12">
               <div class="rounded-md p-2 font-medium mb-3 capitalize text-sm min-w-16 mt-3 text-center"
-              [ngStyle]="getCategoryStyle(prd?.categoryId!)"
-              >{{ getCategoryName(prd?.categoryId!) }} </div>
+              [ngStyle]="prd.categoryStyle"
+              >{{ prd.categoryName}}</div>
             </span>
             <span class="w-1/12 text-center">
               <span class="text-xs uppercase text-gray-600 font-bold">{{ prd?.stockAmount }}</span>
@@ -173,11 +173,19 @@
             </span>
           </div>
 
-          <div *ngIf="getProductsWithCategoriesName().length === 0" class="bg-gray-100 text-center mt-4 p-14 rounded-md shadow border">
+          <div *ngIf="productsWithCategoriesName.length === 0" class="bg-gray-100 text-center mt-4 p-14 rounded-md shadow border">
             <i class="fa-solid fa-xmark"></i>
             No products available.
           </div>
       </div>
-      <pagination *ngIf="getProductsWithCategoriesName().length != 0"/>
+      <pagination *ngIf="productsWithCategoriesName.length != 0"/>
+
+      } @placeholder (minimum 1s) {
+        <div class="pt-10 flex justify-center items-center">
+          <i class="fa-solid fa-spinner text-5xl animate-spin text-gray-500 mr-5"></i> Loading..
+        </div>
+      }
 </div>
+
+
 

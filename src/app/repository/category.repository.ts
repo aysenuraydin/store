@@ -5,6 +5,7 @@ export class CategoryRepository {
 
   constructor() {
       this.categories = new Array<Category>(
+          { id:0, name: 'undefined', color:'#dddddd',},
           { id:1, name: 'Dress1', createdAt: new Date(), color:'#428be5', iconCssClass:'active'},
           { id:2, name: 'Dress2', createdAt: new Date(), color:'#b742e5'},
           { id:3, name: 'Dress3', createdAt: new Date(), color:'#5cc63b'},

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { About, Contact, Faqs, Info, SocialMedia } from '../models/informations';
 import { InformationsRepository } from '../repository/informations.repository';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class InformationsService {
       private socialMedia: SocialMedia;
       private faqs: Faqs[];
 
-    constructor() {
+    constructor(private http: HttpClient) {
       this.dataSource = new InformationsRepository();
       this.faqs = new Array<Faqs>();
 
@@ -46,7 +47,7 @@ export class InformationsService {
     }
 
     getFaqs() :Faqs[] {
-      return this.faqs;
+      return this.faqs.reverse();
     }
     getFaq(id:number) :Faqs | undefined {
       return this.faqs.find(i=>i.id==id);
