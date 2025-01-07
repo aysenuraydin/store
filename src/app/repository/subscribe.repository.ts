@@ -29,9 +29,27 @@ export class SubscribeRepository {
             createdAt: new Date(),
             isActive: true
           },
+          {
+            id:5,
+            email: 'ays5@ayd.com',
+            createdAt: new Date(),
+            isActive: false
+          },
+          {
+            id:6,
+            email: 'ays6@ayd.com',
+            createdAt: new Date(),
+            isActive: true
+          },
+          {
+            id:7,
+            email: 'ays7@ayd.com',
+            createdAt: new Date(),
+            isActive: true
+          },
       );
   }
-  getSubscribe(): Subscribe[] {
+  getSubscribes(): Subscribe[] {
     return this.subscribe;
   }
 }

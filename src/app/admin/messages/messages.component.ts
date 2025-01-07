@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Contact } from '../../models/contact';
-import { ContactService } from '../../services/contact.service';
+import { Message } from '../../models/message';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'messages',
@@ -8,35 +8,51 @@ import { ContactService } from '../../services/contact.service';
   styleUrl: './messages.component.css'
 })
 export class MessagesComponent {
-  contact: Contact = new Contact();
+  contact: Message = new Message();
+  contacts: Message[] = [];
   class:string ="";
+  showOrHide:boolean = true;
 
-  constructor(private contactService: ContactService) { }
+  constructor(private MessageService: MessageService) { }
 
   ngOnInit(): void {
+    this.contacts = this.getContacts();
+    this.showOrHide = true;
   }
 
-  getContacts(): Contact[] {
-    return this.contactService.getContacts().reverse().slice(0,8);
+  getContacts(): Message[] {
+    return this.MessageService.getContacts().reverse().slice(0,8);
   }
-  saveContact(contact:Contact):void{
-    this.contactService.updateContact(contact);
+  getArchivedContacts(): Message[] {
+    return this.MessageService.getArchivedContacts().reverse().slice(0,8);
+  }
+
+  showMessages(value:boolean): Message[] {
+    this.showOrHide = value;
+    if(value)  return this.contacts = this.getContacts();
+    else return this.contacts = this.getArchivedContacts();
+  }
+  saveContact(contact:Message):void{
+    this.MessageService.updateContact(contact);
+    this.contacts = this.showMessages(this.showOrHide);
     this.cancel();
   }
   deleteContact(id:number):void{
-    this.contactService.deleteContact(id);
+    this.MessageService.deleteContact(id);
+    this.contacts = this.showMessages(this.showOrHide);
     this.cancel();
   }
-  archivedContact(contact:Contact):void{
+  archivedContact(contact:Message):void{
     contact.isArchive = !contact.isArchive;
-    this.contactService.updateContact(contact);
+    this.MessageService.updateContact(contact);
+    this.contacts = this.showMessages(this.showOrHide);
     this.cancel();
   }
   viewContact(id:number):void{
-    this.contact = this.contactService.getContact(id)?? new Contact();
+    this.contact = this.MessageService.getContact(id)?? new Message();
   }
   cancel():void{
-    this.contact = new Contact();
+    this.contact = new Message();
   }
   colorOpacity(hex: string) {
     return hex+'30';

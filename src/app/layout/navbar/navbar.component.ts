@@ -8,19 +8,21 @@ import { CategoryService } from '../../services/category.service';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  categories: Category[];
+  categories: Category[] = [];
 
-  constructor(private categoryService: CategoryService) {
-    this.categories = this.getCategories();
-  }
-
+  constructor(private categoryService: CategoryService) { }
 
   ngOnInit(): void {
+    this.getCategories();
   }
 
-  getCategories():Category[]{
-    return this.categoryService.getCategories().reverse();
+  getCategories(): void{
+    this.categoryService.getCategories()
+        .subscribe(
+          (data) => {
+            this.categories = data;
+        }
+      );
   }
-
 }
 

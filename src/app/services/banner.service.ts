@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Banner } from '../models/banner';
 import { BannerRepository } from '../repository/banner.repository';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class BannerService {
     private dataSource: BannerRepository;
     private banners: Banner[];
 
-    constructor() {
+    constructor(private http: HttpClient) {
       this.dataSource = new BannerRepository();
       this.banners = new Array<Banner>();
 
@@ -17,7 +18,7 @@ export class BannerService {
     }
 
     getBanners() :Banner[] {
-      return this.banners.reverse();
+      return this.banners;
     }
 
     getBanner(id:number) :Banner | undefined {
@@ -27,9 +28,8 @@ export class BannerService {
       return this.banners.find(i=>i.isActive)?? new Banner();
     }
     getDisableBanners() :Banner[] {
-      return this.banners.filter(i=>!i.isActive).reverse();
+      return this.banners.filter(i=>!i.isActive);
     }
-
     createBanner(banner: Banner): void{
       banner.id=(this.banners.at(-1)?.id?? 0) + 1;
 

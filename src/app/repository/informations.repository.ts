@@ -1,6 +1,4 @@
 import { About, Contact, Faqs, Info, SocialMedia } from "../models/informations";
-import { Product } from "../models/product";
-
 
 export class InformationsRepository {
   private about: About;

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Contact } from '../../models/contact';
-import { ContactService } from '../../services/contact.service';
+import { Message } from '../../models/message';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'comments',
@@ -8,32 +8,32 @@ import { ContactService } from '../../services/contact.service';
   styleUrl: './comments.component.css'
 })
 export class CommentsComponent {
-  // contact: Contact = new Contact();
+  // contact: Message = new Message();
   // class:string ="";
 
-  // constructor(private contactService: ContactService) { }
+  // constructor(private MessageService: MessageService) { }
 
   // ngOnInit(): void {
   // }
 
-  // getContacts(): Contact[] {
-  //   return this.contactService.getContacts().reverse().slice(0,8);
+  // getContacts(): Message[] {
+  //   return this.MessageService.getContacts().reverse().slice(0,8);
   // }
-  // saveContact(contact:Contact):void{
+  // saveContact(contact:Message):void{
   //   contact.id
-  //     ? this.contactService.updateContact(contact)
-  //     : this.contactService.createContact(contact);
+  //     ? this.MessageService.updateContact(contact)
+  //     : this.MessageService.createContact(contact);
 
-  //   this.contact = new Contact();
+  //   this.contact = new Message();
   // }
   // deleteContact(id:number):void{
-  //   this.contactService.deleteContact(id);
+  //   this.MessageService.deleteContact(id);
   // }
   // editContact(id:number):void{
-  //   this.contact = this.contactService.getContact(id)?? new Contact();
+  //   this.contact = this.MessageService.getContact(id)?? new Message();
   // }
   // cancel():void{
-  //   this.contact = new Contact();
+  //   this.contact = new Message();
   // }
   // colorOpacity(hex: string) {
   //   return hex+'30';

@@ -18,13 +18,13 @@ export class BannerComponent {
   }
 
   getBanners(): Banner[] {
-    return this.bannerService.getBanners();
+    return this.bannerService.getBanners().reverse().slice(0,10);
   }
   getActiveBanner(): Banner {
     return this.bannerService.getActiveBanner();
   }
   getDisableBanners(): Banner[] {
-    return this.bannerService.getDisableBanners();
+    return this.bannerService.getDisableBanners().reverse().slice(0,9);
   }
   saveBanner(banner:Banner):void{
     banner.id

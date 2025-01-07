@@ -1,55 +1,74 @@
 import { Injectable } from '@angular/core';
-import { CategoryRepository } from '../repository/category.repository';
 import { Category } from '../models/category';
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map, Observable, pipe, switchMap } from 'rxjs';
 @Injectable({
-  providedIn: 'root'
+providedIn: 'root'
 })
 export class CategoryService {
-    private dataSource: CategoryRepository;
-    private categories: Category[];
+private apiUrl:string = 'api/category';
 
-    constructor() {
-      this.dataSource = new CategoryRepository();
-      this.categories = new Array<Category>();
+constructor( private http: HttpClient) {  }
 
-      this.dataSource.getCategories().forEach(p => this.categories.push(p));
-    }
+getCategories(pageNumber: number = 1, pageSize: number = 3): Observable<Category[]> {
+  const params = {
+    pageNumber: pageNumber.toString(),
+    pageSize: pageSize.toString()
+  };//! pagination için api lazım şu an yok
 
-    getCategories() :Category[] {
-      return this.categories;
-    }
-
-      getCategory(id:number) :Category | undefined {
-        return this.categories.find(i=>i.id==id);
-      }
-
-      createCategory(category: Category): void{
-        category.id=(this.categories.at(-1)?.id?? 0) + 1;
-        this.categories.push(category);
-      }
-
-      getCategoryNameById(id: number): string {
-        const category = this.categories.find(cat => cat.id === id);
-        return category?.name?? "" ;
-      }
-      getCategoryColorById(id: number): string {
-        const category = this.categories.find(cat => cat.id === id);
-        return category?.color?? '#6d6d6d' ;
-      }
-
-      updateCategory(category: Category): void {
-        const index = this.categories.findIndex(p => p.id === category.id);
-        if (index !== -1) {
-          this.categories[index] = category;
-        }
-      }
-
-      deleteCategory(id: number): void {
-        const index = this.categories.findIndex(p => p.id === id);
-        if (index !== -1) {
-          this.categories.splice(index, 1);
-        }
-      }
-
+  // return this.http.get<Category[]>(this.apiUrl, { params }).pipe(
+    return this.http.get<Category[]>(this.apiUrl).pipe(
+      map(categories => categories)
+    );
 }
+getCategory(id:number) : Observable<Category>{
+  return this.http.get<Category>(this.apiUrl+'/'+id);
+}
+createCategory(subscribe: Category): Observable<Category> {
+  const httpOptions = {
+    headers: new HttpHeaders({'Content-Type': 'application/json'})
+  };
+  return this.getCategories().pipe(
+    map(subscribes => {
+      const lastId = subscribes.length > 0 ? subscribes.at(-1)?.id ?? 0 : 0;
+      subscribe.id = lastId + 1;
+      return subscribe;
+    }),
+    switchMap((c) => {
+      return this.http.post<Category>(this.apiUrl, c, httpOptions);
+    })
+  );
+}
+getCategoryNameById(id: number): Observable<string> {
+  return this.getCategory(id).pipe(
+    map(s => {
+      return s?.color?? '#6d6d6d' ;
+    })
+  );
+}
+getCategoryColorById(id: number): Observable<string> {
+  return this.getCategory(id).pipe(
+    map(s => {
+      return s?.color?? '#6d6d6d' ;
+    })
+  );
+}
+updateCategory(subscribe: Category): Observable<any>  {
+  const httpOptions= {
+    headers: new HttpHeaders({'Content-Type': 'application/json'})
+  }
+  return this.http.put(this.apiUrl, subscribe, httpOptions)
+}
+deleteCategory(id: number): Observable<Category>  {
+  return this.http.delete<Category>(this.apiUrl+'/'+id)
+}
+}
+
+
+
+
+
+
+
+
+

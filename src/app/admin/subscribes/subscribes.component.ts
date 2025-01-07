@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { Subscribe } from '../../models/Subscribe';
 import { SubscribeService } from '../../services/subscribe.service';
@@ -9,29 +10,48 @@ import { SubscribeService } from '../../services/subscribe.service';
 })
 export class SubscribesComponent {
   subscribe: Subscribe = new Subscribe();
-  class:string ="";
+  subscribes: Subscribe[] = [];
 
   constructor(private subscribeService: SubscribeService) { }
 
   ngOnInit(): void {
+    this.getSubscribes();
   }
 
-  getSubscribes(): Subscribe[] {
-    return this.subscribeService.getSubscribes().reverse().slice(0,8);
+  getSubscribes(): void {
+      this.subscribeService.getSubscribes()
+        .subscribe(
+          (data) => {
+            this.subscribes = data.reverse().slice(0,9);
+        }
+      );
   }
-
+  editSubscribe(id: number): void {
+    this.subscribeService.getSubscribe(id)
+    .subscribe(
+      (data) => {
+        this.subscribe = data;
+      }
+    );
+  }
+  createSubscribe(prd:Subscribe):void{
+    this.subscribeService.createSubscribe(prd).subscribe();
+    this.getSubscribes();
+    this.cancel();
+  }
   saveSubscribe(category:Subscribe):void{
-    this.subscribeService.updateSubscribe(category)
+    this.subscribeService.updateSubscribe(category).subscribe();
+    this.getSubscribes();
     this.cancel();
   }
-  deleteSubscribe(id:number):void{
-    this.subscribeService.deleteSubscribe(id);
+  deleteSubscribe(id: number): void {
+    this.subscribeService.deleteSubscribe(id).subscribe();
+    this.getSubscribes();
     this.cancel();
-  }
-  editSubscribe(id:number):void{
-    this.subscribe = this.subscribeService.getSubscribe(id)?? new Subscribe();
   }
   cancel():void{
     this.subscribe = new Subscribe();
   }
 }
+
+

@@ -1,22 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Contact } from '../models/contact';
-import { ContactRepository } from '../repository/contact.repository';
+import { Message } from '../models/message';
+import { MessageRepository } from '../repository/message.repository';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ContactService {
-    private dataSource: ContactRepository;
-    private contacts: Contact[];
+export class MessageService {
+    private dataSource: MessageRepository;
+    private contacts: Message[];
 
-    constructor() {
-      this.dataSource = new ContactRepository();
-      this.contacts = new Array<Contact>();
+    constructor(private http: HttpClient) {
+      this.dataSource = new MessageRepository();
+      this.contacts = new Array<Message>();
 
       this.dataSource.getContacts().forEach(p => this.contacts.push(p));
     }
 
-    getContacts() :Contact[] {
+    getContacts() :Message[] {
       return this.contacts.filter(i=>!i.isArchive && i.isAccept).map(contact => {
         return {
           ...contact,
@@ -24,7 +25,7 @@ export class ContactService {
         }
       })
     }
-    getArchivedContacts() :Contact[] {
+    getArchivedContacts() :Message[] {
       return this.contacts.filter(i=>i.isArchive && i.isAccept).map(contact => {
         return {
           ...contact,
@@ -32,14 +33,15 @@ export class ContactService {
         }
       })
     }
-    getContact(id:number) :Contact | undefined {
+    getContact(id:number) :Message | undefined {
       return this.contacts.find(i=>i.id==id);
     }
-    createContact(contact: Contact): void{
+    createContact(contact: Message): void{
+      prompt(contact.firstname)
       contact.id=(this.contacts.at(-1)?.id?? 0) + 1;
       this.contacts.push(contact);
     }
-    updateContact(contact: Contact): void {
+    updateContact(contact: Message): void {
       const index = this.contacts.findIndex(p => p.id === contact.id);
       if (index !== -1) {
         this.contacts[index] = contact;

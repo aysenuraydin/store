@@ -1,4 +1,4 @@
-export class Contact {
+export class Message {
     id:number;
     firstname: string;
     lastname: string;

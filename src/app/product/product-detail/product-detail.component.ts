@@ -10,7 +10,7 @@ import { ProductService } from '../../services/product.service';
 })
 export class ProductDetailComponent {
   activeTab: Number = 1;
-  product: Product | undefined;
+  product: Product = new Product();
 
   constructor(
     private router: Router,
@@ -20,12 +20,15 @@ export class ProductDetailComponent {
 
   ngOnInit(): void {
     let id = Number(this.route.snapshot.paramMap.get('id'));
-    console.log(id);
-    this.product = this.getProduct(id);
+    this.getProduct(id);
   }
-
-  getProduct(id:number): Product |undefined {
-    return  this.productService.getProduct(id);
+  getProduct(id:number):void{
+    this.productService.getProduct(id)
+    .subscribe(
+      (data) => {
+        this.product = data;
+      }
+    );
   }
   loadProducts() {
     this.router.navigate(['/products'], {
