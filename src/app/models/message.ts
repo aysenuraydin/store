@@ -1,9 +1,9 @@
 export class Message {
     id:number;
-    firstname: string;
-    lastname: string;
-    company: string;
-    email: string;
+    firstname?: string;
+    lastname?: string;
+    company?: string;
+    email?: string;
     phoneNumber?: number;
     message?: string;
     createdAt?: Date;

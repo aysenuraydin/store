@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Message } from '../../models/message';
 import { MessageService } from '../../services/message.service';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'messages',
@@ -8,51 +10,66 @@ import { MessageService } from '../../services/message.service';
   styleUrl: './messages.component.css'
 })
 export class MessagesComponent {
-  contact: Message = new Message();
-  contacts: Message[] = [];
-  class:string ="";
+  message: Message = new Message();
+  messages: Message[] = [];
   showOrHide:boolean = true;
+  buttonVisible:boolean = true;
 
-  constructor(private MessageService: MessageService) { }
+  constructor(private messageService: MessageService ) { }
 
   ngOnInit(): void {
-    this.contacts = this.getContacts();
-    this.showOrHide = true;
+    this.showMessages(this.showOrHide);
   }
 
-  getContacts(): Message[] {
-    return this.MessageService.getContacts().reverse().slice(0,8);
-  }
-  getArchivedContacts(): Message[] {
-    return this.MessageService.getArchivedContacts().reverse().slice(0,8);
+  toggleWindow(value:boolean) :void {
+    this.buttonVisible = !value;
+    this.cancel();
   }
 
-  showMessages(value:boolean): Message[] {
+  showMessages(value:boolean): void {
     this.showOrHide = value;
-    if(value)  return this.contacts = this.getContacts();
-    else return this.contacts = this.getArchivedContacts();
+    this.messageService.getContacts(value)
+      .subscribe(
+        (data) => {
+          this.messages = data.reverse().slice(0,9);
+      }
+    );
   }
-  saveContact(contact:Message):void{
-    this.MessageService.updateContact(contact);
-    this.contacts = this.showMessages(this.showOrHide);
+  viewMessage(id: number): void {
+    this.messageService.getBanner(id)
+    .subscribe(
+      (data) => {
+        this.message = data;
+      }
+    );
+  }
+  createMessages(message: Message): void {
+    this.messageService.createContact(message).subscribe(() => {
+      this.showMessages(this.showOrHide);
+      this.cancel();
+    });
+  }
+  saveMessage(message:Message):void{
+    this.messageService.updateContact(message).subscribe(() => {
+      this.showMessages(this.showOrHide);
+      this.cancel();
+    });
+  }
+  archivedMessage(message:Message):void{
+    message.isArchive = !message.isArchive;
+    this.messageService.updateContact(message).subscribe(() => {
+      this.showMessages(this.showOrHide);
+      this.cancel();
+    });
+  }
+  deleteMessage(id: number): void {
+    this.messageService.deleteContact(id).subscribe();
+    this.showMessages(this.showOrHide);
     this.cancel();
   }
-  deleteContact(id:number):void{
-    this.MessageService.deleteContact(id);
-    this.contacts = this.showMessages(this.showOrHide);
-    this.cancel();
-  }
-  archivedContact(contact:Message):void{
-    contact.isArchive = !contact.isArchive;
-    this.MessageService.updateContact(contact);
-    this.contacts = this.showMessages(this.showOrHide);
-    this.cancel();
-  }
-  viewContact(id:number):void{
-    this.contact = this.MessageService.getContact(id)?? new Message();
-  }
+
   cancel():void{
-    this.contact = new Message();
+    this.message = new Message();
   }
   colorOpacity(hex: string) {
     return hex+'30';

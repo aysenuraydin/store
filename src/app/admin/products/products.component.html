@@ -1,19 +1,33 @@
 
 
-<div class="md:max-w-6xl py-8 h-[100vh] mx-auto">
+<div class="md:max-w-6xl py-8 mx-auto mt-20">
   <div class="mt-10">
     <div class="accordion-button p-0 border-b">
-      <div class="flex w-full justify-between items-center rounded-lg "  onclick="toggleAccordion(2)">
+      <div class="flex w-full justify-between items-center rounded-lg">
         <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5">
           <i class="fa-solid fa-shirt text-gray-400 text-3xl mr-6"></i>Products</h1>
-        <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center bg-white">
-          Add  <i class="fa-solid fa-plus pl-1"></i>
-        </div>
+          <div class="flex gap-4">
+            <div class="relative flex items-center w-full h-12 rounded-lg shadow-2xl bg-white overflow-hidden pl-5">
+              <input class="h-full w-full outline-none text-sm text-gray-700 pr-2"
+              type="text" id="search"  placeholder="Search something.." />
+              <button type="submit" class="bg-gray-700 hover:bg-gray-500 rounded-md text-white text-xl p-3 border ">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+          </div>
+            <div class="min-w-32 border block px-5 py-3 text-sm hover:text-white hover:bg-gray-700 rounded-md text-center bg-white" (click)="toggleWindow(buttonVisible)">
+              <div *ngIf="buttonVisible">
+                Add Banner<i class="fa-solid fa-plus pl-1"></i>
+              </div>
+              <div *ngIf="!buttonVisible" class="text-red-500">
+                Close <i class="fa-solid fa-cancel pl-1"></i>
+              </div>
+            </div>
+          </div>
       </div>
     </div>
     <div
     id="accordion2"
-    class="relative overflow-hidden transition-all max-h-0 duration-700 p-10 pb-0">
+    class="relative transition-all duration-700 p-10 pb-0" *ngIf="!buttonVisible">
     <div class="flex bg-white p-10 rounded-2xl shadow-lg">
       <div class="w-2/5 mt-8">
         <div class="p-4">
@@ -88,7 +102,7 @@
               </ng-template>
             </button>
             <button *ngIf="product.id" class="block w-full px-4 py-2 mr-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="deleteProduct(product.id)"> Delete <i class="fa-solid fa-trash"></i> </button>
-          <button class="block w-full px-4 py-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="cancel()"> Cancel <i class="fa-solid fa-cancel"></i>
+          <button class="block w-full px-4 py-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="cancel()"> Clear <i class="fa-solid fa-cancel"></i>
       </button>
       </div>
       </div>
@@ -127,7 +141,7 @@
           </div>
         </div>
         @defer ()  {
-        <div id="users" class="space-y-5 h-[65vh] overflow-scroll">
+        <div id="products" class="space-y-5 h-[65vh] overflow-scroll">
           <div class="flex items-center px-4 rounded-md shadow border bg-white" *ngFor="let prd of productsWithCategoriesName let i = index"
           [ngClass]="(prd.id==product.id)?' border-[#5f5f5f7c] shadow-xl':''">
             <span class="w-1/12 text-center">
@@ -161,14 +175,14 @@
               </div>
             </span>
             <span class="w-1/12 text-center">
-              <span class="text-xs uppercase text-gray-600 font-bold">{{ prd?.createdAt?.toLocaleString()}}</span>
+              <span class="text-xs uppercase text-gray-600 font-bold">
+                {{ prd?.createdAt | date: 'dd-mm-yyyy' }}
+                {{ prd?.createdAt | date: 'h:mm:ss' }}
+              </span>
             </span>
-            <span class="w-1/6 flex items-center justify-center">
-              <button class="block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14" (click)="editProduct(prd?.id ?? 0)" onclick="toggleAccordion(2)">
+            <span class="w-1/6 flex items-center justify-end mr-5">
+              <button class="block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14" (click)="editProduct(prd?.id ?? 0)" (click)="toggleWindow(buttonVisible)">
                 <i class="fa-solid fa-pen-to-square"></i>
-              </button>
-              <button class="block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14" (click)="editProduct(prd?.id ?? 0)" onclick="toggleAccordion(2)">
-                <i class="fa-solid fa-trash"></i>
               </button>
             </span>
           </div>

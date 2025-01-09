@@ -19,7 +19,7 @@ export class HomeComponent {
     this.productService.getProducts()
         .subscribe(
           (data) => {
-            this.products = data;
+            this.products = data.reverse();
         }
       );
   }

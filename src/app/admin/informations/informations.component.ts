@@ -1,9 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { Banner } from '../../models/banner';
-import { BannerService } from '../../services/banner.service';
 import { InformationsService } from '../../services/informations.service';
 import { About, Faqs, Info, SocialMedia } from '../../models/informations';
-import { Message } from '../../models/message';
 
 @Component({
   selector: 'informations',
@@ -15,67 +12,109 @@ export class InformationsComponent {
   info: Info = new Info();
   socialMedia: SocialMedia = new SocialMedia();
   faq: Faqs = new Faqs();
+  faqs: Faqs[] = [];
+  buttonVisible:number = 1;
 
   constructor(private informationsService: InformationsService) { }
 
   ngOnInit(): void {
-    this.about = this.getAbout();
-    this.info = this.getInfo();
-    this.socialMedia = this.getSocialMedia();
+    this.getAbout();
+    this.getInfo();
+    this.getSocialMedia();
+    this.getFaqs();
+  }
+
+  toggleWindow(value:number) :void {
+    this.buttonVisible = value;
+  }
+
+  getAbout(): void {
+    this.informationsService.getAbout()
+    .subscribe(
+      (data) => {
+        this.about = data;
+      }
+    );
+  }
+  saveAbout(category:About):void{
+    this.informationsService.updateAbout(category).subscribe(() => {
+    this.getAbout();
+    });
   }
   onMessageChange(message: string): void {
     this.about.message = message;
   }
-  onAnswerChange(answer: string): void {
-    this.faq.answer = answer;
+
+  getInfo(): void {
+    this.informationsService.getInfo()
+    .subscribe(
+      (data) => {
+        this.info = data;
+      }
+    );
   }
-  onAdressChange(adress: string): void {
-    this.info.adress = adress;
+  saveInfo(category:Info):void{
+    this.informationsService.updateInfo(category).subscribe(() => {
+    this.getInfo();
+    });
   }
 
-  getFaqs(): Faqs[] {
-    return this.informationsService.getFaqs().reverse();
+  getSocialMedia(): void {
+    this.informationsService.getSocialMedia()
+    .subscribe(
+      (data) => {
+        this.socialMedia = data;
+      }
+    );
+  }
+  saveSocialMedia(category:SocialMedia):void{
+    this.informationsService.updateSocialMedia(category).subscribe(() => {
+    this.getSocialMedia();
+    });
+  }
+
+  getFaqs():  void {
+    this.informationsService.getFaqs()
+      .subscribe(
+        (data) => {
+          this.faqs = data.reverse();
+      }
+    );
+  }
+  editFaq(id:number): void {
+    this.informationsService.getFaq(id)
+    .subscribe(
+      (data) => {
+        this.faq = data;
+      }
+    );
   }
   saveFaq(category:Faqs):void{
     category.id
-      ? this.informationsService.updateFaq(category)
-      : this.informationsService.createFaq(category);
+      ? this.updateFaq(category)
+      : this.createFaq(category);
+
       this.cancel();
   }
-  deleteFaq(id:number):void{
-    this.informationsService.deleteFaq(id);
+  createFaq(category: Faqs): void {
+    this.informationsService.createSubscribe(category).subscribe(() => {
+      this.getFaqs();
+    });
+  }
+  updateFaq(category:Faqs):void{
+    this.informationsService.updateFaq(category).subscribe(() => {
+      this.getFaqs();
+    });
+  }
+  deleteFaq(id: number): void {
+    this.informationsService.deleteFaq(id).subscribe();
+    this.getFaqs();
     this.cancel();
   }
-  editFaq(id:number):void{
-    // prompt(this.faq.answer)
-    this.faq = this.informationsService.getFaq(id)?? new Faqs();
-  }
+
   cancel():void{
     this.faq = new Faqs();
   }
-
-
-  getAbout(): About{
-    return this.informationsService.getAbout();
-  }
-  saveAbout(about:About):void{
-    this.informationsService.updateAbout(about)
-  }
-
-  getInfo(): Info{
-    return this.informationsService.getInfo();
-  }
-  saveInfo(about:Info):void{
-    this.informationsService.updateInfo(about)
-  }
-
-  getSocialMedia(): SocialMedia{
-    return this.informationsService.getSocialMedia();
-  }
-  saveSocialMedia(about:SocialMedia):void{
-    this.informationsService.updateSocialMedia(about)
-  }
-
 }
 
 

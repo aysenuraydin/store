@@ -14,6 +14,7 @@ export class ProductsComponent {
   products: Product [] = [];
   productsWithCategoriesName: any [] = [];
   categories: Category [] = [];
+  buttonVisible:boolean = true;
 
   constructor(
     private productService: ProductService,
@@ -26,12 +27,29 @@ export class ProductsComponent {
     this.getProducts();
   }
 
+  toggleWindow(value:boolean) :void {
+    this.buttonVisible = !value;
+    this.cancel();
+  }
   onDescriptionChange(updatedDescription: string): void {
     this.product.description = updatedDescription;
   }
   onDetailsChange(updatedDetails: string): void {
     this.product.details = updatedDetails;
   }
+
+  getCategories(): void{
+    this.categoryProductService.getCategories()
+        .subscribe(
+          (data) => {
+            this.categories = data;
+        }
+      );
+  }
+  getCategoryName(id: number): void {
+    this.categoryProductService.getCategory(id).subscribe()
+  }
+
   getProducts(): void{
     this.productService.getProducts()
         .subscribe(
@@ -47,32 +65,29 @@ export class ProductsComponent {
       }
     );
   }
-  getCategories(): void{
-    this.categoryProductService.getCategories()
-        .subscribe(
-          (data) => {
-            this.categories = data;
-        }
-      );
+  editProduct(id:number):void{
+    this.productService.getProduct(id)
+    .subscribe(
+      (data) => {
+        this.product = data;
+      }
+    );
   }
-  getCategoryName(id: number): void {
-    this.categoryProductService.getCategory(id).subscribe()
-  }
-  saveProduct(category:Product):void{
-    category.id
-      ? this.updateCategory(category)
-      : this.createCategory(category);
+  saveProduct(product:Product):void{
+    product.id
+      ? this.updateProduct(product)
+      : this.createProduct(product);
       this.cancel();
   }
-  updateCategory(category:Product):void{
-    this.productService.updateProduct(category)
+  createProduct(product: Product): void {
+    this.productService.createProduct(product)
     .subscribe(() => {
       this.getProductsWithCategoriesName();
       this.getProducts();
     });
   }
-  createCategory(category: Product): void {
-    this.productService.createProduct(category)
+  updateProduct(product:Product):void{
+    this.productService.updateProduct(product)
     .subscribe(() => {
       this.getProductsWithCategoriesName();
       this.getProducts();
@@ -86,14 +101,7 @@ export class ProductsComponent {
     });
     this.cancel();
   }
-  editProduct(id:number):void{
-    this.productService.getProduct(id)
-    .subscribe(
-      (data) => {
-        this.product = data;
-      }
-    );
-  }
+
   cancel():void{
     this.product = new Product();
   }

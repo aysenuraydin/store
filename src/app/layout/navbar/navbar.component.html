@@ -1,122 +1,135 @@
-<nav class="bg-gray-800 navbar shadow-md shadow-[#00000057]">
-  <banners/>
-  <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-    <div class="relative flex h-16 items-center justify-between">
-      <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-        <!-- Mobile menu button-->
-        <button type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
-          <span class="absolute -inset-0.5"></span>
-          <span class="sr-only">Open main menu</span>
+<div class="">
+  <div class="fixed top-0 z-50 w-full">
+    <banners class="md:mb-12  z-50"/>
+    <nav class="bg-gray-800 shadow-md shadow-[#00000057]">
+      <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="relative flex h-16 items-center justify-between">
+          <div class="flex shrink-0 items-center sm:hidden pl-2 p-4 cursor-pointer" (click)="showOrHide = !showOrHide">
+            <i class="fa-solid fa-bars text-white text-xl"></i>
+          </div>
 
-          <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-          </svg>
+          <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+            <div class="flex shrink-0 items-center">
+              <a routerLink="/" class="text-white text-xl" >S T O R E</a>
+            </div>
+            <div class="hidden sm:ml-6 sm:block">
+              <div class="flex space-x-4">
+                <div class="relative group/categories">
+                  <div class="">
+                    <button routerLink="/product/product-list/0" type="button" class="inline-flex w-full justify-center gap-x-1.5 rounded-md p-3 py-5 text-sm font-semibold shadow-sm text-gray-300" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                      Categories
+                      <i class="fa-solid fa-caret-down mt-1"></i>
+                    </button>
+                  </div>
 
-          <svg class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-        <div class="flex shrink-0 items-center">
-          <a routerLink="/" class="text-white text-xl" >S T O R E</a>
-        </div>
-        <div class="hidden sm:ml-6 sm:block">
-          <div class="flex space-x-4">
+                  <div class="absolute left-0 z-10 mt-2 w-56 top-[3rem] origin-top-right rounded-md bg-white shadow-lg hidden group-hover/categories:block" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                    <div class="py-1" role="none">
+                      <span *ngFor="let category of categories">
+                      <a *ngIf="category.id != 0" routerLink="/product/product-list/{{ category.id}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 mx-2" role="menuitem" tabindex="-1" id="menu-item-0">{{ category.name }}</a>
+                      </span>
+                    </div>
+                  </div>
+                </div>
 
+              </div>
+            </div>
+          </div>
+          <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            <a routerLink="/account/register" class="hidden sm:block px-6 py-2 mr-5 text-sm text-white hover:bg-gray-700 border rounded-[1.5rem]">
+                <i class="fa-solid fa-user-plus pr-1"></i>
+                Sign Up
+            </a>
+            <a routerLink="/account/login" class="hidden sm:block px-6 py-2 mr-5 text-sm bg-gray-200 hover:bg-gray-400 rounded-[1.5rem]">
+              <i class="fa-solid fa-right-to-bracket pr-1"></i>
+              Sign In
+            </a>
+            <a routerLink="/admin" class="hidden sm:block px-6 py-2 mr-5 text-sm text-white hover:bg-gray-700 border rounded-[1.5rem]">
+              <i class="fa-brands fa-microsoft pr-1"></i>
+              Admin Panel
+            </a>
+            <a routerLink="/account/forgot-password" class="hidden sm:block px-6 py-2 mr-5 text-sm  bg-gray-200 hover:bg-gray-400 rounded-[1.5rem]">
+              <i class="fa-solid fa-right-to-bracket rotate-180 pl-1"></i>
+              Sign Out
+            </a>
 
-
-            <div class="relative group/categories">
+            <a id="search-link" class="cursor-pointer rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+              <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+            </a>
+            <a id="fav-link" class="rounded-md px-3 py-2 text-xl font-medium text-gray-400 hover:bg-gray-700 hover:text-white cursor-pointer">
+              <i class="fa-regular fa-heart"></i>
+            </a>
+            <a id="cart-link" class="cursor-pointer rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+              <i class="fa-solid fa-cart-shopping text-xl"></i>
+            </a>
+            <!-- Profile dropdown -->
+            <div class="relative ml-3 group">
               <div>
-                <button routerLink="/product/product-list" type="button" class="inline-flex w-full justify-center gap-x-1.5 rounded-md p-3 py-5 text-sm font-semibold shadow-sm text-gray-300" id="menu-button" aria-expanded="true" aria-haspopup="true">
-                  Categories
-                  <i class="fa-solid fa-caret-down mt-1"></i>
+                <button type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                  <span class="absolute -inset-1.5"></span>
+                  <span class="sr-only">Open user menu</span>
+                  <img class="size-8 rounded-full" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="">
                 </button>
               </div>
-
-              <div class="absolute left-0 z-10 mt-2 w-56 top-[3rem] origin-top-right rounded-md bg-white shadow-lg hidden group-hover/categories:block" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                <div class="py-1" role="none">
-                  <span *ngFor="let category of categories">
-                  <a *ngIf="category.id != 0" routerLink="/product/product-list" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 mx-2" role="menuitem" tabindex="-1" id="menu-item-0">{{ category.name }}</a>
-                </span>
+            <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right py-1">
+              <div class="group-hover:block hidden border p-2 bg-white rounded-lg shadow-lg">
+                  <a routerLink="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-0">
+                    <i class="fa-solid fa-user"></i>
+                      Your Profile
+                    </a>
+                  <a routerLink="/order" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-0">
+                    <i class="fa-solid fa-paper-plane"></i>
+                      Orders
+                  </a>
+                  <a routerLink="/cart" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-0">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                      Carts
+                  </a>
+                  <a routerLink="/fav" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-0">
+                    <i class="fa-solid fa-heart"></i>
+                      Favorites
+                  </a>
+                <a routerLink="/profile/settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-1">
+                  <i class="fa-solid fa-gear"></i>
+                    Settings
+                </a>
+                <a routerLink="/account/register" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-1">
+                  <i class="fa-solid fa-right-to-bracket"></i>
+                    Sign Up
+                </a>
+                <a routerLink="/account/login" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-1">
+                  <i class="fa-solid fa-user-plus"></i>
+                  Sign In
+                </a>
+                <a routerLink="/admin" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-1">
+                  <i class="fa-brands fa-microsoft"></i>
+                  Admin Panel
+                </a>
+                <a routerLink="/account/forgot-password" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-1">
+                  <i class="fa-solid fa-right-to-bracket rotate-180"></i>
+                  Sign Out
+                </a>
                 </div>
               </div>
             </div>
-
-
-
-
-
-
-
           </div>
         </div>
-      </div>
-      <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-        <a routerLink="/account/register" class="block px-6 py-2 mr-5 text-sm text-white hover:bg-gray-700 border rounded-[1.5rem]">
-            Sign Up
-        </a>
-        <a routerLink="/account/login" class="block px-6 py-2 mr-5 text-sm  bg-gray-200 hover:bg-gray-400 rounded-[1.5rem]">
-          Sign In
-        </a>
-        <a routerLink="/admin" class="block px-6 py-2 mr-5 text-sm  text-white hover:bg-gray-700 border rounded-[1.5rem]">
-          Admin Panel
-        </a>
-        <a routerLink="/account/forgot-password" class="block px-6 py-2 mr-5 text-sm  bg-gray-200 hover:bg-gray-400 rounded-[1.5rem]">
-          Sign Out
-        </a>
 
-        <a id="search-link" class="cursor-pointer rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
-          <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-        </svg>
-        </a>
-        <a id="fav-link" class="rounded-md px-3 py-2 text-xl font-medium text-gray-400 hover:bg-gray-700 hover:text-white cursor-pointer">
-          <i class="fa-regular fa-heart"></i>
-        </a>
-        <a id="cart-link" class="cursor-pointer rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
-          <i class="fa-solid fa-cart-shopping text-xl"></i>
-        </a>
-        <!-- Profile dropdown -->
-        <div class="relative ml-3 group">
-          <div>
-            <button type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-              <span class="absolute -inset-1.5"></span>
-              <span class="sr-only">Open user menu</span>
-              <img class="size-8 rounded-full" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="">
-            </button>
-          </div>
 
-        <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right py-1">
-          <div class="group-hover:block hidden border p-2 bg-white rounded-lg shadow-lg">
-              <a routerLink="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-0">
-                <i class="fa-solid fa-user"></i>
-                  Your Profile
-                </a>
-              <a routerLink="/order" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-0">
-                <i class="fa-solid fa-paper-plane"></i>
-                  Orders
-              </a>
-              <a routerLink="/cart" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-0">
-                <i class="fa-solid fa-bag-shopping"></i>
-                  Carts
-              </a>
-              <a routerLink="/fav" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-0">
-                <i class="fa-solid fa-heart"></i>
-                  Favorites
-              </a>
-            <a routerLink="/profile/settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-1">
-              <i class="fa-solid fa-gear"></i>
-                Settings
-              </a>
+
+        <div class="w-full p-5 shadow-md border-t border-gray-600" [ngClass]="(showOrHide)?'hidden':'block'">
+          <div *ngFor="let category of categories">
+            <a *ngIf="category.id != 0" routerLink="/product/product-list" class="block px-4 py-2 text-sm rounded-md text-white hover:text-black hover:bg-gray-100 mx-2" role="menuitem" tabindex="-1" id="menu-item-0">{{ category.name }}</a>
             </div>
-          </div>
         </div>
-
       </div>
-    </div>
+    </nav>
   </div>
-</nav>
+</div>
+
+
+
 
 
 

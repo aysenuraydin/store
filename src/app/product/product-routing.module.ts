@@ -11,7 +11,7 @@ const routes: Routes = [
       component: UserLayoutComponent,
       canActivate: [],
       children: [
-        { path: 'product-list', component: ProductListComponent },
+        { path: 'product-list/:id?', component: ProductListComponent },
         { path: 'product-detail/:id', component: ProductDetailComponent }
       ]
     }

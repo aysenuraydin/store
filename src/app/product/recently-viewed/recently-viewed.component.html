@@ -10,11 +10,19 @@
       </button>
       <div class="max-w-full md:max-w-7xl h-full mx-auto overflow-x-hidden overflow-y-hidden">
         <div id="slider" class="h-full flex lg:gap-8 md:gap-6 gap-14 items-center justify-start transition ease-out duration-700">
+
+          @defer ()  {
             <div *ngFor="let prd of products" class="flex flex-shrink-0 relative w-full sm:w-auto ">
               <div class="w-72">
                 <product [product]="prd"/>
               </div>
             </div>
+          } @placeholder (minimum 1s) {
+            <div class="pt-10 flex justify-center items-center">
+              <i class="fa-solid fa-spinner text-5xl animate-spin text-gray-500 mr-5"></i> Loading..
+            </div>
+          }
+
 
         </div>
       </div>

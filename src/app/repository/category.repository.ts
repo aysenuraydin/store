@@ -18,6 +18,6 @@ export class CategoryRepository {
   }
   getCategories(): Category[] {
     return this.categories;
-}
+  }
 }
 

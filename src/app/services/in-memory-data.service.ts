@@ -23,27 +23,28 @@ export class InMemoryDataService implements InMemoryDbService {
 
   private products: Product[] = [];
   private sliders: Slider[] = [];
-  private contacts: Message[] = [];
+  private message: Message[] = [];
   private categories: Category[] = [];
   private banners: Banner[] = [];
   private subscribes: Subscribe[] = [];
   private faqs: Faqs[]=[];
-  private about: About = new About();
-  private info: Info= new Info();
-  private socialMedia: SocialMedia= new SocialMedia();
+
+  private about: About[]=[];
+  private info: Info[]=[];
+  private socialMedia: SocialMedia[]=[];
 
   constructor() {
     new ProductRepository().getProducts().forEach(p => this.products.push(p));
     new SliderRepository().getSliders().forEach(p => this.sliders.push(p));
-    new MessageRepository().getContacts().forEach(p => this.contacts.push(p));
+    new MessageRepository().getContacts().forEach(p => this.message.push(p));
     new CategoryRepository().getCategories().forEach(p => this.categories.push(p));
     new BannerRepository().getBanners().forEach(p => this.banners.push(p));
     new SubscribeRepository().getSubscribes().forEach(p => this.subscribes.push(p));
-
     new InformationsRepository().getFaqs().forEach(p => this.faqs.push(p));
-    this.about = new InformationsRepository().getAbout();
-    this.info = new InformationsRepository().getInfo();
-    this.socialMedia = new InformationsRepository().getSocialMedia();
+
+    new InformationsRepository().getAbout().forEach(p => this.about.push(p));
+    new InformationsRepository().getInfo().forEach(p => this.info.push(p));
+    new InformationsRepository().getSocialMedia().forEach(p => this.socialMedia.push(p));
   }
 
   createDb() {
@@ -53,8 +54,8 @@ export class InMemoryDataService implements InMemoryDbService {
     const slider: Slider[] = [
       ...this.sliders,
     ];
-    const contact: Message[] = [
-      ...this.contacts,
+    const message: Message[] = [
+      ...this.message,
     ];
     const category: Category[] = [
       ...this.categories,
@@ -68,13 +69,17 @@ export class InMemoryDataService implements InMemoryDbService {
     const faq: Faqs[] = [
       ...this.faqs,
     ];
-    const about: About = this.about;
+    const about: About[] = [
+      ...this.about,
+    ];
+    const info: Info[] = [
+      ...this.info,
+    ];
+    const socialMedia: SocialMedia[] = [
+      ...this.socialMedia,
+    ];
 
-    const info: Info = this.info;
-
-    const socialMedia: SocialMedia = this.socialMedia;
-
-    return { product, slider, contact, category, banner, subscribe, faq, about, info, socialMedia};
+    return { product, slider, message, category, banner, subscribe, faq, about, info, socialMedia};
   }
 }
 

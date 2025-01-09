@@ -11,6 +11,7 @@ import { CategoryProductService } from '../../services/category-product.service'
 export class CategoriesComponent {
   category: Category = new Category();
   categories: Category[] = [];
+  buttonVisible:boolean = true;
 
   constructor(
     private categoryService: CategoryService,
@@ -21,6 +22,10 @@ export class CategoriesComponent {
     this.getCategories();
   }
 
+  toggleWindow(value:boolean) :void {
+    this.buttonVisible = !value;
+    this.cancel();
+  }
   getCategories(): void{
     this.categoryService.getCategories()
         .subscribe(
@@ -28,29 +33,6 @@ export class CategoriesComponent {
             this.categories = data.reverse().slice(0,10);
         }
       );
-  }
-  saveCategory(category:Category):void{
-    category.id
-      ? this.updateCategory(category)
-      : this.createCategory(category);
-
-      this.cancel();
-  }
-  updateCategory(category:Category):void{
-    this.categoryService.updateCategory(category).subscribe(() => {
-      this.getCategories();
-    });
-  }
-  createCategory(category: Category): void {
-    this.categoryService.createCategory(category).subscribe(() => {
-      this.getCategories();
-    });
-  }
-  deleteCategory(id:number):void{
-    this.categoryProductService.deleteCategory(id).subscribe(() => {
-      this.getCategories();
-      this.cancel();
-    });
   }
   editCategory(id:number):void{
     this.categoryService.getCategory(id)
@@ -60,9 +42,31 @@ export class CategoriesComponent {
       }
     );
   }
+  saveCategory(category:Category):void{
+    category.id
+      ? this.updateCategory(category)
+      : this.createCategory(category);
+
+      this.cancel();
+  }
+  createCategory(category: Category): void {
+    this.categoryService.createCategory(category).subscribe(() => {
+      this.getCategories();
+    });
+  }
+  updateCategory(category:Category):void{
+    this.categoryService.updateCategory(category).subscribe(() => {
+      this.getCategories();
+    });
+  }
+  deleteCategory(id:number):void{
+    this.categoryProductService.deleteCategory(id).subscribe(() => {
+      this.getCategories();
+      this.cancel();
+    });
+  }
   cancel():void{
     this.category = new Category();
-
   }
   colorOpacity(hex: string) {
     return hex+'30';

@@ -12,12 +12,14 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SubscribeComponent } from './subscribe/subscribe.component';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
+import { SidebarItemComponent } from './admin-layout/sidebar-item/sidebar-item.component';
 
 
 @NgModule({
   declarations: [
     AccountLayoutComponent,
     AdminLayoutComponent,
+    SidebarItemComponent,
     ProfileLayoutComponent,
     UserLayoutComponent,
     BannersComponent,

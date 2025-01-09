@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AdminLayoutComponent {
 
+  toggleValue = true;
+
+  showOrHide(value:boolean){
+    this.toggleValue = !this.toggleValue;
+  }
+
 }

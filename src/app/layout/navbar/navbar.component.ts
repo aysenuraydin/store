@@ -9,7 +9,7 @@ import { CategoryService } from '../../services/category.service';
 })
 export class NavbarComponent {
   categories: Category[] = [];
-
+  showOrHide = true;
   constructor(private categoryService: CategoryService) { }
 
   ngOnInit(): void {

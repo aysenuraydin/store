@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Slider } from '../../models/slider';
 import { SliderService } from '../../services/slider.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'slider',
@@ -10,36 +11,78 @@ import { SliderService } from '../../services/slider.service';
 export class SliderComponent {
 
   slider: Slider = new Slider();
-  class:string ="";
+  sliders: Slider[] = [];
+  disableSliders: Slider[] = [];
+  activeSliders: Slider[] = [];
+  buttonVisible:boolean = true;
 
   constructor(private sliderService: SliderService) { }
 
   ngOnInit(): void {
+    this.getSliders();
+  }
+  toggleWindow(value:boolean) :void {
+    this.buttonVisible = !value;
+    this.cancel();
   }
 
-  getSliders(): Slider[] {
-    return this.sliderService.getSliders().reverse().slice(0,5);
+  getSliders(): void {
+    forkJoin({
+      active: this.sliderService.getActiveSliders(),
+      disabled: this.sliderService.getDisableSliders(),
+    }).subscribe(({ active, disabled }) => {
+      this.activeSliders = active;
+      this.disableSliders = disabled.reverse().slice(0, 9);
+      this.sliders = [...this.activeSliders, ...this.disableSliders];
+    });
   }
-  getActiveBanners(): Slider[] {
-    return this.sliderService.getActiveSliders().reverse().slice(0,10);
+  getActiveSliders():  void {
+    this.sliderService.getActiveSliders()
+      .subscribe(
+        (data) => {
+          this.activeSliders = data.reverse();
+      }
+    );
   }
-  getDisableBanners(): Slider[] {
-    return this.sliderService.getDisableSliders().reverse().slice(0,10);;
+  getDisableSliders():  void {
+    this.sliderService.getDisableSliders()
+      .subscribe(
+        (data) => {
+          this.disableSliders = data.reverse().slice(0,9);
+      }
+    );
+  }
+  editSlider(id: number): void {
+    this.sliderService.getSlider(id)
+    .subscribe(
+      (data) => {
+        this.slider = data;
+      }
+    );
   }
   saveSlider(slider:Slider):void{
     slider.id
-      ? this.sliderService.updateSlider(slider)
-      : this.sliderService.createSlider(slider);
+      ? this.updateSlider(slider)
+      : this.createSlider(slider);
 
+      this.cancel();
+  }
+  createSlider(slider: Slider): void {
+    this.sliderService.createSubscribe(slider).subscribe(() => {
+      this.getSliders();
+    });
+  }
+  updateSlider(slider:Slider):void{
+    this.sliderService.updateSubscribe(slider).subscribe(() => {
+    this.getSliders();
+    });
+  }
+  deleteSlider(id: number): void {
+    this.sliderService.deleteSubscribe(id).subscribe();
+    this.getSliders();
     this.cancel();
   }
-  deleteSlider(id:number):void{
-    this.sliderService.deleteSlider(id);
-    this.cancel();
-  }
-  editSlider(id:number):void{
-    this.slider = this.sliderService.getSlider(id)?? new Slider();
-  }
+
   cancel():void{
     this.slider = new Slider();
   }

@@ -10,13 +10,18 @@ import { BannerService } from '../../services/banner.service';
 export class BannersComponent {
   banner: Banner = new Banner();
 
-  constructor(private bannerService: BannerService) {}
+    constructor(private bannerService: BannerService) { }
 
-  ngOnInit(): void {
-    this.banner = this.bannerService.getActiveBanner();
-  }
+    ngOnInit(): void {
+      this.getActiveBanner();
+    }
 
-  getSlider():Banner{
-    return this.bannerService.getActiveBanner();
+  getActiveBanner(): void {
+    this.bannerService.getActiveBanner()
+    .subscribe(
+      (data) => {
+        this.banner = data;
+      }
+    );
   }
 }

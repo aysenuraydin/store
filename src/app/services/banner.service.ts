@@ -1,62 +1,73 @@
 import { Injectable } from '@angular/core';
 import { Banner } from '../models/banner';
-import { BannerRepository } from '../repository/banner.repository';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map, Observable, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BannerService {
-    private dataSource: BannerRepository;
-    private banners: Banner[];
+  private apiUrl = 'api/banner';
 
-    constructor(private http: HttpClient) {
-      this.dataSource = new BannerRepository();
-      this.banners = new Array<Banner>();
+  constructor(private http: HttpClient) {  }
 
-      this.dataSource.getBanners().forEach(p => this.banners.push(p));
+  getBanners() :Observable<Banner[]> {
+    return this.http.get<Banner[]>(this.apiUrl).pipe(
+      map(categories => categories)
+    );
+  }
+  getDisableBanners(): Observable<Banner[]> {
+    return this.http.get<Banner[]>(this.apiUrl).pipe(
+      map(banners => banners.filter(banner => !banner.isActive))
+    );
+  }
+  getBanner(id:number) :Observable<Banner>{
+    return this.http.get<Banner>(this.apiUrl+'/'+id);
+  }
+  getActiveBanner(): Observable<Banner> {
+    return this.http.get<Banner[]>(this.apiUrl).pipe(
+      map(banners => banners.find(banner => banner.isActive) ?? new Banner())
+    );
+  }
+  createBanner(banner: Banner): Observable<Banner> {
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.getBanners().pipe(
+      map(subscribes => {
+        const lastId = subscribes.length > 0 ? subscribes.at(-1)?.id ?? 0 : 0;
+        banner.id = lastId + 1;
+        return banner;
+      }),
+      switchMap((updatedSubscribe) => {
+        return this.http.post<Banner>(this.apiUrl, updatedSubscribe, httpOptions);
+      })
+    );
+  }
+  updateBanner(banner: Banner): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+    if (banner.isActive) {
+      return this.getActiveBanner().pipe(
+        switchMap(activeBanner => {
+          if (activeBanner && activeBanner.id !== banner.id) {
+            activeBanner.isActive = false;
+            return this.http.put(this.apiUrl, activeBanner, httpOptions).pipe(
+              switchMap(() => {
+                return this.http.put(this.apiUrl, banner, httpOptions);
+              })
+            );
+          } else {
+            return this.http.put(this.apiUrl, banner, httpOptions);
+          }
+        })
+      );
     }
-
-    getBanners() :Banner[] {
-      return this.banners;
-    }
-
-    getBanner(id:number) :Banner | undefined {
-      return this.banners.find(i=>i.id==id);
-    }
-    getActiveBanner() :Banner {
-      return this.banners.find(i=>i.isActive)?? new Banner();
-    }
-    getDisableBanners() :Banner[] {
-      return this.banners.filter(i=>!i.isActive);
-    }
-    createBanner(banner: Banner): void{
-      banner.id=(this.banners.at(-1)?.id?? 0) + 1;
-
-      if(banner.isActive){
-        this.getActiveBanner().isActive = false;
-      };
-      this.banners.push(banner);
-    }
-    updateBanner(banner: Banner): void {
-      const index = this.banners.findIndex(p => p.id === banner.id);
-
-      if(banner.isActive && banner != this.getActiveBanner()){
-        this.getActiveBanner().isActive = false;
-      };
-
-      if (index !== -1) {
-        this.banners[index] = banner;
-      }
-    }
-    deleteBanner(id: number): void {
-      if(this.getActiveBanner().id === id){
-        return;
-      }
-      const index = this.banners.findIndex(p => p.id === id);
-      if (index !== -1) {
-        this.banners.splice(index, 1);
-      }
-    }
+    return this.http.put(this.apiUrl, banner, httpOptions);
+  }
+  deleteBanner(id: number): Observable<Banner>  {
+    return this.http.delete<Banner>(this.apiUrl+'/'+id)
+  }
 }
 
