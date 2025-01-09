@@ -13,16 +13,33 @@ export class ContactComponent {
   contact: Message = new Message();
   info: Info = new Info();
 
-    constructor(private informationsService: InformationsService,
-      private MessageService: MessageService) {}
+    constructor(
+      private informationsService: InformationsService,
+      private MessageService: MessageService
+    ) {}
 
     ngOnInit(): void {
-      this.info = this.informationsService.getInfo();
+      this.getInfo();
     }
 
-    saveContact(contact:Message):void{
-      this.MessageService.createContact(contact);
-      this.contact = new Message();
+    getInfo(): void {
+      this.informationsService.getInfo()
+      .subscribe(
+        (data) => {
+          this.info = data;
+        }
+      );
     }
+    saveContact(category:Message):void{
+        this.MessageService.createContact(category).subscribe(() => {
+          this.cancel();
+        });
+      }
+    cancel():void{
+      this.contact = new Message()
+    }
+
 
 }
+
+

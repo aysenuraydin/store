@@ -13,6 +13,7 @@ import { SubscribesComponent } from "./subscribes/subscribes.component";
 import { CommentsComponent } from "./comments/comments.component";
 import { BannerComponent } from "./banner/banner.component";
 import { OrdersComponent } from "./orders/orders.component";
+import { MessageResolver } from "../services/message-resolver.service";
 
 const routes: Routes = [
   {
@@ -27,7 +28,8 @@ const routes: Routes = [
       { path: 'categories', component: CategoriesComponent },
       { path: 'users', component: UsersComponent },
       { path: 'roles', component: RolesComponent },
-      { path: 'messages', component: MessagesComponent },
+      { path: 'messages', component: MessagesComponent},
+      // { path: 'messages', component: MessagesComponent ,resolve: { messages: MessageResolver },},
       { path: 'informations', component: InformationsComponent },
       { path: 'orders', component: OrdersComponent },
       { path: 'subscribes', component: SubscribesComponent },

@@ -4,9 +4,6 @@
 @tailwind utilities;
 
 @layer components {
-  .navbar {
-    @apply fixed top-0 !z-[999] shadow-lg w-full;
-  }
   .accordion-button {
     @apply w-full px-8 py-6 text-left flex items-center justify-between;
   }

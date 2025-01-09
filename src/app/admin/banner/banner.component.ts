@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Banner } from '../../models/banner';
 import { BannerService } from '../../services/banner.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'banner',
@@ -8,44 +9,84 @@ import { BannerService } from '../../services/banner.service';
   styleUrl: './banner.component.css'
 })
 export class BannerComponent {
+    banner: Banner = new Banner();
+    banners: Banner[] = [];
+    disableBanners: Banner[] = [];
+    activeBanner: Banner = new Banner();
+    buttonVisible:boolean = true;
 
-  banner: Banner = new Banner();
-  class:string ="";
+    constructor(private bannerService: BannerService) { }
 
-  constructor(private bannerService: BannerService) { }
-
-  ngOnInit(): void {
-  }
-
-  getBanners(): Banner[] {
-    return this.bannerService.getBanners().reverse().slice(0,10);
-  }
-  getActiveBanner(): Banner {
-    return this.bannerService.getActiveBanner();
-  }
-  getDisableBanners(): Banner[] {
-    return this.bannerService.getDisableBanners().reverse().slice(0,9);
-  }
-  saveBanner(banner:Banner):void{
-    banner.id
-      ? this.bannerService.updateBanner(banner)
-      : this.bannerService.createBanner(banner);
-
-    this.cancel();
-  }
-  deleteBanner(id:number):void{
-    this.bannerService.deleteBanner(id);
-    this.cancel();
-  }
-  editBanner(id:number):void{
-    this.banner = this.bannerService.getBanner(id)?? new Banner();
-  }
-  cancel():void{
-    this.banner = new Banner();
-  }
-  activeBanner(event: Event, b: Banner){
-    if(this.bannerService.getActiveBanner().id == b.id){
-      event.preventDefault();
+    ngOnInit(): void {
+      this.getBanners();
     }
-  }
+
+    toggleWindow(value:boolean) :void {
+      this.buttonVisible = !value;
+      this.cancel();
+    }
+    getBanners(): void {
+      forkJoin({
+        active: this.bannerService.getActiveBanner(),
+        disabled: this.bannerService.getDisableBanners(),
+      }).subscribe(({ active, disabled }) => {
+        const activeBanners = active;
+        const disableBanners = disabled.reverse().slice(0, 9);
+        this.banners = [activeBanners, ...disableBanners];
+      });
+    }
+    editBanner(id: number): void {
+      this.bannerService.getBanner(id)
+      .subscribe(
+        (data) => {
+          this.banner = data;
+        }
+      );
+    }
+    getActiveBanner(): void {
+      this.bannerService.getActiveBanner()
+      .subscribe(
+        (data) => {
+          this.activeBanner = data;
+        }
+      );
+    }
+    getDisableBanners():  void {
+      this.bannerService.getDisableBanners()
+        .subscribe(
+          (data) => {
+            this.disableBanners = data.reverse().slice(0,9);
+        }
+      );
+    }
+    saveBanner(banner:Banner):void{
+      banner.id
+        ? this.updateBanner(banner)
+        : this.createBanner(banner);
+        this.cancel();
+    }
+    createBanner(banner: Banner): void {
+      this.bannerService.createBanner(banner).subscribe(() => {
+        this.getBanners();
+      });
+    }
+    updateBanner(banner:Banner):void{
+      this.bannerService.updateBanner(banner).subscribe(() => {
+      this.getBanners();
+      });
+    }
+    deleteBanner(id: number): void {
+      this.bannerService.deleteBanner(id).subscribe();
+      this.getBanners();
+      this.cancel();
+    }
+    cancel():void{
+      this.banner = new Banner();
+    }
+    activedBanner(event: Event, b: Banner){
+      if(this.activeBanner.id == b.id){
+        event.preventDefault();
+      }
+    }
+
 }

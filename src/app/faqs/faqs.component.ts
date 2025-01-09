@@ -8,13 +8,20 @@ import { Contact, Faqs } from '../models/informations';
   styleUrl: './faqs.component.css'
 })
 export class FAQsComponent {
+  faqs: Faqs[] = [];
 
-    constructor(private informationsService: InformationsService) {}
+  constructor(private informationsService: InformationsService) {}
 
-    ngOnInit(): void {
-    }
+  ngOnInit(): void {
+    this.getFaqs();
+  }
 
-    getFaqs(): Faqs[] {
-        return this.informationsService.getFaqs().reverse().slice(0,6);
+  getFaqs(): void {
+    this.informationsService.getFaqs()
+    .subscribe(
+      (data) => {
+        this.faqs = data;
       }
+    );
+  }
 }

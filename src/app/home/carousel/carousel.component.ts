@@ -8,14 +8,22 @@ import { SliderService } from '../../services/slider.service';
   styleUrls: ['./carousel.component.css']
 })
 export class CarouselComponent {
-  slider: Slider = new Slider();
+  sliders: Slider[] = [];
 
-  constructor(private sliderService: SliderService) {}
+  class:string ="";
 
-  ngOnInit(): void {}
+  constructor(private sliderService: SliderService) { }
 
-   getSliders():Slider[]{
-      return this.sliderService.getActiveSliders();
-    }
+  ngOnInit(): void {
+    this.getSliders();
+  }
 
+  getSliders():  void {
+    this.sliderService.getActiveSliders()
+      .subscribe(
+        (data) => {
+          this.sliders = data;
+      }
+    );
+  }
 }

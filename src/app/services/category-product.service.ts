@@ -11,7 +11,6 @@ import { HttpClient } from "@angular/common/http";
 export class CategoryProductService {
 
   constructor(
-    private http: HttpClient,
     private productService: ProductService,
     private categoryService: CategoryService
   ) {}
@@ -39,7 +38,32 @@ export class CategoryProductService {
       })
     );
   }
-
+  getProductWithCategoryName(id: number): Observable<any> {
+    return this.productService.getProduct(id).pipe(
+      switchMap(product =>
+        this.categoryService.getCategory(product.categoryId || 0).pipe(
+          map(category => ({
+            ...product,
+            categoryName: category?.name || 'Unknown Category',
+            categoryColor: category?.color || '#6d6d6d',
+            categoryStyle: {
+              'background-color': category?.color ? category.color + '30' : '#ccc',
+              'color': category?.color ?? '#000',
+              'border-color': category?.color ?? '#ccc',
+              'border-width': '1px',
+              'border-style': 'solid',
+            }
+          }))
+        )
+      )
+    );
+  }
+  getCategories(): Observable<Category[]>{
+    return this.categoryService.getCategories();
+  }
+  getCategory(id: number): Observable<Category>{
+    return this.categoryService.getCategory(id);
+  }
   deleteCategory(id: number): Observable<Category> {
     if (id === 0) return new Observable<Category>();
 
@@ -49,7 +73,6 @@ export class CategoryProductService {
           product.categoryId = 0;
           return this.productService.updateProduct(product);
         });
-
         return updateObservables.length > 0
           ? forkJoin(updateObservables).pipe(
               switchMap(() => this.categoryService.deleteCategory(id))
@@ -57,12 +80,5 @@ export class CategoryProductService {
           : this.categoryService.deleteCategory(id);
       })
     );
-  }
-
-  getCategories(): Observable<Category[]>{
-    return this.categoryService.getCategories();
-  }
-  getCategory(id: number): Observable<Category>{
-    return this.categoryService.getCategory(id);
   }
 }

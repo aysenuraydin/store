@@ -1,53 +1,57 @@
 import { Injectable } from '@angular/core';
-import { SliderRepository } from '../repository/slider.repository';
 import { Slider } from '../models/slider';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { forkJoin, map, Observable, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SliderService {
 
-    private dataSource: SliderRepository;
-    private sliders: Slider[];
+  private apiUrl = 'api/slider';
 
-    constructor(private http: HttpClient) {
-      this.dataSource = new SliderRepository();
-      this.sliders = new Array<Slider>();
+  constructor (private http: HttpClient) { }
 
-      this.dataSource.getSliders().forEach(p => this.sliders.push(p));
+  getSliders() :Observable<Slider[]> {
+    return this.http.get<Slider[]>(this.apiUrl).pipe(
+      map(categories => categories)
+    );
+  }
+  getActiveSliders(): Observable<Slider[]> {
+    return this.http.get<Slider[]>(this.apiUrl).pipe(
+      map(banners => banners.filter(banner => banner.isActive))
+    );
+  }
+  getDisableSliders(): Observable<Slider[]> {
+    return this.http.get<Slider[]>(this.apiUrl).pipe(
+      map(banners => banners.filter(banner => !banner.isActive))
+    );
+  }
+  getSlider(id:number) :Observable<Slider>{
+  return this.http.get<Slider>(this.apiUrl+'/'+id);
+  }
+  createSubscribe(slider: Slider): Observable<Slider> {
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.getSliders().pipe(
+      map(sliders => {
+        const lastId = sliders.length > 0 ? sliders.at(-1)?.id ?? 0 : 0;
+        slider.id = lastId + 1;
+        return slider;
+      }),
+      switchMap((updatedSubscribe) => {
+        return this.http.post<Slider>(this.apiUrl, updatedSubscribe, httpOptions);
+      })
+    );
+  }
+  updateSubscribe(slider: Slider): Observable<any>  {
+    const httpOptions= {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
-
-    getSliders() :Slider[] {
-      return this.sliders;
-    }
-    getActiveSliders() :Slider[] {
-      return this.sliders.filter(s=>s.isActive);
-    }
-    getDisableSliders() :Slider[] {
-      return this.sliders.filter(i=>!i.isActive);
-    }
-
-    getSlider(id:number) :Slider | undefined {
-        return this.sliders.find(i=>i.id==id);
-      }
-
-      createSlider(product: Slider): void{
-        product.id=(this.sliders.at(-1)?.id?? 0) + 1;
-        // product.createdAt= new Date();
-        this.sliders.push(product);
-      }
-
-      updateSlider(product: Slider): void {
-        const index = this.sliders.findIndex(p => p.id === product.id);
-        if (index !== -1) {
-          this.sliders[index] = product;
-        }
-      }
-      deleteSlider(id: number): void {
-        const index = this.sliders.findIndex(p => p.id === id);
-        if (index !== -1) {
-          this.sliders.splice(index, 1);
-        }
-      }
+    return this.http.put(this.apiUrl, slider, httpOptions)
+  }
+  deleteSubscribe(id: number): Observable<Slider>  {
+    return this.http.delete<Slider>(this.apiUrl+'/'+id)
+  }
 }

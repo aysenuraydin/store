@@ -13,6 +13,17 @@ export class AboutComponent {
   constructor(private informationsService: InformationsService) {}
 
   ngOnInit(): void {
-    this.about = this.informationsService.getAbout();
+    this.getAbout();
   }
+
+  getAbout(): void {
+    this.informationsService.getAbout()
+    .subscribe(
+      (data) => {
+        this.about = data;
+      }
+    );
+  }
+
+
 }

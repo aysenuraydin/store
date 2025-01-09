@@ -11,11 +11,17 @@ import { SubscribeService } from '../../services/subscribe.service';
 export class SubscribesComponent {
   subscribe: Subscribe = new Subscribe();
   subscribes: Subscribe[] = [];
+  buttonVisible:boolean = false;
 
   constructor(private subscribeService: SubscribeService) { }
 
   ngOnInit(): void {
     this.getSubscribes();
+  }
+
+  toggleWindow(value:boolean) :void {
+    this.buttonVisible = !value;
+    this.cancel();
   }
 
   getSubscribes(): void {
@@ -34,13 +40,13 @@ export class SubscribesComponent {
       }
     );
   }
-  createSubscribe(prd:Subscribe):void{
-    this.subscribeService.createSubscribe(prd).subscribe();
+  createSubscribe(subscribe:Subscribe):void{
+    this.subscribeService.createSubscribe(subscribe).subscribe();
     this.getSubscribes();
     this.cancel();
   }
-  saveSubscribe(category:Subscribe):void{
-    this.subscribeService.updateSubscribe(category).subscribe();
+  saveSubscribe(subscribe:Subscribe):void{
+    this.subscribeService.updateSubscribe(subscribe).subscribe();
     this.getSubscribes();
     this.cancel();
   }

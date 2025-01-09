@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
+import { CategoryProductService } from '../../services/category-product.service';
 
 @Component({
   selector: 'product-detail',
@@ -10,12 +11,13 @@ import { ProductService } from '../../services/product.service';
 })
 export class ProductDetailComponent {
   activeTab: Number = 1;
-  product: Product = new Product();
+  product: any;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private productService: ProductService
+    private productService: ProductService,
+    private categoryProductService: CategoryProductService
   ) { }
 
   ngOnInit(): void {
@@ -23,7 +25,7 @@ export class ProductDetailComponent {
     this.getProduct(id);
   }
   getProduct(id:number):void{
-    this.productService.getProduct(id)
+    this.categoryProductService.getProductWithCategoryName(id)
     .subscribe(
       (data) => {
         this.product = data;

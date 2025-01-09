@@ -6,62 +6,61 @@ import { map, Observable, pipe, switchMap } from 'rxjs';
 providedIn: 'root'
 })
 export class CategoryService {
-private apiUrl:string = 'api/category';
+  private apiUrl:string = 'api/category';
 
-constructor( private http: HttpClient) {  }
+  constructor( private http: HttpClient) {  }
 
-getCategories(pageNumber: number = 1, pageSize: number = 3): Observable<Category[]> {
-  const params = {
-    pageNumber: pageNumber.toString(),
-    pageSize: pageSize.toString()
-  };//! pagination için api lazım şu an yok
-
-  // return this.http.get<Category[]>(this.apiUrl, { params }).pipe(
-    return this.http.get<Category[]>(this.apiUrl).pipe(
-      map(categories => categories)
-    );
-}
-getCategory(id:number) : Observable<Category>{
-  return this.http.get<Category>(this.apiUrl+'/'+id);
-}
-createCategory(subscribe: Category): Observable<Category> {
-  const httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
-  };
-  return this.getCategories().pipe(
-    map(subscribes => {
-      const lastId = subscribes.length > 0 ? subscribes.at(-1)?.id ?? 0 : 0;
-      subscribe.id = lastId + 1;
-      return subscribe;
-    }),
-    switchMap((c) => {
-      return this.http.post<Category>(this.apiUrl, c, httpOptions);
-    })
-  );
-}
-getCategoryNameById(id: number): Observable<string> {
-  return this.getCategory(id).pipe(
-    map(s => {
-      return s?.color?? '#6d6d6d' ;
-    })
-  );
-}
-getCategoryColorById(id: number): Observable<string> {
-  return this.getCategory(id).pipe(
-    map(s => {
-      return s?.color?? '#6d6d6d' ;
-    })
-  );
-}
-updateCategory(subscribe: Category): Observable<any>  {
-  const httpOptions= {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
+  getCategories(pageNumber: number = 1, pageSize: number = 3): Observable<Category[]> {
+    const params = {
+      pageNumber: pageNumber.toString(),
+      pageSize: pageSize.toString()
+    };//! pagination için api lazım şu an yok
+    // return this.http.get<Category[]>(this.apiUrl, { params }).pipe(
+      return this.http.get<Category[]>(this.apiUrl).pipe(
+        map(categories => categories)
+      );
   }
-  return this.http.put(this.apiUrl, subscribe, httpOptions)
-}
-deleteCategory(id: number): Observable<Category>  {
-  return this.http.delete<Category>(this.apiUrl+'/'+id)
-}
+  getCategory(id:number) : Observable<Category>{
+    return this.http.get<Category>(this.apiUrl+'/'+id);
+  }
+  getCategoryNameById(id: number): Observable<string> {
+    return this.getCategory(id).pipe(
+      map(s => {
+        return s?.color?? '#6d6d6d' ;
+      })
+    );
+  }
+  getCategoryColorById(id: number): Observable<string> {
+    return this.getCategory(id).pipe(
+      map(s => {
+        return s?.color?? '#6d6d6d' ;
+      })
+    );
+  }
+  createCategory(category: Category): Observable<Category> {
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.getCategories().pipe(
+      map(c => {
+        const lastId = c.length > 0 ? c.at(-1)?.id ?? 0 : 0;
+        category.id = lastId + 1;
+        return category;
+      }),
+      switchMap((c) => {
+        return this.http.post<Category>(this.apiUrl, c, httpOptions);
+      })
+    );
+  }
+  updateCategory(category: Category): Observable<any>  {
+    const httpOptions= {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    }
+    return this.http.put(this.apiUrl, category, httpOptions)
+  }
+  deleteCategory(id: number): Observable<Category>  {
+    return this.http.delete<Category>(this.apiUrl+'/'+id)
+  }
 }
 
 

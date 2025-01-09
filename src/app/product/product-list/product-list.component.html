@@ -1,7 +1,7 @@
 <div class="bg-white">
   <div>
     <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
+      <div class="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24 ">
         <h1 class="text-4xl font-bold tracking-tight text-gray-900">New Arrivals</h1>
 
         <div class="flex items-center">
@@ -45,18 +45,37 @@
           </button>
         </div>
       </div>
-
       <section aria-labelledby="products-heading" class="pb-24 pt-6">
-        <h2 id="products-heading" class="sr-only">Products</h2>
-
-        <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
-          <categories/>
-
-          <div class="lg:col-span-3">
-            <!-- Your content -->
-            <div class="grid gap-x-6 gap-y-10 grid-cols-2 md:grid-cols-3 xl:gap-x-8">
-              <product *ngFor="let prd of products" [product]="prd"/>
+        <div class="flex flex-col md:flex-row">
+          @defer ()  {
+          <div class="px-4 py-2 block lg:hidden
+          md:max-h-full max-h-96 md:w-[40rem] overflow-scroll"  *ngIf="toggleValue">
+            <div class="p-5 mt-1 sm:mt-0 text-end cursor-pointer" *ngIf="toggleValue"
+            (click)="showOrHide(toggleValue)" >
+              <i class="fa-solid fa-xmark text-4xl"></i>
             </div>
+            <categories/>
+          </div>
+          <div class="hidden lg:block">
+            <categories/>
+          </div>
+          } @placeholder (minimum 1s) {
+            <div class="pt-10 flex justify-center items-center">
+              <i class="fa-solid fa-spinner text-5xl animate-spin text-gray-500 mr-5"></i> Loading..
+            </div>
+          }
+
+          <div class="w-full mt-20 md:mt-5">
+            <!-- Your content -->
+            @defer ()  {
+              <div class="grid gap-x-6 gap-y-10 grid-cols-2 md:grid-cols-3 xl:gap-x-8">
+                <product *ngFor="let prd of products" [product]="prd"/>
+              </div>
+            } @placeholder (minimum 1s) {
+              <div class="pt-10 flex justify-center items-center">
+                <i class="fa-solid fa-spinner text-5xl animate-spin text-gray-500 mr-5"></i> Loading..
+              </div>
+            }
           </div>
         </div>
       </section>
@@ -64,5 +83,7 @@
   </div>
 </div>
 <recently-viewed/>
-
+<div class="border rounded-xl -ml-1 p-5 fixed top-32 left-0 bg-white text-end z-50  lg:hidden block cursor-pointer shadow-lg scroll" (click)="showOrHide(toggleValue)" *ngIf="!toggleValue">
+  <i class="fa-solid fa-chevron-right text-3xl"></i>
+</div>
 

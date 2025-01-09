@@ -1,72 +1,80 @@
 import { Injectable } from '@angular/core';
 import { About, Contact, Faqs, Info, SocialMedia } from '../models/informations';
-import { InformationsRepository } from '../repository/informations.repository';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map, Observable, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InformationsService {
+    private aboutApiUrl= 'api/about'
+    private infoApiUrl= 'api/info'
+    private socialMediaApiUrl= 'api/socialMedia'
+    private faqsApiUrl= 'api/faq'
 
-    private dataSource: InformationsRepository;
-      private about: About;
-      private info: Info;
-      private socialMedia: SocialMedia;
-      private faqs: Faqs[];
+    constructor(private http: HttpClient) { }
 
-    constructor(private http: HttpClient) {
-      this.dataSource = new InformationsRepository();
-      this.faqs = new Array<Faqs>();
-
-      this.dataSource.getFaqs().forEach(p => this.faqs.push(p));
-
-      this.about = this.dataSource.getAbout()
-      this.info = this.dataSource.getInfo()
-      this.socialMedia = this.dataSource.getSocialMedia()
+    getAbout() : Observable<About>{
+      return this.http.get<About>(this.aboutApiUrl+'/'+1);
     }
-    getAbout() :About {
-      return this.about;
-    }
-    updateAbout(about: About): void {
-      this.about = about;
-    }
-
-
-    getInfo() :Info {
-      return this.info;
-    }
-    updateInfo(info: Info): void {
-      this.info = info;
-    }
-
-    getSocialMedia() :SocialMedia {
-      return this.socialMedia;
-    }
-    updateSocialMedia(socialMedia: SocialMedia): void {
-      this.socialMedia = socialMedia;
-    }
-
-    getFaqs() :Faqs[] {
-      return this.faqs.reverse();
-    }
-    getFaq(id:number) :Faqs | undefined {
-      return this.faqs.find(i=>i.id==id);
-    }
-    createFaq(faqs: Faqs): void{
-      faqs.id=(this.faqs.at(-1)?.id?? 0) + 1;
-      this.faqs.push(faqs);
-    }
-    updateFaq(faqs: Faqs): void {
-      const index = this.faqs.findIndex(p => p.id === faqs.id);
-      if (index !== -1) {
-        this.faqs[index] = faqs;
+    updateAbout(about: About): Observable<any>  {
+      const httpOptions= {
+        headers: new HttpHeaders({'Content-Type': 'application/json'})
       }
+      return this.http.put(this.aboutApiUrl, about, httpOptions)
     }
-    deleteFaq(id: number): void {
-      const index = this.faqs.findIndex(p => p.id === id);
-      if (index !== -1) {
-        this.faqs.splice(index, 1);
+
+    getInfo() : Observable<Info>{
+      return this.http.get<Info>(this.infoApiUrl+'/'+1);
+    }
+    updateInfo(info: Info): Observable<any>  {
+      const httpOptions= {
+        headers: new HttpHeaders({'Content-Type': 'application/json'})
       }
+      return this.http.put(this.infoApiUrl, info, httpOptions)
+    }
+
+    getSocialMedia() :Observable<SocialMedia>{
+      return this.http.get<SocialMedia>(this.socialMediaApiUrl+'/'+1);
+    }
+    updateSocialMedia(social: SocialMedia): Observable<any>  {
+      const httpOptions= {
+        headers: new HttpHeaders({'Content-Type': 'application/json'})
+      }
+      return this.http.put(this.socialMediaApiUrl, social, httpOptions)
+    }
+
+    getFaqs() :Observable<Faqs[]> {
+      return this.http.get<Faqs[]>(this.faqsApiUrl).pipe(
+        map(categories => categories)
+      );
+    }
+    getFaq(id:number) :Observable<Faqs>{
+      return this.http.get<Faqs>(this.faqsApiUrl+'/'+id);
+    }
+    createSubscribe(faq: Faqs): Observable<Faqs> {
+      const httpOptions = {
+        headers: new HttpHeaders({'Content-Type': 'application/json'})
+      };
+      return this.getFaqs().pipe(
+        map(subscribes => {
+          const lastId = subscribes.length > 0 ? subscribes.at(-1)?.id ?? 0 : 0;
+          faq.id = lastId + 1;
+          return faq;
+        }),
+        switchMap((updatedSubscribe) => {
+          return this.http.post<Faqs>(this.faqsApiUrl, updatedSubscribe, httpOptions);
+        })
+      );
+    }
+    updateFaq(faq: Faqs): Observable<any>  {
+      const httpOptions= {
+        headers: new HttpHeaders({'Content-Type': 'application/json'})
+      }
+      return this.http.put(this.faqsApiUrl, faq, httpOptions)
+    }
+    deleteFaq(id: number): Observable<Faqs>  {
+      return this.http.delete<Faqs>(this.faqsApiUrl+'/'+id)
     }
 
 }

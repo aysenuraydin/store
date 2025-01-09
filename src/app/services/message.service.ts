@@ -1,58 +1,67 @@
 import { Injectable } from '@angular/core';
 import { Message } from '../models/message';
-import { MessageRepository } from '../repository/message.repository';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map, Observable, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
-    private dataSource: MessageRepository;
-    private contacts: Message[];
+  private apiUrl = 'api/message';
 
-    constructor(private http: HttpClient) {
-      this.dataSource = new MessageRepository();
-      this.contacts = new Array<Message>();
+  constructor(private http: HttpClient) {  }
 
-      this.dataSource.getContacts().forEach(p => this.contacts.push(p));
-    }
-
-    getContacts() :Message[] {
-      return this.contacts.filter(i=>!i.isArchive && i.isAccept).map(contact => {
-        return {
-          ...contact,
-          message: contact.message?.slice(0,30)+'...'
-        }
+  getAllContacts(): Observable<Message[]> {
+    return this.http.get<Message[]>(this.apiUrl).pipe(
+      map(messages =>
+        messages
+          .map(m => ({
+            ...m,
+            message: m.message ? `${m.message.slice(0, 30)}...` : m.message,
+          }))
+      )
+    );
+  }
+  getContacts(value: boolean): Observable<Message[]> {
+    return this.http.get<Message[]>(this.apiUrl).pipe(
+      map(messages =>
+        messages
+          .filter(message =>
+            value ? !message.isArchive : message.isArchive
+          )
+          .map(m => ({
+            ...m,
+            message: m.message ? `${m.message.slice(0, 30)}...` : m.message,
+          }))
+      )
+    );
+  }
+  getBanner(id:number) :Observable<Message>{
+    return this.http.get<Message>(this.apiUrl+'/'+id);
+  }
+  createContact(message: Message): Observable<Message> {
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    };
+    return this.getAllContacts().pipe(
+      map(messages => {
+        const lastId = messages.length > 0 ? messages.at(-1)?.id ?? 0 : 0;
+        message.id = lastId + 1;
+        return message;
+      }),
+      switchMap((c) => {
+        return this.http.post<Message>(this.apiUrl, c, httpOptions)
       })
+    );
+  }
+  updateContact(message: Message): Observable<any>  {
+    const httpOptions= {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
-    getArchivedContacts() :Message[] {
-      return this.contacts.filter(i=>i.isArchive && i.isAccept).map(contact => {
-        return {
-          ...contact,
-          message: contact.message?.slice(0,30)+'...'
-        }
-      })
-    }
-    getContact(id:number) :Message | undefined {
-      return this.contacts.find(i=>i.id==id);
-    }
-    createContact(contact: Message): void{
-      prompt(contact.firstname)
-      contact.id=(this.contacts.at(-1)?.id?? 0) + 1;
-      this.contacts.push(contact);
-    }
-    updateContact(contact: Message): void {
-      const index = this.contacts.findIndex(p => p.id === contact.id);
-      if (index !== -1) {
-        this.contacts[index] = contact;
-      }
-    }
-    deleteContact(id: number): void {
-      const index = this.contacts.findIndex(p => p.id === id);
-      if (index !== -1) {
-        this.contacts.splice(index, 1);
-      }
-    }
-
+    return this.http.put(this.apiUrl, message, httpOptions)
+  }
+  deleteContact(id: number): Observable<Message>  {
+    return this.http.delete<Message>(this.apiUrl+'/'+id)
+  }
 }
 

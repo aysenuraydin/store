@@ -1,103 +1,23 @@
-<div class="h-full w-full bg-gray-100">
-<div class="flex h-full">
-  <div class="md:basis-1/5 xl:basis-1/12 h-ful">
-  <div class="fixed bg-white w-64 h-full hidden md:block shadow-2xl z-30">
-    <div class="px-4 py-2 mt-32">
-      <div class="flex items-center py-3 h-16">
-        <div class="text-2xl font-bold tracking-tight text-gray-800">Dashing Admin.</div>
-      </div>
-      <ul>
-        <li>
-          <a routerLink="admin"
-            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
-            <i class="fa-brands fa-microsoft text-gray-400 text-3xl mr-6"></i>
-            Dashboard
-          </a>
-        </li>
-        <li>
-          <a routerLink="informations"
-            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
-            <i class="fa-solid fa-circle-info text-gray-400 text-3xl mr-6"></i>
-            Informations
-          </a>
-        </li>
-        <li>
-          <a routerLink="products"
-            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
-            <i class="fa-solid fa-shirt text-gray-400 text-3xl mr-6"></i>
-            Products
-          </a>
-        </li>
-        <li>
-          <a routerLink="categories"
-            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
-            <i class="fa-solid fa-tags text-gray-400 text-3xl mr-6"></i>
-            Categories
-          </a>
-        </li>
-        <li>
-          <a routerLink="users"
-            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
-            <i class="fa-solid fa-users text-gray-400 text-3xl mr-6"></i>
-            Users
-          </a>
-        </li>
-        <li>
-          <a routerLink="roles"
-            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
-            <i class="fa-solid fa-user-tag text-gray-400 text-3xl mr-6"></i>
-            Roles
-          </a>
-        </li>
-        <li>
-          <a routerLink="orders"
-            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
-            <i class="fa-solid fa-box text-gray-400 text-3xl mr-6"></i>
-            Orders
-          </a>
-        </li>
-        <li>
-          <a routerLink="comments"
-            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
-            <i class="fa-solid fa-comment text-gray-400 text-3xl mr-6"></i>
-            Comments
-          </a>
-        </li>
-        <li>
-          <a routerLink="subscribes"
-            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
-            <i class="fa-solid fa-bell text-gray-400 text-3xl mr-6"></i>
-            Subscribes
-          </a>
-        </li>
-        <li>
-          <a routerLink="messages"
-            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
-            <i class="fa-solid fa-envelope text-gray-400 text-3xl mr-6"></i>
-            Messages
-          </a>
-        </li>
-        <li>
-          <a routerLink="banner"
-            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
-            <i class="fa-solid fa-scroll text-gray-400 text-3xl mr-6"></i>
-            Banner
-          </a>
-        </li>
-        <li>
-          <a routerLink="slider"
-            class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
-            <i class="fa-solid fa-arrows-left-right text-gray-400 text-3xl mr-6"></i>
-            Slider
-          </a>
-        </li>
-      </ul>
+
+<div class="flex md:flex-row flex-col h-full">
+  <div class="relative border-r-2 box-content shadow-lg">
+  <div class="min-w-96" *ngIf="toggleValue">
+    <sidebar-item/>
+  </div>
+    <div class="border rounded-xl -ml-1 px-4 pl-5 py-6 absolute bg-white text-end z-50 cursor-pointer shadow-lg  border-gray-300 hidden md:block top-80 -right-12"
+    (click)="showOrHide(toggleValue)" >
+      <i class="fa-solid fa-chevron-right text-3xl" *ngIf="!toggleValue"></i>
+      <i class="fa-solid fa-chevron-left text-3xl" *ngIf="toggleValue"></i>
+    </div>
+    <div class="border rounded-xl -ml-1 py-2 px-7 bg-white text-end cursor-pointer shadow-lg  border-gray-300 md:hidden block left-1/2 -bottom-12 absolute z-10"
+    (click)="showOrHide(toggleValue)">
+      <i class="fa-solid fa-chevron-down text-3xl" *ngIf="!toggleValue"></i>
+      <i class="fa-solid fa-chevron-up text-3xl" *ngIf="toggleValue"></i>
     </div>
   </div>
-  </div>
-  <div class="md:basis-4/5 md:pl-14 xl:basis-11/12 h-full w-full px-10 md:px-0 md:mr-16 mr-0 mt-28 bg-gray-100">
+  <div class="bg-gray-100 w-full">
     <router-outlet></router-outlet>
   </div>
 </div>
-</div>
+
 
