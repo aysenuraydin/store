@@ -15,6 +15,8 @@ import { Subscribe } from '../models/Subscribe';
 import { SubscribeRepository } from '../repository/subscribe.repository';
 import { About, Faqs, Info, SocialMedia } from '../models/informations';
 import { InformationsRepository } from '../repository/informations.repository';
+import { Review } from '../models/review';
+import { ReviewRepository } from '../repository/review.repository';
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +29,9 @@ export class InMemoryDataService implements InMemoryDbService {
   private categories: Category[] = [];
   private banners: Banner[] = [];
   private subscribes: Subscribe[] = [];
-  private faqs: Faqs[]=[];
+  private reviews: Review[] = [];
 
+  private faqs: Faqs[]=[];
   private about: About[]=[];
   private info: Info[]=[];
   private socialMedia: SocialMedia[]=[];
@@ -40,8 +43,8 @@ export class InMemoryDataService implements InMemoryDbService {
     new CategoryRepository().getCategories().forEach(p => this.categories.push(p));
     new BannerRepository().getBanners().forEach(p => this.banners.push(p));
     new SubscribeRepository().getSubscribes().forEach(p => this.subscribes.push(p));
+    new ReviewRepository().getReviews().forEach(p => this.reviews.push(p));
     new InformationsRepository().getFaqs().forEach(p => this.faqs.push(p));
-
     new InformationsRepository().getAbout().forEach(p => this.about.push(p));
     new InformationsRepository().getInfo().forEach(p => this.info.push(p));
     new InformationsRepository().getSocialMedia().forEach(p => this.socialMedia.push(p));
@@ -78,8 +81,23 @@ export class InMemoryDataService implements InMemoryDbService {
     const socialMedia: SocialMedia[] = [
       ...this.socialMedia,
     ];
+    const review: Review[] = [
+      ...this.reviews,
+    ];
 
-    return { product, slider, message, category, banner, subscribe, faq, about, info, socialMedia};
+    return {
+      product,
+      slider,
+      message,
+      category,
+      banner,
+      subscribe,
+      faq,
+      about,
+      info,
+      socialMedia,
+      review
+    };
   }
 }
 

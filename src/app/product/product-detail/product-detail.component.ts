@@ -10,19 +10,23 @@ import { CategoryProductService } from '../../services/category-product.service'
   styleUrl: './product-detail.component.css'
 })
 export class ProductDetailComponent {
-  activeTab: Number = 1;
+  activeTab: Number = 2;
+  // activeTab: Number = 0;
   product: any;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private productService: ProductService,
     private categoryProductService: CategoryProductService
   ) { }
 
   ngOnInit(): void {
     let id = Number(this.route.snapshot.paramMap.get('id'));
     this.getProduct(id);
+  }
+  toggleWindow(value:number) :void {
+    if(this.activeTab==value)  this.activeTab = 0
+    else this.activeTab = value;
   }
   getProduct(id:number):void{
     this.categoryProductService.getProductWithCategoryName(id)

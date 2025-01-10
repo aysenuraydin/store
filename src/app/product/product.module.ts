@@ -12,6 +12,7 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { ProductComponent } from './product.component';
 import { BreadcrumbComponent } from './product-detail/breadcrumb/breadcrumb.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -23,13 +24,14 @@ import { BreadcrumbComponent } from './product-detail/breadcrumb/breadcrumb.comp
     CategoriesComponent,
     RecentlyViewedComponent,
     CommentComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
   ],
   imports: [
     RouterModule,
     CommonModule,
     ProductRoutingModule,
     SharedModule,
+    FormsModule
   ],
   exports: [
     RecentlyViewedComponent,

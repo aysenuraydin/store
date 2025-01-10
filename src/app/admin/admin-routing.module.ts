@@ -1,19 +1,18 @@
 import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
-import { AdminLayoutComponent } from "../layout/admin-layout/admin-layout.component";
 import { AdminComponent } from "./admin.component";
-import { SliderComponent } from "./slider/slider.component";
-import { ProductsComponent } from "./products/products.component";
-import { CategoriesComponent } from "./categories/categories.component";
+import { RouterModule, Routes } from "@angular/router";
 import { UsersComponent } from "./users/users.component";
 import { RolesComponent } from "./roles/roles.component";
-import { MessagesComponent } from "./messages/messages.component";
-import { InformationsComponent } from "./informations/informations.component";
-import { SubscribesComponent } from "./subscribes/subscribes.component";
-import { CommentsComponent } from "./comments/comments.component";
-import { BannerComponent } from "./banner/banner.component";
 import { OrdersComponent } from "./orders/orders.component";
-import { MessageResolver } from "../services/message-resolver.service";
+import { BannerComponent } from "./banner/banner.component";
+import { SliderComponent } from "./slider/slider.component";
+import { ReviewsComponent } from "./reviews/reviews.component";
+import { ProductsComponent } from "./products/products.component";
+import { MessagesComponent } from "./messages/messages.component";
+import { CategoriesComponent } from "./categories/categories.component";
+import { SubscribesComponent } from "./subscribes/subscribes.component";
+import { InformationsComponent } from "./informations/informations.component";
+import { AdminLayoutComponent } from "../layout/admin-layout/admin-layout.component";
 
 const routes: Routes = [
   {
@@ -33,7 +32,7 @@ const routes: Routes = [
       { path: 'informations', component: InformationsComponent },
       { path: 'orders', component: OrdersComponent },
       { path: 'subscribes', component: SubscribesComponent },
-      { path: 'comments', component: CommentsComponent },
+      { path: 'reviews', component:  ReviewsComponent },
     ]
   }
 ];

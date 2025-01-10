@@ -1,0 +1,171 @@
+          <div class="md:max-w-6xl py-8 mt-20 mx-auto">
+            <div class="mt-10">
+              <div class="accordion-button p-0 border-b">
+                <div class="flex w-full justify-between items-center rounded-lg">
+                  <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5">
+                    <i class="fa-solid fa-comment text-3xl mr-6"></i>Reviews</h1>
+                    <div class="flex gap-4">
+                      <div class="relative flex items-center w-full h-12 rounded-lg shadow-2xl bg-white overflow-hidden pl-5">
+                        <input class="h-full w-full outline-none text-sm text-gray-700 pr-2"
+                        type="text" id="search"  placeholder="Search something.." />
+                        <button type="submit" class="bg-gray-700 hover:bg-gray-500 rounded-md text-white text-xl p-3 border ">
+                          <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                    <div class="min-w-32 block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center bg-white" (click)="toggleWindow(buttonVisible)" *ngIf="!buttonVisible">
+                      <div class="text-red-500">
+                        Close <i class="fa-solid fa-cancel pl-1"></i>
+                      </div>
+                    </div>
+                    </div>
+                </div>
+              </div>
+              <div
+    id="accordion2"
+    class="relative transition-all duration-700 px-20" *ngIf="!buttonVisible">
+    <div class="w-3/5 mt-8 mx-auto bg-white p-10 rounded-2xl shadow-lg">
+      <div class="mb-3 flex">
+        <label for="color" class="min-w-24 mt-3">Username</label>
+        <div class="mt-1 p-2 w-full border  rounded-lg text-gray-800">{{review.userId}} Username</div>
+      </div>
+      <div class="mb-3 flex">
+        <label for="color" class="min-w-24 mt-3">Product Name</label>
+        <div class="mt-1 p-2 w-full border  rounded-lg text-gray-800">{{review.productId}} Product Name</div>
+      </div>
+      <div class="mb-3 flex">
+        <label for="color" class="min-w-24 mt-3">Star Count</label>
+        <div class="mt-1 p-2 w-full border  rounded-lg text-gray-800">
+          <i class="fa-solid fa-star" *ngFor="let _ of [].constructor(review.starCount)"></i>
+          <i class="fa-regular fa-star" *ngFor="let _ of [].constructor(5-review.starCount)"></i>
+        </div>
+      </div>
+      <div class="mb-3 flex">
+        <label for="color" class="min-w-24 mt-3">Created At</label>
+        <div class="mt-1 p-2 w-full border  rounded-lg text-gray-800">{{review.createdAt}}</div>
+      </div>
+      <div class="mb-6 flex">
+        <label for="color" class="min-w-24 mt-3">Reviews</label>
+        <div class="mt-1 p-2 w-full border  rounded-lg text-gray-800 max-h-40 h-36 overflow-scroll">{{review.text}}</div>
+      </div>
+
+      <div class="pl-[6rem]">
+          <div class="w-full flex">
+            <button class="block w-full px-4 py-2 text-sm mr-2 hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="updateReview(review)" (click)="toggleWindow(buttonVisible)">
+                <span *ngIf="review.isConfirmed">
+                  <i class="fa-solid fa-xmark mr-1"></i>Unconfirm
+                </span>
+                <span  *ngIf="!review.isConfirmed">
+                  <i class="fa-solid fa-check mr-1"></i>Confirm
+                </span>
+            </button>
+          <button class="block w-full px-4 py-2 text-sm mr-2 hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="deletReview(review.id)" (click)="toggleWindow(buttonVisible)"> Delete
+            <i class="fa-solid fa-trash"></i></button>
+
+          <button class="block w-full px-4 py-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="toggleWindow(buttonVisible)"> Clear <i class="fa-solid fa-cancel"></i> </button>
+      </div>
+      </div>
+    </div>
+  </div>
+      </div>
+        <div class="flex items-center px-5 pb-2 border-b mb-5 mt-16">
+          <span class="w-1/12 text-center">
+            <input type="checkbox" onclick="toggleSelect()" />
+          </span>
+          <span class="min-w-28 text-center">
+            <span class="text-xs uppercase text-gray-600 font-bold">Serial Number</span>
+          </span>
+          <span class="w-1/6 text-center">
+            <span class="text-xs uppercase text-gray-600 font-bold">User</span>
+          </span>
+          <span class="w-1/6 text-center">
+            <span class="text-xs uppercase text-gray-600 font-bold">Product</span>
+          </span>
+          <span class="w-1/6 text-center">
+            <span class="text-xs uppercase text-gray-600 font-bold">Star Count</span>
+          </span>
+          <span class="w-1/6 text-center">
+            <span class="text-xs uppercase text-gray-600 font-bold">Reviews Text</span>
+          </span>
+          <span class="w-1/12 text-center">
+            <span class="text-xs uppercase text-gray-600 font-bold">Is Confirm</span>
+          </span>
+          <span class="w-1/6 text-center">
+            <span class="text-xs uppercase text-gray-600 font-bold">Create At</span>
+          </span>
+          <span class="w-1/12">
+            <span class="text-xs uppercase text-gray-600 font-bold"></span>
+          </span>
+        </div>
+        <div id="reviews" class="space-y-5 px-5 h-[65vh] overflow-scroll">
+          @defer ()  {
+            <div class="" *ngFor="let r of reviews let i = index"[ngClass]="r.isConfirmed ? 'bg-white' : 'bg-gray-50'">
+              <div class="flex items-center px-4 rounded-md shadow border p-4 " [ngClass]="(r.id==review.id)?' border-[#5f5f5f7c] shadow-xl':''">
+                <span class="w-1/12 text-center">
+                  <input type="checkbox" class="contact-checkbox mr-4">
+                </span>
+                <span class="w-1/12 text-center">
+                  {{ i + 1 }}
+                </span>
+                <span class="w-1/6 text-center">
+                  Username {{r.userId}}
+                </span>
+                <span class="w-1/6 text-center">
+                  product Name {{r.productId}}
+                </span>
+                <span class="w-1/6 text-center text-xl">
+                  <i class="fa-solid fa-star" *ngFor="let _ of [].constructor(r.starCount)"></i>
+                  <!-- <i class="fa-solid fa-star-half-stroke"></i> -->
+                  <i class="fa-regular fa-star" *ngFor="let _ of [].constructor(5-r.starCount)"></i>
+                </span>
+                <span class="w-1/6 text-center">
+                  {{r.text.slice(0,30)}}...
+                </span>
+                <span class="w-1/12 text-center max-w-16">
+                  <div class="inline-flex rounded-md bg-gray-50 p-2 font-medium text-gray-700 ring-1 ring-inset ring-gray-600/20 mb-3 mx-2 capitalize text-sm mt-3">
+                    <i class="fa-solid" [ngClass]="r.isConfirmed ? 'fa-check' : 'fa-x'"></i>
+                  </div>
+                </span>
+                <span class="w-1/6 text-center max-w-32">
+                  {{ r?.createdAt | date: 'dd-mm-yyyy' }}
+                  {{ r?.createdAt | date: 'h:mm:ss' }}
+                </span>
+                <span class="w-1/12 flex items-center justify-center">
+                  <button class="block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14" (click)="toggleWindow(buttonVisible)" (click)="getReview(r.id)">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                </span>
+              </div>
+          </div>
+
+        } @placeholder (minimum 1s) {
+          <div class="pt-10 flex justify-center items-center">
+            <i class="fa-solid fa-spinner text-5xl animate-spin text-gray-500 mr-5"></i> Loading..
+          </div>
+        }
+      </div>
+      <pagination/>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

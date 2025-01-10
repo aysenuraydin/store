@@ -1,92 +1,61 @@
-<div class="flex w-full justify-center items-center">
 
-  <div class=" bg-white  rounded p-3 w-full">
-    <div class="flex ml-3 p-4">
-      <div class="mr-3">
-        <img src="http://picsum.photos/50" alt="" class="rounded-full">
+<div class="w-full justify-center items-center">
+  <div class=" bg-white  rounded p-3 w-full flex">
+    <div class="flex pt-20">
+      <div class="mr-6">
+        <img src="http://picsum.photos/50" alt="" class="rounded-full shadow-md w-20">
       </div>
-      <div>
-        <h1 class="font-semibold">Itay Buyoy</h1>
-        <p class="text-xs text-gray-500">2 seconds ago</p>
-      </div>
-
     </div>
-
     <div class="mt-3 w-full">
-      <textarea rows="3" class="border p-2 rounded w-full" placeholder="Write something..."></textarea>
+    <div class="mt-3 inline-block border" (mouseleave)="starCountMouseUp()">
+      <i class="p-1 fa-star text-3xl" [ngClass]="(starCountValue>=1 || inputdeger>=1)?'fa-solid ':'fa-regular '" (mouseenter)="starCountMouseover(1)" (click)="starCountClick()"></i>
+      <i class="p-1 fa-regular fa-star text-3xl" [ngClass]="(starCountValue>=2 || inputdeger>=2)?'fa-solid ':'fa-regular '"(mouseenter)="starCountMouseover(2)"  (click)="starCountClick()"></i>
+      <i class="p-1 fa-regular fa-star text-3xl" [ngClass]="(starCountValue>=3 || inputdeger>=3)?'fa-solid ':'fa-regular '" (mouseenter)="starCountMouseover(3)"  (click)="starCountClick()"></i>
+      <i class="p-1 fa-regular fa-star text-3xl" [ngClass]="(starCountValue>=4 || inputdeger>=4)?'fa-solid ':'fa-regular '" (mouseenter)="starCountMouseover(4)"  (click)="starCountClick()"></i>
+      <i class="p-1 fa-regular fa-star text-3xl" [ngClass]="(starCountValue>=5 || inputdeger>=5)?'fa-solid ':'fa-regular '" (mouseenter)="starCountMouseover(5)"  (click)="starCountClick()"></i>
+      <input rows="5" class="border hidden" [(ngModel)]="review.starCount">
+  </div>
+    <div class="mt-3 w-full">
+      <textarea rows="5" class="border p-2 rounded-xl w-full shadow-md" placeholder="Write something..." [(ngModel)]="review.text"></textarea>
     </div>
-
-    <div class="flex justify-end my-3">
-      <div><button class="p-2 bg-gray-800 text-white rounded-md font-light hover:bg-gray-700">Submit</button></div>
-      <div>
-      </div>
+  </div>
+  </div>
+  <div class="flex justify-end my-3 mr-5">
+    <div><button (click)="saveReview(review)" class="p-4 px-16 bg-gray-800 text-white rounded-full font-light hover:bg-gray-700 shadow-xl">Submit</button></div>
+    <div>
     </div>
   </div>
 </div>
-
 <div class="p-3">
-  <div class="flex items-start px-4 py-6 w-full border rounded-lg mb-4">
+  @defer {
+  <div class="flex items-start p-4 w-full mb-6 border rounded-3xl shadow-md bg-gray-50" *ngFor="let r of reviews">
       <img class="w-12 h-12 rounded-full object-cover mr-4 shadow" src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="avatar">
       <div class="w-full">
         <div class="flex items-center justify-between">
-            <h2 class="text-lg font-semibold text-gray-900 -mt-1">Brad Adams </h2>
-            <small class="text-sm text-gray-700">22h ago</small>
+            <h2 class="text-lg font-semibold text-gray-900 -mb-3">Name: {{r.userId}} </h2>
+            <small class="text-sm text-gray-700">
+              {{ r?.createdAt | date: 'dd-mm-yyyy' }}
+              {{ r?.createdAt | date: 'h:mm:ss' }}
+            </small>
         </div>
-        <p class="text-gray-700">Joined 12 SEP 2012. </p>
-        <p class="mt-3 text-gray-700 text-sm">
-            Lorem ipsum, dolor sit amet conse. Saepe optio minus rem dolor sit amet!
-        </p>
-        <div class="mt-4 flex items-center -mr-6">
-            <div class="flex mr-2 text-gray-700 text-sm mr-3">
-              <svg fill="none" viewBox="0 0 24 24"  class="w-4 h-4 mr-1" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                </svg>
-              <span>12</span>
-            </div>
+        <div class="mt-1 py-2 w-full rounded-lg text-gray-800">
+          <i class="fa-solid fa-star" *ngFor="let _ of [].constructor(r.starCount)"></i>
+          <i class="fa-regular fa-star" *ngFor="let _ of [].constructor(5-r.starCount)"></i>
         </div>
+        <p class="text-gray-700"> {{r.text}} </p>
       </div>
   </div>
-  <div class="flex items-start px-4 py-6 w-full border rounded-lg mb-4">
-    <img class="w-12 h-12 rounded-full object-cover mr-4 shadow" src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="avatar">
-    <div class="w-full">
-      <div class="flex items-center justify-between">
-          <h2 class="text-lg font-semibold text-gray-900 -mt-1">Brad Adams </h2>
-          <small class="text-sm text-gray-700">22h ago</small>
-      </div>
-      <p class="text-gray-700">Joined 12 SEP 2012. </p>
-      <p class="mt-3 text-gray-700 text-sm">
-          Lorem ipsum, dolor sit amet conse. Saepe optio minus rem dolor sit amet!
-      </p>
-      <div class="mt-4 flex items-center -mr-6">
-          <div class="flex mr-2 text-gray-700 text-sm mr-3">
-            <svg fill="none" viewBox="0 0 24 24"  class="w-4 h-4 mr-1" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-              </svg>
-            <span>12</span>
-          </div>
-      </div>
-    </div>
-</div>
-<div class="flex items-start px-4 py-6 w-full border rounded-lg mb-4">
-  <img class="w-12 h-12 rounded-full object-cover mr-4 shadow" src="https://images.unsplash.com/photo-1542156822-6924d1a71ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="avatar">
-  <div class="w-full">
-    <div class="flex items-center justify-between">
-        <h2 class="text-lg font-semibold text-gray-900 -mt-1">Brad Adams </h2>
-        <small class="text-sm text-gray-700">22h ago</small>
-    </div>
-    <p class="text-gray-700">Joined 12 SEP 2012. </p>
-    <p class="mt-3 text-gray-700 text-sm">
-        Lorem ipsum, dolor sit amet conse. Saepe optio minus rem dolor sit amet!
-    </p>
-    <div class="mt-4 flex items-center -mr-6">
-        <div class="flex mr-2 text-gray-700 text-sm mr-3">
-          <svg fill="none" viewBox="0 0 24 24"  class="w-4 h-4 mr-1" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-            </svg>
-          <span>12</span>
-        </div>
-    </div>
+  <div *ngIf="!reviews.length" class="bg-gray-100 p-5 py-10 shadow-md rounded-3xl">
+    No comment available.
   </div>
+  <div *ngIf="reviews.length" class="flex justify-center"><button class="p-3 mt-5 px-16 bg-gray-800 text-white rounded-full font-light hover:bg-gray-700 mx-auto">Load More Comments</button></div>
+  } @placeholder (minimum 1s) {
+  <div class="pt-10 flex justify-center items-center">
+    <i class="fa-solid fa-spinner text-5xl animate-spin text-gray-500 mr-5"></i> Loading..
+  </div>
+  }
 </div>
-</div>
-<div class="flex justify-center"><button class="p-2 px-16 bg-gray-800 text-white rounded-md font-light hover:bg-gray-700 mx-auto">Load More Comments</button></div>
+
+
+
+
