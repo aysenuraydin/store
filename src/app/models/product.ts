@@ -22,8 +22,17 @@ export class Product {
       this.createdAt = new Date();
       this.details='';
       this.stockAmount= 0;
+
+      // Array<ProductComment>
+      // Array<OrderItem>
+      // Array<CartItem>
+      // Array<ProductImage>
+      // Array<ProductFav>
   }
 }
+
+
+
 
 
 
