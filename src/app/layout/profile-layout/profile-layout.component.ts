@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrl: './profile-layout.component.css'
 })
 export class ProfileLayoutComponent {
+  toggleValue = true;
 
+  showOrHide(value:boolean){
+    this.toggleValue = !this.toggleValue;
+  }
 }

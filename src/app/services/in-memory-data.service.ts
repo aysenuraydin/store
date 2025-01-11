@@ -17,6 +17,8 @@ import { About, Faqs, Info, SocialMedia } from '../models/informations';
 import { InformationsRepository } from '../repository/informations.repository';
 import { Review } from '../models/review';
 import { ReviewRepository } from '../repository/review.repository';
+import { AdressItem } from '../models/adressItem';
+import { AdressRepository } from '../repository/adress.repository';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +38,8 @@ export class InMemoryDataService implements InMemoryDbService {
   private info: Info[]=[];
   private socialMedia: SocialMedia[]=[];
 
+  private adresses: AdressItem[]=[];
+
   constructor() {
     new ProductRepository().getProducts().forEach(p => this.products.push(p));
     new SliderRepository().getSliders().forEach(p => this.sliders.push(p));
@@ -48,6 +52,9 @@ export class InMemoryDataService implements InMemoryDbService {
     new InformationsRepository().getAbout().forEach(p => this.about.push(p));
     new InformationsRepository().getInfo().forEach(p => this.info.push(p));
     new InformationsRepository().getSocialMedia().forEach(p => this.socialMedia.push(p));
+
+    new AdressRepository().getAdresses().forEach(p => this.adresses.push(p));
+
   }
 
   createDb() {
@@ -84,6 +91,9 @@ export class InMemoryDataService implements InMemoryDbService {
     const review: Review[] = [
       ...this.reviews,
     ];
+    const adress: AdressItem[] = [
+      ...this.adresses,
+    ];
 
     return {
       product,
@@ -96,7 +106,8 @@ export class InMemoryDataService implements InMemoryDbService {
       about,
       info,
       socialMedia,
-      review
+      review,
+      adress
     };
   }
 }

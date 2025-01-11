@@ -13,6 +13,7 @@ import { CategoriesComponent } from "./categories/categories.component";
 import { SubscribesComponent } from "./subscribes/subscribes.component";
 import { InformationsComponent } from "./informations/informations.component";
 import { AdminLayoutComponent } from "../layout/admin-layout/admin-layout.component";
+import { XComponent } from "./x/x.component";
 
 const routes: Routes = [
   {
@@ -33,6 +34,7 @@ const routes: Routes = [
       { path: 'orders', component: OrdersComponent },
       { path: 'subscribes', component: SubscribesComponent },
       { path: 'reviews', component:  ReviewsComponent },
+      { path: 'xxxx', component:  XComponent },
     ]
   }
 ];
