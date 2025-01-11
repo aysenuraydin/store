@@ -1,16 +1,14 @@
-<div class="h-screen w-screen">
-<div class="flex h-full mt-32">
-  <div class="grow-0 h-full">
-  <div class="fixed bg-white w-64 h-full hidden md:block shadow-2xl z-30">
 
-    <!-- Brand Logo / Name -->
-    <div class="flex items-center px-6 py-3 h-16">
-      <div class="text-2xl font-bold tracking-tight text-gray-800">My Profile</div>
-    </div>
-    <!-- @end Brand Logo / Name -->
-
-    <div class="px-4 py-2">
+<div class="flex md:flex-row flex-col h-full">
+  <div class="relative border-r-2 box-content shadow-lg">
+  <div class="min-w-96" *ngIf="toggleValue">
+    <div class="px-4 py-2 md:mt-36">
       <ul>
+        <li>
+          <div class="flex items-center h-16">
+            <div class="text-2xl font-bold tracking-tight text-gray-800">My Profile</div>
+          </div>
+        </li>
         <li>
           <a routerLink="/profile"
             class="mb-1 px-2 py-2 rounded-lg flex items-center font-medium text-gray-700 hover:bg-gray-200">
@@ -53,12 +51,29 @@
       </ul>
     </div>
   </div>
-  </div>
-  <div class="grow h-full md:ml-64">
-    <div class="-mt-32">
-      <router-outlet></router-outlet>
+    <div class="border rounded-xl -ml-1 px-4 pl-5 py-6 absolute bg-white text-end z-50 cursor-pointer shadow-lg  border-gray-300 hidden md:block top-80 -right-12"
+    (click)="showOrHide(toggleValue)" >
+      <i class="fa-solid fa-chevron-right text-3xl" *ngIf="!toggleValue"></i>
+      <i class="fa-solid fa-chevron-left text-3xl" *ngIf="toggleValue"></i>
+    </div>
+    <div class="border rounded-xl -ml-1 py-2 px-7 bg-white text-end cursor-pointer shadow-lg  border-gray-300 md:hidden block left-1/2 -bottom-12 absolute z-10"
+    (click)="showOrHide(toggleValue)">
+      <i class="fa-solid fa-chevron-down text-3xl" *ngIf="!toggleValue"></i>
+      <i class="fa-solid fa-chevron-up text-3xl" *ngIf="toggleValue"></i>
     </div>
   </div>
+  <div class="w-full overflow-scroll">
+    <router-outlet></router-outlet>
+  </div>
 </div>
-</div>
+
+
+
+
+
+
+
+
+
+
 

@@ -3,7 +3,7 @@ export class Review {
     text:string;
     starCount:number;
     isConfirmed:boolean;
-    createdAt:Date;
+    createdAt?:Date;
     userId:number;
     productId:number;
 

@@ -1,10 +1,10 @@
-<div class="min-h-[90vh] mt-32 mx-auto max-w-7xl pb-40 pr-20">
+<div class="min-h-[90vh] mt-32 max-w-7xl pb-40 px-20 mx-auto">
     <ul>
       <li class="mt-10">
         <button
           type="button"
           class="accordion-button p-0"
-          onclick="toggleAccordion(1)">
+          (click)="toggleWindow(1)">
           <div class="flex w-full p-5 rounded-lg">
             <div class="w-full">
               <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5 ">
@@ -16,11 +16,11 @@
         </button>
         <div
           id="accordion1"
-          class="relative transition-all max-h-screen px-10">
-          <div class="flex">
+          class="relative transition-all duration-700 px-10" *ngIf="buttonVisible==1">
+          <div class="flex flex-col md:flex-row">
             <div class="flex h-full w-full">
               <div class="bg-white px-8 w-full my-8">
-                <h2 class="text-2xl font-semibold text-gray-600 mb-6 text-center">Membership Information</h2>
+                <h2 class="text-2xl font-semibold text-gray-600 mb-6 text-center h-16">Membership Information</h2>
                 <form>
                   <div class="mb-4">
                     <input type="text" id="name" name="name" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" placeholder="Name">
@@ -44,8 +44,8 @@
 
             <div class="flex h-full w-full">
               <div class="bg-white px-8 w-full my-8">
-                <h2 class="text-2xl font-semibold text-gray-600 mb-6 text-center">Password Update</h2>
-                <form>
+                <h2 class="text-2xl font-semibold text-gray-600 mb-6 text-center h-16">Password Update</h2>
+                <div class="">
                   <div class="mb-6">
                     <input type="password" id="password" name="password" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" placeholder="Current Password">
                   </div>
@@ -59,7 +59,7 @@
                     Update
                     <i class="fa-solid fa-arrows-rotate"></i>
                   </button>
-                </form>
+                </div>
               </div>
             </div>
           </div>
@@ -69,105 +69,89 @@
         <button
           type="button"
           class="accordion-button p-0"
-          onclick="toggleAccordion(2)">
+          (click)="toggleWindow(2)">
           <div class="flex w-full p-5 rounded-lg">
             <div class="flex w-full justify-between items-center rounded-lg border-b">
               <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5">My Address Information</h1>
-              <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center">
-                Add  <i class="fa-solid fa-plus pl-1"></i>
+              <div class="min-w-32 block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center" *ngIf="buttonVisible==2" (click)="addAdressWindow(adressVisible)">
+                <div *ngIf="!adressVisible">
+                  Add Adress<i class="fa-solid fa-plus pl-1"></i>
+                </div>
+                <div *ngIf="adressVisible" class="text-red-500">
+                  Close <i class="fa-solid fa-cancel pl-1"></i>
+                </div>
               </div>
             </div>
           </div>
         </button>
         <div
           id="accordion2"
-          class="relative overflow-hidden transition-all max-h-0 duration-700 px-10">
-          <div class="flex gap-4 overflow-y-auto scrollbar-hide mx-9">
-            <div class="adres-cart">
-              <div class="bg-gray-50 p-3 font-semibold border-b">Home</div>
+         class="relative transition-all duration-700 px-10"  *ngIf="buttonVisible==2">
+
+        <div class="w-full mb-20 mt-8 border rounded-xl shadow-xl mx-auto max-w-3xl p-10 px-20"  *ngIf="adressVisible">
+
+
+            <input #id type="text" class="hidden" [(ngModel)]="adressItem.id">
+            <input #createdAt type="createdAt" class="hidden" [(ngModel)]="adressItem.createdAt">
+            <input #userId type="createdAt" class="hidden" [(ngModel)]="adressItem.userId">
+            <input #isActive type="createdAt" class="hidden" [(ngModel)]="adressItem.isActive">
+
+
+            <div class="mb-3 flex">
+              <label for="title" class="min-w-24 mt-3">Name</label>
+              <input #title type="text" class="mt-1 p-2 w-full border  rounded-lg text-gray-800 outline-none" [(ngModel)]="adressItem.title">
+            </div>
+            <div class="mb-3 flex">
+              <label for="fullname" class="min-w-24 mt-3">Full Name</label>
+              <input #fullname type="text" class="mt-1 p-2 w-full border  rounded-lg text-gray-800 outline-none" [(ngModel)]="adressItem.fullname">
+            </div>
+            <div class="mb-3 flex">
+              <label for="phone" class="min-w-24 mt-3">Phone</label>
+              <input #phone type="tel" class="mt-1 p-2 w-full border  rounded-lg text-gray-800 outline-none" [(ngModel)]="adressItem.phone" placeholder="0 (xxx) xxxxxxx">
+            </div>
+            <div class="mb-3 flex">
+              <label for="city" class="min-w-24 mt-3">City</label>
+              <input #city type="text" class="mt-1 p-2 w-full border  rounded-lg text-gray-800 outline-none" [(ngModel)]="adressItem.city">
+            </div>
+            <div class="mb-3 flex">
+              <label for="district" class="min-w-24 mt-3">District</label>
+              <input #district type="text" class="mt-1 p-2 w-full border  rounded-lg text-gray-800 outline-none" [(ngModel)]="adressItem.district">
+            </div>
+            <div class="mb-3 flex">
+              <label for="neighborhood" class="min-w-24 mt-3">Neighborhood</label>
+              <input #neighborhood type="text" class="mt-1 p-2 w-full border  rounded-lg text-gray-800 outline-none" [(ngModel)]="adressItem.neighborhood">
+            </div>
+            <div class="mb-3 flex">
+              <label for="address" class="min-w-24 mt-3">Address</label>
+              <textarea #address type="text" class="mt-1 p-2 w-full border  rounded-lg text-gray-800 outline-none" rows="4" [(ngModel)]="adressItem.address"></textarea>
+            </div>
+
+
+            <div class="flex gap-5 text-center mt-5 ml-24">
+              <button class="w-full border bg-gray-100 p-3 rounded-xl" (click)="saveAdressItem(adressItem)">
+                <span *ngIf="!adressItem.id">Add Adress<i class="fa-solid fa-plus"></i></span>
+                <span *ngIf="adressItem.id">Edit <i class="fa-solid fa-pen-to-square"></i></span>
+              </button>
+            <button *ngIf="adressItem.id" class="block w-full px-4 py-2 mr-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="deleteAdressItem(adressItem.id)"> Delete <i class="fa-solid fa-trash"></i> </button>
+            <button class="block w-full px-4 py-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="cancel()"> Clear <i class="fa-solid fa-cancel"></i> </button>
+          </div>
+          </div>
+          <div class="flex mx-auto gap-4 overflow-scroll px-9">
+            <div class="adres-cart mx-auto" *ngFor="let a of adressItems" id={{a.id}}>
+              <div class="bg-gray-50 p-3 font-semibold border-b">{{a.title}}</div>
               <div class="px-3 pb-2">
-                <div class="p-3">
-                  <h1 class="font-semibold">Ayşenur Aydın</h1>
-                  <p>Palm Grove Street, Aydin Architecture
-                    Orchard Park, Springfield, IL 62701</p>
-                  <p> United States </p>
-                  <p> 551*****98</p>
+                <div class="p-3 min-h-40">
+                  <h1 class="font-semibold">{{a.fullname}}</h1>
+                  <p>{{a.address}}</p>
+                  <p>{{a.city}} - {{a.district}} - {{a.neighborhood}}</p>
+                  <p> {{a.phone}}</p>
                 </div>
                   <div class="flex justify-between px-3">
-                    <a href="/" class="text-gray-500 self-center"><i class="fa-solid fa-trash mr-1"></i>Delete</a>
-                    <a href="/" class="border rounded-lg p-2 border-gray-400 text-gray-500 px-7">Edit Adress</a>
+                    <button class="text-gray-500 self-center" (click)="editAdress(a?.id ?? 0)" (click)="toggleWindow(buttonVisible)"><i class="fa-solid fa-trash mr-1"></i>Delete</button>
+                    <button class="border rounded-lg p-2 border-gray-400 text-gray-500 px-7"
+                    (click)="editAdress(a?.id ?? 0)"  (click)="toggleWindow(buttonVisible)">Edit Adress</button>
                   </div>
               </div>
-            </div>
-            <div class="adres-cart">
-              <div class="bg-gray-50 p-3 font-semibold border-b">Home</div>
-              <div class="px-3 pb-2">
-                <div class="p-3">
-                  <h1 class="font-semibold">Ayşenur Aydın</h1>
-                  <p>Palm Grove Street, Aydin Architecture
-                    Orchard Park, Springfield, IL 62701</p>
-                  <p> United States </p>
-                  <p> 551*****98</p>
-                </div>
-                  <div class="flex justify-between px-3">
-                    <a href="/" class="text-gray-500 self-center"><i class="fa-solid fa-trash mr-1"></i>Delete</a>
-                    <a href="/" class="border rounded-lg p-2 border-gray-400 text-gray-500 px-7">Edit Adress</a>
-                  </div>
-              </div>
-            </div>
-            <div class="adres-cart">
-              <div class="bg-gray-50 p-3 font-semibold border-b">Home</div>
-              <div class="px-3 pb-2">
-                <div class="p-3">
-                  <h1 class="font-semibold">Ayşenur Aydın</h1>
-                  <p>Palm Grove Street, Aydin Architecture
-                    Orchard Park, Springfield, IL 62701</p>
-                  <p> United States </p>
-                  <p> 551*****98</p>
-                </div>
-                  <div class="flex justify-between px-3">
-                    <a href="/" class="text-gray-500 self-center"><i class="fa-solid fa-trash mr-1"></i>Delete</a>
-                    <a href="/" class="border rounded-lg p-2 border-gray-400 text-gray-500 px-7">Edit Adress</a>
-                  </div>
-              </div>
-            </div>
-            <div class="adres-cart">
-              <div class="bg-gray-50 p-3 font-semibold border-b">Home</div>
-              <div class="px-3 pb-2">
-                <div class="p-3">
-                  <h1 class="font-semibold">Ayşenur Aydın</h1>
-                  <p>Palm Grove Street, Aydin Architecture
-                    Orchard Park, Springfield, IL 62701</p>
-                  <p> United States </p>
-                  <p> 551*****98</p>
-                </div>
-                  <div class="flex justify-between px-3">
-                    <a href="/" class="text-gray-500 self-center"><i class="fa-solid fa-trash mr-1"></i>Delete</a>
-                    <a href="/" class="border rounded-lg p-2 border-gray-400 text-gray-500 px-7">Edit Adress</a>
-                  </div>
-              </div>
-            </div>
-            <div class="adres-cart">
-              <div class="bg-gray-50 p-3 font-semibold border-b">Home</div>
-              <div class="px-3 pb-2">
-                <div class="p-3">
-                  <h1 class="font-semibold">Ayşenur Aydın</h1>
-                  <p>Palm Grove Street, Aydin Architecture
-                    Orchard Park, Springfield, IL 62701</p>
-                  <p> United States </p>
-                  <p> 551*****98</p>
-                </div>
-                  <div class="flex justify-between px-3">
-                    <a href="/" class="text-gray-500 self-center"><i class="fa-solid fa-trash mr-1"></i>Delete</a>
-                    <a href="/" class="border rounded-lg p-2 border-gray-400 text-gray-500 px-7">Edit Adress</a>
-                  </div>
-              </div>
-            </div>
-            <div class="adres-cart">
-              <div class="bg-gray-50 p-3 font-semibold border-b">&nbsp;</div>
-                <div class="text-center p-24 cursor-pointer text-xl hover:scale-110">
-                  <i class="fa-solid fa-plus pr-2"></i>Add Adress &nbsp;
-                </div>
             </div>
           </div>
         </div>
@@ -176,21 +160,38 @@
         <button
           type="button"
           class="accordion-button p-0"
-          onclick="toggleAccordion(3)">
+          (click)="toggleWindow(3)">
           <div class="flex w-full p-5 rounded-lg">
             <div class="flex w-full justify-between items-center rounded-lg border-b">
               <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5">My Saved Cards</h1>
-              <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center">
-                Add  <i class="fa-solid fa-plus pl-1"></i>
+              <div class="min-w-32 block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center" *ngIf="buttonVisible==3" (click)="addCartWindow(cartVisible)">
+                <div *ngIf="!cartVisible">
+                  Add Cart<i class="fa-solid fa-plus pl-1"></i>
+                </div>
+                <div *ngIf="cartVisible" class="text-red-500">
+                  Close <i class="fa-solid fa-cancel pl-1"></i>
+                </div>
               </div>
             </div>
           </div>
         </button>
         <div
           id="accordion3"
-          class="relative overflow-hidden transition-all max-h-0 duration-700 px-10">
-            <div class="flex gap-4 overflow-y-auto scrollbar-hide mx-9">
-              <div class="cart-info">
+          class="relative transition-all duration-700 px-10" *ngIf="buttonVisible==3">
+
+            <div class="w-full mb-20 mt-8 border rounded-xl shadow-xl mx-auto max-w-3xl p-10"  *ngIf="cartVisible">
+                <textarea rows="5" class="w-full border rounded-xl"></textarea>
+                <div class="flex gap-5 text-center mt-5">
+                  <div class="w-full border bg-gray-100 p-3 rounded-xl">
+                    Add Cart<i class="fa-solid fa-plus"></i>
+                  </div>
+                  <div  class="w-full border bg-gray-100 text-red-500 rounded-xl" (click)="addCartWindow(cartVisible)">
+                    Close <i class="fa-solid fa-cancel ml-1 p-3"></i>
+                  </div>
+                </div>
+          </div>
+            <div class="border flex gap-4 overflow-y-auto mx-9">
+              <div class="cart-info shadow-md">
                 <div class="px-3 pt-4">
                   <div class="flex justify-between px-3">
                     <h1 class="font-semibold pb-5">Aydın Cart Name</h1>
@@ -207,7 +208,7 @@
                   </div>
                 </div>
               </div>
-              <div class="cart-info">
+              <div class="cart-info shadow-md">
                 <div class="px-3 pt-4">
                   <div class="flex justify-between px-3">
                     <h1 class="font-semibold pb-5">Aydın Cart Name</h1>
@@ -224,7 +225,7 @@
                   </div>
                 </div>
               </div>
-              <div class="cart-info">
+              <div class="cart-info shadow-md">
                 <div class="px-3 pt-4">
                   <div class="flex justify-between px-3">
                     <h1 class="font-semibold pb-5">Aydın Cart Name</h1>
@@ -241,7 +242,7 @@
                   </div>
                 </div>
               </div>
-              <div class="cart-info">
+              <div class="cart-info shadow-md">
                 <div class="px-3 pt-4">
                   <div class="flex justify-between px-3">
                     <h1 class="font-semibold pb-5">Aydın Cart Name</h1>
@@ -256,11 +257,6 @@
                   </div>
                   <i class="w-1/4 fa-brands fa-cc-visa text-5xl text-gray-300"></i>
                   </div>
-                </div>
-              </div>
-              <div class="cart-info">
-                <div class="text-center cursor-pointer text-xl hover:scale-110 pt-16">
-                  <i class="fa-solid fa-plus pr-2"></i>Add Cart
                 </div>
               </div>
             </div>
@@ -270,7 +266,7 @@
         <button
           type="button"
           class="accordion-button p-0"
-          onclick="toggleAccordion(4)">
+          (click)="toggleWindow(4)">
           <div class="flex w-full p-5 rounded-lg">
             <div class="w-full">
               <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5 ">My Notification Preferences</h1>
@@ -280,7 +276,7 @@
         </button>
         <div
           id="accordion4"
-          class="relative overflow-hidden transition-all max-h-0 duration-700 px-10">
+          class="relative transition-all duration-700 px-10" *ngIf="buttonVisible==4">
           <div class="px-6">
             <div class="border my-4 p-3 bg-gray-50 flex">
               <input type="checkbox" name="e-mail" id="e-mail" class="min-w-8">
