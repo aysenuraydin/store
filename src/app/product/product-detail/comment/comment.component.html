@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="mt-3 w-full">
-    <div class="mt-3 inline-block border" (mouseleave)="starCountMouseUp()">
+    <div class="mt-3 inline-block" (mouseleave)="starCountMouseUp()">
       <i class="p-1 fa-star text-3xl" [ngClass]="(starCountValue>=1 || inputdeger>=1)?'fa-solid ':'fa-regular '" (mouseenter)="starCountMouseover(1)" (click)="starCountClick()"></i>
       <i class="p-1 fa-regular fa-star text-3xl" [ngClass]="(starCountValue>=2 || inputdeger>=2)?'fa-solid ':'fa-regular '"(mouseenter)="starCountMouseover(2)"  (click)="starCountClick()"></i>
       <i class="p-1 fa-regular fa-star text-3xl" [ngClass]="(starCountValue>=3 || inputdeger>=3)?'fa-solid ':'fa-regular '" (mouseenter)="starCountMouseover(3)"  (click)="starCountClick()"></i>

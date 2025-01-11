@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Product } from '../models/product';
+import { ProductList } from '../models/productList';
 import { ProductService } from '../services/product.service';
-import { Router } from '@angular/router';
+import { Product } from '../models/product';
 
 @Component({
   selector: 'product',
@@ -10,12 +10,34 @@ import { Router } from '@angular/router';
 })
 export class ProductComponent implements OnInit{
 
-  @Input() product: Product |undefined
-  constructor(
-  ) { }
+  @Input() product: ProductList |undefined
 
-  ngOnInit(): void {
 
+
+    constructor(private productService: ProductService) {}
+
+    ngOnInit(): void {}
+
+    //! Favori Durumunu Değiştir, favori service ile favori ürünlere ekle?
+    heartClick(id: number): void {
+      if (!id) {
+        return;
+      }
+
+      this.productService.getProduct(id).subscribe(
+        (product: Product) => {
+          if (product) {
+            product.isFav = !product.isFav;
+
+            this.productService.updateProduct(product).subscribe(
+              () => {
+                if (this.product) this.product.isFav = product.isFav;
+              },
+              (error) => console.error('Ürün güncellenirken hata oluştu:', error)
+            );
+          }
+        },
+        (error) => console.error('Ürün alınırken hata oluştu:', error)
+      );
+    }
   }
-
-}

@@ -12,11 +12,12 @@
   </div>
   <div class="flex justify-between">
     <p class="mt-1 text-lg font-medium text-gray-900">$ {{product?.price| number:'1.2-2'}}</p>
-      <a class="rounded-md px-3 py-2 text-xl font-medium text-gray-400 fav-link group/item hover:cursor-pointer">
-        <i class="fa-regular fa-heart block group-hover/item:hidden"></i>
-        <i class="fa-solid fa-heart hidden group-hover/item:block"></i>
+      <a class="rounded-md px-3 py-2 text-xl font-medium text-gray-400 fav-link group/item hover:cursor-pointer" (click)="heartClick(product!.id)">
+        <i *ngIf="!product?.isFav" class="fa-regular fa-heart text-2xl"></i>
+        <i *ngIf="product?.isFav"  class="fa-solid fa-heart text-2xl" ></i>
       </a>
     </div>
   </div>
 
 
+  <!-- <i *ngIf="product?.isFav" class="fa-regular fa-heart block group-hover/item:hidden"></i> -->

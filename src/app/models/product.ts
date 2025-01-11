@@ -6,10 +6,12 @@ export class Product {
     description: string;
     categoryId?: number;
     isConfirmed?: boolean;
+    isFav?: boolean;
     createdAt?: Date;
     details:string;
     stockAmount?: number;
     // commentId?: number
+    viewCount?:number;
 
     constructor() {
       this.id = 0;
@@ -19,9 +21,11 @@ export class Product {
       this.description = '';
       this.categoryId = 1;
       this.isConfirmed= true;
+      this.isFav= false;
       this.createdAt = new Date();
       this.details='';
       this.stockAmount= 0;
+      this.viewCount= 0;
 
       // Array<ProductComment>
       // Array<OrderItem>

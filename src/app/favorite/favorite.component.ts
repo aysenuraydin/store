@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Product } from '../models/product';
-import { ProductService } from '../services/product.service';
+import { FavService } from '../services/fav.service';
+import { ProductList } from '../models/productList';
 
 @Component({
   selector: 'favorite',
@@ -8,19 +9,19 @@ import { ProductService } from '../services/product.service';
   styleUrl: './favorite.component.css'
 })
 export class FavoriteComponent {
-  products: Product[] = [];
+  products: ProductList[] = [];
 
-  constructor(private productService: ProductService) {  }
+  constructor(private favService: FavService) {  }
 
   ngOnInit(): void {
     this.getProducts();
   }
   getProducts(): void{
-    this.productService.getProducts()
+    this.favService.getFavItems()
         .subscribe(
           (data) => {
-            this.products = data;
-        }
+            this.products= data;
+          }
       );
   }
 }
