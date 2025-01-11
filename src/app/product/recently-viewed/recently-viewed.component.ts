@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Product } from '../../models/product';
-import { ProductService } from '../../services/product.service';
+import { RecentlyService } from '../../services/recently.service';
+import { ProductList } from '../../models/productList';
 
 @Component({
   selector: 'recently-viewed',
@@ -8,19 +9,19 @@ import { ProductService } from '../../services/product.service';
   styleUrl: './recently-viewed.component.css'
 })
 export class RecentlyViewedComponent {
-  products: Product[] = [];
+  products: ProductList[] = [];
 
-  constructor(private productService: ProductService) { }
+  constructor(private recentlService: RecentlyService) {  }
 
   ngOnInit(): void {
     this.getProducts();
   }
   getProducts(): void{
-    this.productService.getProducts()
+    this.recentlService.getRecentlyItems()
         .subscribe(
           (data) => {
             this.products = data;
-        }
+          }
       );
   }
 }

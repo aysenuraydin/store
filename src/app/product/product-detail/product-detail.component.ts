@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Product } from '../../models/product';
-import { ProductService } from '../../services/product.service';
 import { CategoryProductService } from '../../services/category-product.service';
 
 @Component({
@@ -10,8 +8,7 @@ import { CategoryProductService } from '../../services/category-product.service'
   styleUrl: './product-detail.component.css'
 })
 export class ProductDetailComponent {
-  activeTab: Number = 2;
-  // activeTab: Number = 0;
+  activeTab: Number = 1;
   product: any;
 
   constructor(

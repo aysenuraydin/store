@@ -1,8 +1,9 @@
 
 import { Order } from "./order";
 import { AdressItem } from './adressItem';
-import { Product } from "./product";
 import { CartItem } from "./cart";
+import { RecentlyItem } from "./recentlyItem";
+import { FavItem } from "./favItem";
 
 export class User {
     id:number;
@@ -12,8 +13,8 @@ export class User {
     adressItems: AdressItem[];
     cartItems: CartItem[];
     orders: Order[];
-    favItems: Product[];
-    recentlyItems: Product[];
+    favItems: FavItem[];
+    recentlyItems: RecentlyItem[];
 
     constructor() {
       this.id = 0;

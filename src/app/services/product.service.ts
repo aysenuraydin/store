@@ -3,6 +3,7 @@ import { forwardRef, Inject, Injectable } from '@angular/core';
 import { Product } from '../models/product';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { forkJoin, map, Observable, of, switchMap, pipe } from 'rxjs';
+import { ProductList } from '../models/productList';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +12,18 @@ export class ProductService {
   private apiUrl:string = 'api/product';
 
   constructor(private http: HttpClient ) {}
-
-  getProducts() :Observable<Product[]> {
+  getProductItems(userId: number = 0): Observable<ProductList[]> {
     return this.http.get<Product[]>(this.apiUrl).pipe(
-      map(categories => categories)
+      map((products: Product[]) =>
+        products.map((product) => ({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          imgUrl: product.imgUrl,
+          categoryId: undefined,
+          isFav: false
+        }))
+      )
     );
   }
   getProductsByCategoryId(id:number) :Observable<Product[]> {
@@ -23,6 +32,27 @@ export class ProductService {
         id === 0
         ? products
         : products.filter(product => product.categoryId === id))
+    );
+  }
+  getProducts() :Observable<Product[]> {
+    return this.http.get<Product[]>(this.apiUrl).pipe(
+      map(categories => categories)
+    );
+  }
+  getProductItemsByCategoryId(id: number): Observable<ProductList[]> {
+    return this.http.get<Product[]>(this.apiUrl).pipe(
+      map((products: Product[]) =>
+        products
+          .filter((product) => id === 0 || product.categoryId === id) // Kategori ID'ye göre filtreleme
+          .map((product) => ({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            imgUrl: product.imgUrl,
+            categoryId: product.categoryId,
+            isFav: false
+          }))
+      )
     );
   }
   getProduct(id:number) : Observable<Product>{

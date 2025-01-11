@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Product } from '../../models/product';
+import { FavService } from '../../services/fav.service';
 
 @Component({
   selector: 'add-fav',
@@ -6,22 +8,28 @@ import { Component } from '@angular/core';
   styleUrl: './add-fav.component.css'
 })
 export class AddFavComponent {
-  // $('#fav-button').click(()=> {
-  //   $('#modal-fav').toggleClass('hidden').toggleClass('block');
-  // });
-  // $('#fav-link').click((event)=> {
-  //   event.stopPropagation();
-  //   $('#modal-fav').toggleClass('hidden').toggleClass('block');
-  //   $('#fav-link i').toggleClass('fa-solid').toggleClass('fa-regular');
-  //   if($('#modal-card').hasClass('block')){
-  //     $('#modal-card').toggleClass('hidden').toggleClass('block');
-  //   }
-  // });
-  // $('.fav-blur').click((event)=> {
-  //   event.stopPropagation();
-  //   $('#modal-fav').toggleClass('hidden').toggleClass('block');
-  //   if($('#fav-link i').hasClass('fa-solid')){
-  //     $('#fav-link i').toggleClass('fa-solid').toggleClass('fa-regular');
-  //   }
-  // });
+  products: Product[] = [];
+
+  constructor(private favService: FavService) {  }
+
+  ngOnInit(): void {
+    this.getProducts();
+  }
+  getProducts(): void{
+    this.favService.getFavItems()
+        .subscribe(
+          (data) => {
+            data.map(d =>
+              this.products.push({
+                id : d.id,
+                name : d.name,
+                price : d.price,
+                imgUrl : d.imgUrl,
+                description : "",
+                details : ""
+              })
+            )
+          }
+      );
+  }
 }

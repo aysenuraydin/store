@@ -19,6 +19,10 @@ import { Review } from '../models/review';
 import { ReviewRepository } from '../repository/review.repository';
 import { AdressItem } from '../models/adressItem';
 import { AdressRepository } from '../repository/adress.repository';
+import { FavItem } from '../models/favItem';
+import { RecentlyItem } from '../models/recentlyItem';
+import { FavItemRepository } from '../repository/favItem.repository';
+import { recentlyItemRepository } from '../repository/recentlyItem.repository';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +43,8 @@ export class InMemoryDataService implements InMemoryDbService {
   private socialMedia: SocialMedia[]=[];
 
   private adresses: AdressItem[]=[];
+  private favs: FavItem[]=[];
+  private recentlies: RecentlyItem[]=[];
 
   constructor() {
     new ProductRepository().getProducts().forEach(p => this.products.push(p));
@@ -54,6 +60,8 @@ export class InMemoryDataService implements InMemoryDbService {
     new InformationsRepository().getSocialMedia().forEach(p => this.socialMedia.push(p));
 
     new AdressRepository().getAdresses().forEach(p => this.adresses.push(p));
+    new FavItemRepository().getFavs().forEach(p => this.favs.push(p));
+    new recentlyItemRepository().getRecentlies().forEach(p => this.recentlies.push(p));
 
   }
 
@@ -94,6 +102,12 @@ export class InMemoryDataService implements InMemoryDbService {
     const adress: AdressItem[] = [
       ...this.adresses,
     ];
+    const recently: RecentlyItem[] = [
+      ...this.recentlies,
+    ];
+    const fav: FavItem[] = [
+      ...this.favs,
+    ];
 
     return {
       product,
@@ -107,7 +121,9 @@ export class InMemoryDataService implements InMemoryDbService {
       info,
       socialMedia,
       review,
-      adress
+      adress,
+      recently,
+      fav
     };
   }
 }

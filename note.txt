@@ -40,7 +40,32 @@ export class ChildComponent {
     }
   }
 
+  this.info = new Array<Info>(
+    {
+      id: 1,
+      email: 'ays@ayd.com',
+      phoneNumber: '5556667890',
+      adress: 'Bursa/Orhangazi',
+    }
+  );
 
   bunu detaylı öğren öğren
   1-  if (activeBanner && activeBanner.id !== banner.id) bunun gibi ifadeler
   2-  asekren ,rsjx, suncribe, pipe, map, swithmap, for ...
+
+
+  // Büyükten küçüğe sıralama
+products.sort((a, b) => b.price - a.price);
+
+
+//hata kontrolleri ekle
+updateProduct(product: Product): void {
+  product.isFav = !product.isFav;
+  this.productService.updateProduct(product).subscribe(
+    (updatedProduct) => {
+      if (this.product) this.product.isFav = updatedProduct.isFav;
+    },
+    (error) => console.error('Error updating product:', error)
+  );
+}
+}

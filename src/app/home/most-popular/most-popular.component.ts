@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
+import { ProductList } from '../../models/productList';
 
 @Component({
   selector: 'most-popular',
@@ -8,7 +9,7 @@ import { ProductService } from '../../services/product.service';
   styleUrl: './most-popular.component.css'
 })
 export class MostPopularComponent {
-  products: Product[] = [];
+  products: ProductList[] = [];
 
   constructor(private productService: ProductService) { }
 
@@ -16,10 +17,11 @@ export class MostPopularComponent {
     this.getProducts();
   }
   getProducts(): void{
-    this.productService.getProducts()
+    this.productService.getProductItems()
         .subscribe(
           (data) => {
-            this.products = data;
+            this.products = data.sort((a, b) => b.price - a.price).slice(0,10);
+            //ileride viewCounta göre sırala
         }
       );
   }

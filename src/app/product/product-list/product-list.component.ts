@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
+import { ProductList } from '../../models/productList';
 
 @Component({
   selector: 'product-list',
@@ -8,7 +9,7 @@ import { ProductService } from '../../services/product.service';
   styleUrl: './product-list.component.css'
 })
 export class ProductListComponent {
-  products: Product[] = [];
+  products: ProductList[] = [];
   categoryId: number = 1;
 
   routerId: number = 0;
@@ -30,6 +31,7 @@ export class ProductListComponent {
         }
       );
   }
+
   showOrHide(value:boolean){
     this.toggleValue = !this.toggleValue;
   }
