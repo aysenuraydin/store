@@ -47,24 +47,29 @@
       </div>
       <section aria-labelledby="products-heading" class="pb-24 pt-6">
         <div class="flex flex-col md:flex-row">
+
+          <div>
+          <div class="lg:hidden mt-6
+          md:max-h-full max-h-96 pb-6 px-6" *ngIf="toggleValue">
+            <a routerLink="/product/product-list/0">
+              <div class="flex justify-between p-3 rounded-lg shadow-md border" (click)="showOrHide(toggleValue)" >Close Tab
+                <i class="fa-solid fa-xmark mr-2 text-xl"></i> </div>
+            </a>
+          </div>
           @defer ()  {
-          <div class="px-4 py-2 block lg:hidden
-          md:max-h-full max-h-96 md:w-[40rem] overflow-scroll"  *ngIf="toggleValue">
-            <div class="p-5 mt-1 sm:mt-0 text-end cursor-pointer" *ngIf="toggleValue"
-            (click)="showOrHide(toggleValue)" >
-              <i class="fa-solid fa-xmark text-4xl"></i>
-            </div>
-            <categories/>
+          <div class="px-4 py-2 mt-1 lg:hidden
+          md:max-h-full max-h-96  overflow-scroll"  *ngIf="toggleValue">
+            <categories (categoryId)="getrouterId($event)"/>
           </div>
           <div class="hidden lg:block">
-            <categories/>
+            <categories (categoryId)="getrouterId($event)"/>
           </div>
           } @placeholder (minimum 1s) {
             <div class="pt-10 flex justify-center items-center">
               <i class="fa-solid fa-spinner text-5xl animate-spin text-gray-500 mr-5"></i> Loading..
             </div>
           }
-
+        </div>
           <div class="w-full mt-20 md:mt-5">
             <!-- Your content -->
             @defer ()  {

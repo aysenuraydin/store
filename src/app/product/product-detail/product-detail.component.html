@@ -33,17 +33,25 @@
       <div class="mt-6">
         <h3 class="sr-only">Reviews</h3>
         <div class="flex items-center">
+
           <div class="flex items-center text-lg text-black">
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star-half-stroke"></i>
-            <i class="fa-regular fa-star"></i>
+            <i class="fa-solid fa-star" *ngFor="let _ of fullStars"></i>
+            <i class="fa-solid fa-star-half-stroke" *ngIf="hasHalfStar"></i>
+            <i class="fa-regular fa-star" *ngFor="let _ of emptyStars"></i>
           </div>
+
           <p class="sr-only">4 out of 5 stars</p>
-          <a href="#" class="ml-3 text-sm font-medium text-gray-600 hover:text-gray-500"> reviews</a>
+          <div href="#" class="ml-3 text-sm font-medium text-gray-600 hover:text-gray-500">
+            <span class="font-bold text-lg">( {{averageReviews | number: '1.2-2'}} )</span>
+            <span class="ml-3">
+              Commented {{reviewsCount}} times
+            </span>
+
+
+          </div>
         </div>
-        <p class="mt-7">Viewed <span class="font-bold">{{product.viewCount}}</span> times</p>
+
+        <p class="mt-7">Viewed <span class="font-bold text-xl">{{product.viewCount}}</span> times</p>
       </div>
 
       <form class="mt-4">

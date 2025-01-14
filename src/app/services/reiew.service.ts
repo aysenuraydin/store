@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, Observable, switchMap } from 'rxjs';
+import { count, map, Observable, switchMap } from 'rxjs';
 import { Review } from '../models/review';
 
 @Injectable({
@@ -24,6 +24,19 @@ export class ReviewService {
       )
     );
   }
+
+  getAverageAndCountByProductId(id: number): Observable<{average:number,count:number}> {
+    return this.http.get<Review[]>(this.apiUrl).pipe(
+      map((reviews) => {
+        const productReviews = reviews.filter(i => i.productId == id);
+        const count = productReviews.length;
+        const total = productReviews.reduce((sum, item) => sum + item.starCount, 0);
+        const average = count > 0 ? total / count : 0;
+        return {average, count};
+      })
+    );
+  }
+
   getReview(id:number) :Observable<Review>{
     return this.http.get<Review>(this.apiUrl+'/'+id);
   }

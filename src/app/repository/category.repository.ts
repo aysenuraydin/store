@@ -20,10 +20,3 @@ export class CategoryRepository {
     return this.categories;
   }
 }
-
-
-//todo productlist by category id
-//todo productdetail average start
-
-
-

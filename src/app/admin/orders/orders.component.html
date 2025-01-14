@@ -108,7 +108,7 @@
             </span>
 
             <div class="w-1/3 flex px-5 relative">
-              <i class="fa-solid mr-2 border absolute left-8 top-8"
+              <i class="fa-solid mr-2 absolute left-8 top-8"
                   [ngClass]="{
                     'fa-spinner text-blue-700': item.orderState === OrderState.inProgress,
                     'fa-ban text-red-700': item.orderState === OrderState.cancellations,
@@ -174,8 +174,11 @@
       <span class="w-1/12 text-center">
         <span class="text-xs uppercase text-gray-600 font-bold">number</span>
       </span>
-      <span class="w-1/2 pl-32">
+      <span class="w-2/5 pl-32">
         <span class="text-xs uppercase text-gray-600 font-bold">orders</span>
+      </span>
+      <span class="w-1/12 text-end pr-5">
+        <span class="text-xs uppercase text-gray-600 font-bold">Price</span>
       </span>
       <span class="w-1/6 text-center">
         <span class="text-xs uppercase text-gray-600 font-bold">order state</span>

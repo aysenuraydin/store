@@ -21,24 +21,34 @@ npm install --save  @ckeditor/ckeditor5 @ckeditor/ckeditor5-angular--legacy-peer
 
 
 
-// <button class="btn" (click)="addItem()">Add Item</button>
-export class ChildComponent {
-  @Output() addItemEvent = new EventEmitter<string>();
+//todo productlist by category id
+//todo productdetail average start
 
+
+
+
+
+// <button class="btn" (click)="addItem()">Add Item</button>
+
+  export class ChildComponent {
+  @Output() addItemEvent = new EventEmitter<string>();
   addItem() {
     this.addItemEvent.emit('');
   }
 }
 
   // <app-child (addItemEvent)="addItem($event)" />
-  // <p>🐢 all the way down {{ items.length }}</p>
+
   export class ParentComponent {
     items = new Array();
-
     addItem(item: string) {
       this.items.push(item);
     }
   }
+
+
+
+
 
   this.info = new Array<Info>(
     {
