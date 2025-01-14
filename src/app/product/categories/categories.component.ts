@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, output, Output } from '@angular/core';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'categories',
@@ -8,13 +9,23 @@ import { Category } from '../../models/category';
   styleUrl: './categories.component.css'
 })
 export class CategoriesComponent {
+  @Output() categoryId = new EventEmitter<number>();
   category: Category[] = [];
+  activeId:number = 0;
 
   constructor(
     private categoryService: CategoryService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {  }
+
   ngOnInit(): void {
+    this.activeId = Number(this.route.snapshot.paramMap.get('id'));
     this.getCategories();
+  }
+  clickCategory(id: number){
+    this.activeId=id;
+    this.categoryId.emit(id);
   }
   getCategories(): void{
     this.categoryService.getCategories()

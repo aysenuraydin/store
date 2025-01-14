@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { DetailComponent } from './product-detail/detail/detail.component';
 import { DescriptionComponent } from './product-detail/description/description.component';
@@ -33,6 +33,7 @@ import { FormsModule } from '@angular/forms';
     SharedModule,
     FormsModule
   ],
+  providers: [DecimalPipe],
   exports: [
     RecentlyViewedComponent,
     ProductComponent,

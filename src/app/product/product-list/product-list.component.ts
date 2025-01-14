@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { ProductList } from '../../models/productList';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,10 +9,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrl: './product-list.component.css'
 })
 export class ProductListComponent {
-  products: ProductList[] = [];
-  // categoryId: number = 1;
 
-  routerId: number = 0;
+  products: ProductList[] = [];
   toggleValue = true;
 
   constructor(
@@ -27,6 +24,9 @@ export class ProductListComponent {
     this.getProducts(id);
   }
 
+  getrouterId(categoryId:number){
+    this.getProducts(categoryId);
+  }
   getProducts(id:number): void{
     this.productService.getProductsByCategoryId(id)
         .subscribe(
