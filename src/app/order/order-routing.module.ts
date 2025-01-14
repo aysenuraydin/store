@@ -12,7 +12,7 @@ const routes: Routes = [
       canActivate: [],
       children: [
         { path: '', component: OrderComponent  },
-        { path: 'order-details', component: OrderdetailsComponent }
+        { path: 'order-details/:id', component: OrderdetailsComponent }
       ]
     }
 ]

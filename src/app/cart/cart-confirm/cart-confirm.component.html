@@ -1,194 +1,25 @@
-<div class="min-h-[50vh] mt-32 mx-auto max-w-7xl">
-  <div class="container">
-    <div class="mt-5">
-      <div class="text-center pt-40 pb-20">
-        <i class="fa-solid fa-circle-check text-gray-100 d-block m-2 text-[15rem] border rounded-full shadow-lg"></i>
-        <h3 class="text-gray-500 p-2 text-2xl">Your Order is Completed!</h3>
+<div class="min-h-[70vh] mt-32 mx-auto max-w-7xl">
+  <div class="rounded-xl bg-gray-100 p-20 border mx-40 mt-32 md:mt-96 shadow-lg">
+      <div class="mt-5">
+        <div class="text-center">
+          <i class="fa-solid fa-circle-check text-gray-300 d-block m-2 text-[10rem] md:text-[15rem] border rounded-full shadow-lg"></i>
+          <h3 class="text-gray-500 p-2 text-2xl">Your Order is Completed!
+          </h3>
+        </div>
+      </div>
+      <div class="my-4 text-center mt-10">
+        Your order has been successfully received! <br />
+        If you have any issues, you can contact our Customer Relations department.<br />
+        Thank you for shopping with us!
+
+        <div class="flex justify-center mt-10">
+          <a routerLink="/order" class="inline-block p-3 px-4 border bg-gray-700 hover:bg-gray-500 text-white mx-2 rounded-full font-bold  hover:cursor-pointer">
+            <i class="fa-solid fa-boxes-stacked mr-2"></i>See All Orders!</a>
+          <a routerLink="/order/order-details/{{id}}" class="inline-block p-3 px-4 border bg-gray-700 hover:bg-gray-500 text-white mx-2 rounded-full font-bold hover:cursor-pointer">
+            <i class="fa-solid fa-box mr-2"></i>Go Order</a>
+        </div>
       </div>
     </div>
-    <p class="my-4 mx-8 py-5 text-center border rounded-lg">
-      Your order has been successfully received! <br />
-      If you have any issues, you can contact our Customer Relations department.<br />
-      Thank you for shopping with us!
-    </p>
-
-    <section aria-labelledby="products-heading" class="pt-6 pb-24">
-
-      <div class="bg-white w-full mx-auto">
-          <!-- Accordion Item -->
-          <div class="-mt-5">
-            <div
-              class="accordion-button ">
-              <div class="flex w-full bg-gray-100 p-10 rounded-lg">
-                <div class="basis-1/5">
-                  <div class="font-semibold">Order Date</div>
-                  <div>November 10, 2024 - 13:17</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Order Summary</div>
-                  <div>1 Delivery, 1 Product</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Recipient</div>
-                  <div>AYŞENUR AYDIN</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Total</div>
-                  <div>5,003.79 TL</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="mt-6">
-                    <span class="mt-6 text-blue-700">3 products are being prepared...</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <ul>
-          <li class="-mt-5">
-            <div
-            onclick="toggleAccordion(1)"
-              class="accordion-button">
-              <div class="flex w-full border p-6 rounded-lg">
-                <div class="basis-1/12">
-                  <i class="mt-1 mr-2 fa-solid fa-box border p-3 rounded-lg"></i>
-                </div>
-                <div class="basis-1/6">
-                  <div class="font-semibold">Delivery No</div>
-                  <div>2887485718</div>
-                </div>
-                <div class="basis-1/2">
-                  <div class="font-semibold">Shipping Company</div>
-                  <div>Cargo Name</div>
-                </div>
-                <div class="basis-1/4 text-end">
-                  <a class="inline-block w-16 border p-3 rounded-md text-center cursor-pointer"><i class="fa-solid fa-plus"></i></a>
-                </div>
-              </div>
-            </div>
-            <div id="accordion1"
-            class="relative overflow-hidden transition-all max-h-0 duration-700 px-10">
-
-            <div class="p-4 m-1">
-              <div class="p-2 flex">
-                <div class="bg-gray-100 rounded-lg w-full p-2 px-6">
-                  Seller: Ayşenur AYDIN
-                  <span class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 ml-3">Follow</span>
-                </div>
-              </div>
-              <div class="p-3 flex">
-                <div class="w-full mt-10">
-                  <div class="inline-flex rounded-md bg-blue-50 px-3 py-2 font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20 mb-3 mx-2"><i class="mt-1 mr-2 fa-solid fa-spinner"></i> In Progress</div>
-                  <div>1 product was delivered on November 12.</div>
-                </div>
-                <div class="w-full flex flex-col">
-                  <div class="flex border rounded-md p-4 mb-4">
-                    <div class="w-1/3">
-                      <img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="aspect-square w-full rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8]">
-                    </div>
-                    <div class="w-full p-4">
-                      <div class="font-semibold">Seller Name Earthen Bottle</div>
-                      <div class="text-sm text-gray-400 mt-2">Size: Black, STD - Quantity: 1</div>
-                      <div class="text-gray-600 mt-2">10 Є</div>
-                      <div class="mt-4">
-                        <a class="inline-block mr-2 w-40 border p-1 rounded-md text-center text-sm hover:bg-gray-200" href="">Buy Again</a>
-                        <a class="inline-block w-40 border p-1 rounded-md text-center text-sm hover:bg-gray-200" href="">Rate Product</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-              <div class="p-3 flex">
-                <div class="w-full mt-10">
-                  <div class="inline-flex rounded-md bg-blue-50 px-3 py-2 font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20 mb-3 mx-2"><i class="mt-1 mr-2 fa-solid fa-spinner"></i> In Progress</div>
-                  <div>1 product was delivered on November 12.</div>
-                </div>
-                <div class="w-full flex flex-col">
-                  <div class="flex border rounded-md p-4 mb-4">
-                    <div class="w-1/3">
-                      <img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="aspect-square w-full rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8]">
-                    </div>
-                    <div class="w-full p-4">
-                      <div class="font-semibold">Seller Name Earthen Bottle</div>
-                      <div class="text-sm text-gray-400 mt-2">Size: Black, STD - Quantity: 1</div>
-                      <div class="text-gray-600 mt-2">10 Є</div>
-                      <div class="mt-4">
-                        <a class="inline-block mr-2 w-40 border p-1 rounded-md text-center text-sm hover:bg-gray-200" href="">Buy Again</a>
-                        <a class="inline-block w-40 border p-1 rounded-md text-center text-sm hover:bg-gray-200" href="">Rate Product</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-            </div>
-          </li>
-          <li class="-mt-5">
-            <div
-            onclick="toggleAccordion(2)"
-              class="accordion-button">
-              <div class="flex w-full border p-6 rounded-lg">
-                <div class="basis-1/12">
-                  <i class="mt-1 mr-2 fa-solid fa-box border p-3 rounded-lg"></i>
-                </div>
-                <div class="basis-1/6">
-                  <div class="font-semibold">Delivery No</div>
-                  <div>2887485718</div>
-                </div>
-                <div class="basis-1/2">
-                  <div class="font-semibold">Shipping Company</div>
-                  <div>Cargo Name</div>
-                </div>
-                <div class="basis-1/4 text-end">
-                  <a class="inline-block w-16 border p-3 rounded-md text-center cursor-pointer"><i class="fa-solid fa-plus"></i></a>
-                </div>
-              </div>
-            </div>
-            <div id="accordion2"
-            class="relative overflow-hidden transition-all max-h-0 duration-700 px-10">
-
-            <div class="p-4 m-1">
-              <div class="p-2 flex">
-                <div class="bg-gray-100 rounded-lg w-full p-2 px-6">
-                  Seller: Ayşenur AYDIN
-                  <span class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10 ml-3">Follow</span>
-                </div>
-              </div>
-              <div class="p-3 flex">
-                <div class="w-full mt-10">
-                  <div class="inline-flex rounded-md bg-blue-50 px-3 py-2 font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20 mb-3 mx-2"><i class="mt-1 mr-2 fa-solid fa-spinner"></i> In Progress</div>
-                  <div>1 product was delivered on November 12.</div>
-                </div>
-                <div class="w-full flex flex-col">
-                  <div class="flex border rounded-md p-4 mb-4">
-                    <div class="w-1/3">
-                      <img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="aspect-square w-full rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8]">
-                    </div>
-                    <div class="w-full p-4">
-                      <div class="font-semibold">Seller Name Earthen Bottle</div>
-                      <div class="text-sm text-gray-400 mt-2">Size: Black, STD - Quantity: 1</div>
-                      <div class="text-gray-600 mt-2">10 Є</div>
-                      <div class="mt-4">
-                        <a class="inline-block mr-2 w-40 border p-1 rounded-md text-center text-sm hover:bg-gray-200" href="">Buy Again</a>
-                        <a class="inline-block w-40 border p-1 rounded-md text-center text-sm hover:bg-gray-200" href="">Rate Product</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-  </section>
-
-
-
-  </div>
-
 </div>
 
 

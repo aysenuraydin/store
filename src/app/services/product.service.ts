@@ -29,14 +29,21 @@ export class ProductService {
   getProductsByCategoryId(id:number) :Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl).pipe(
       map(products =>
-        id === 0
+        id == 0
         ? products
-        : products.filter(product => product.categoryId === id))
+        : products.filter(product => product.categoryId == id))
     );
   }
   getProducts() :Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl).pipe(
-      map(categories => categories)
+      map( product =>product )
+    );
+  }
+  getProductsByCount(neededCount:number) :Observable<Product[]> {
+    return this.http.get<Product[]>(this.apiUrl).pipe(
+      map(product =>
+        product.sort((a, b) => b.viewCount - a.viewCount).slice(0,(neededCount)).reverse()
+      )
     );
   }
   getProductItemsByCategoryId(id: number): Observable<ProductList[]> {
@@ -74,6 +81,12 @@ export class ProductService {
     );
   }
   updateProduct(product: Product): Observable<any>  {
+    const httpOptions= {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    }
+    return this.http.put(this.apiUrl, product, httpOptions)
+  }
+  updateProductWithProductList(product: ProductList): Observable<any>  {
     const httpOptions= {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }

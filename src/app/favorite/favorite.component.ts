@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Product } from '../models/product';
 import { FavService } from '../services/fav.service';
 import { ProductList } from '../models/productList';
 

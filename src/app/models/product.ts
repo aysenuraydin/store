@@ -6,12 +6,12 @@ export class Product {
     description: string;
     categoryId?: number;
     isConfirmed?: boolean;
-    isFav?: boolean;
+    isFav?: boolean; //bunu kaldır
     createdAt?: Date;
     details:string;
     stockAmount?: number;
     // commentId?: number
-    viewCount?:number;
+    viewCount:number;
 
     constructor() {
       this.id = 0;

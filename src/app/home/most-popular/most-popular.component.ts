@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { ProductList } from '../../models/productList';
 
@@ -17,10 +16,10 @@ export class MostPopularComponent {
     this.getProducts();
   }
   getProducts(): void{
-    this.productService.getProductItems()
+    this.productService.getProducts()
         .subscribe(
           (data) => {
-            this.products = data.sort((a, b) => b.price - a.price).slice(0,10);
+            this.products = data.sort((a, b) => b.viewCount - a.viewCount).slice(0,10);
             //ileride viewCounta göre sırala
         }
       );

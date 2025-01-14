@@ -36,7 +36,7 @@ export class MessageService {
       )
     );
   }
-  getBanner(id:number) :Observable<Message>{
+  getContact(id:number) :Observable<Message>{
     return this.http.get<Message>(this.apiUrl+'/'+id);
   }
   createContact(message: Message): Observable<Message> {

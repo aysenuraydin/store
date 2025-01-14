@@ -18,7 +18,6 @@ import { ReviewsComponent } from './reviews/reviews.component';
 import { LayoutModule } from '../layout/layout.module';
 import { FormsModule } from '@angular/forms';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-import { XComponent } from './x/x.component';
 @NgModule({
   declarations: [
     AdminComponent,
@@ -34,7 +33,6 @@ import { XComponent } from './x/x.component';
     UsersComponent,
     SubscribesComponent,
     ReviewsComponent,
-    XComponent,
   ],
   imports: [
     CommonModule,

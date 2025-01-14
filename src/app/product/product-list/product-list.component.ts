@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { ProductList } from '../../models/productList';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'product-list',
@@ -10,20 +11,23 @@ import { ProductList } from '../../models/productList';
 })
 export class ProductListComponent {
   products: ProductList[] = [];
-  categoryId: number = 1;
+  // categoryId: number = 1;
 
   routerId: number = 0;
   toggleValue = true;
 
-  ngOnInit(): void {
-    this.getProducts();
-  }
   constructor(
     private productService: ProductService,
-    // private route: ActivatedRoute
+    private router: Router,
+    private route: ActivatedRoute
   ) {  }
 
-  getProducts(id:number = 0, value?:string): void{
+  ngOnInit(): void {
+    let id = Number(this.route.snapshot.paramMap.get('id'));
+    this.getProducts(id);
+  }
+
+  getProducts(id:number): void{
     this.productService.getProductsByCategoryId(id)
         .subscribe(
           (data) => {

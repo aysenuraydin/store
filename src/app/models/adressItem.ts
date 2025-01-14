@@ -3,12 +3,12 @@ export class AdressItem {
   userId?: number;
   title: string;
   fullname: string;
+  email: string;
   phone: number;
   city: string;
   district: string;
   neighborhood: string;
   address: string;
-  isActive: boolean;
   createdAt?: Date;
 
   constructor() {
@@ -16,12 +16,12 @@ export class AdressItem {
     this.userId = 0;
     this.title = '';
     this.fullname = '';
+    this.email = '';
     this.phone = 0;
     this.city = '';
     this.district = '';
     this.neighborhood = '';
     this.address = '';
-    this.isActive = false;
     this.createdAt = new Date();
   }
 }
