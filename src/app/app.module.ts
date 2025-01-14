@@ -63,6 +63,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
   ],
   exports: [
     // CarouselComponent,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

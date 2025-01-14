@@ -6,8 +6,12 @@
     <h2 id="products-heading" class="sr-only">Products</h2>
 
     @defer ()  {
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-10 lg:grid-cols-4 pb-20 p-10">
+      <div *ngIf="products.length != 0" class="grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-10 lg:grid-cols-4 pb-20 p-10">
         <product *ngFor="let prd of products" [product]="prd"/>
+      </div>
+      <div *ngIf="products.length == 0" class="bg-gray-50 text-center mt-4 p-8 rounded-md shadow border">
+        <i class="fa-solid fa-xmark"></i>
+        No Favori product available.
       </div>
     } @placeholder (minimum 1s) {
       <div class="pt-10 flex justify-center items-center">

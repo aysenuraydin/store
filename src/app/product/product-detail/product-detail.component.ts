@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryProductService } from '../../services/category-product.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'product-detail',
@@ -8,13 +9,14 @@ import { CategoryProductService } from '../../services/category-product.service'
   styleUrl: './product-detail.component.css'
 })
 export class ProductDetailComponent {
-  activeTab: Number = 1;
+  activeTab: Number = 0;
   product: any;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private categoryProductService: CategoryProductService
+    private categoryProductService: CategoryProductService,
+    private cartService: CartService
   ) { }
 
   ngOnInit(): void {
@@ -30,6 +32,13 @@ export class ProductDetailComponent {
     .subscribe(
       (data) => {
         this.product = data;
+      }
+    );
+  }
+  addCart(product:any):void{
+    this.cartService.crateOrUpdateCartItem(product).subscribe(
+      (data) => {
+        this.router.navigate(['/cart/']);
       }
     );
   }

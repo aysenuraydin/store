@@ -36,7 +36,7 @@ export class MessagesComponent {
     );
   }
   viewMessage(id: number): void {
-    this.messageService.getBanner(id)
+    this.messageService.getContact(id)
     .subscribe(
       (data) => {
         this.message = data;

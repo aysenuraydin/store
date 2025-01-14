@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ProductList } from '../../models/productList';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'add-carts',
@@ -6,18 +8,19 @@ import { Component } from '@angular/core';
   styleUrl: './add-carts.component.css'
 })
 export class AddCartsComponent {
-  // $('#cart-link').click((event)=> {
-  //   event.stopPropagation();
-  //   $('#modal-card').toggleClass('hidden').toggleClass('block');
-  //   if($('#modal-fav').hasClass('block')){
-  //     $('#modal-fav').toggleClass('hidden').toggleClass('block');
-  //   }
-  // });
-  // $('#cart-button').click(()=> {
-  //   $('#modal-card').toggleClass('hidden').toggleClass('block');
-  // });
-  // $('.cart-blur').click((event)=> {
-  //   event.stopPropagation();
-  //   $('#modal-card').toggleClass('hidden').toggleClass('block');
-  // });
+    products: ProductList[] = [];
+
+    constructor(private cartService: CartService) {  }
+
+    ngOnInit(): void {
+      this.getProducts();
+    }
+    getProducts(): void{
+      this.cartService.getCartItems()
+          .subscribe(
+            (data) => {
+              this.products= data;
+            }
+        );
+    }
 }

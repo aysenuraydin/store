@@ -31,7 +31,8 @@ import { BrowserModule } from '@angular/platform-browser';
     AppRoutingModule,
     BrowserModule,
     FormsModule,
-    CKEditorModule
+    CKEditorModule,
+    // FavoriteComponent
   ],
   exports: [
     AddCartsComponent,

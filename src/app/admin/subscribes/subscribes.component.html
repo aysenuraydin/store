@@ -32,7 +32,7 @@
       <div class="flex justify-between gap-6">
         <div class="mb-3 w-full">
           <label for="email" class="min-w-24 mt-3 pl-3">Email</label>
-          <input #Email type="text" class="mt-1 p-2 w-full border  rounded-lg text-gray-800 outline-none" [(ngModel)]="subscribe.email">
+          <div div class="mt-1 p-2 w-full border  rounded-lg text-gray-800 outline-none">{{subscribe.email}}</div>
         </div>
         <div class="mb-3">
           <label for="isActive" class="min-w-24 mt-3">IsActive</label>
@@ -100,7 +100,7 @@
         </button>
       </span>
     </div>
-    <div *ngIf="subscribes.length == 0" class="bg-gray-100 text-center mt-4 p-8 rounded-md shadow border">
+    <div *ngIf="subscribes.length == 0" class="bg-white text-center mt-4 p-8 rounded-md shadow border">
       <i class="fa-solid fa-xmark"></i>
       No subscribe available.
     </div>

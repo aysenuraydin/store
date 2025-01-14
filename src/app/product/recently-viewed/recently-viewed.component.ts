@@ -20,7 +20,7 @@ export class RecentlyViewedComponent {
     this.recentlService.getRecentlyItems()
         .subscribe(
           (data) => {
-            this.products = data;
+            this.products = data.reverse();
           }
       );
   }

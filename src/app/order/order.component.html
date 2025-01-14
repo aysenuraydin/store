@@ -1,433 +1,93 @@
 <div class="min-h-[90vh] mt-32 mx-auto max-w-7xl">
-  <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5 mt-24">All Orders</h1>
+  <div class="flex flex-row">
+    <h1 class="w-1/4 text-4xl font-bold tracking-tight text-gray-900 p-5">All Orders</h1>
+      <div class="w-3/4 flex justify-end items-center">
+        <div (click)="getOrders()" [ngClass]="{'border-gray-700': activeOrderState == null}"
+        class="order-state border bg-gray-50 text-gray-700 ring-gray-600/20 mb-3 mx-2"><i class="mt-1 mr-2 fa-solid fa-box"></i> All</div>
+        <div (click)="getOrders(OrderState.inProgress)" [ngClass]="{'border-blue-700': activeOrderState == OrderState.inProgress}"
+        class="order-state border bg-blue-50 text-blue-700 ring-blue-600/20 mb-3 mx-2"><i class="mt-1 mr-2 fa-solid fa-spinner"></i> In Progress</div>
+        <div (click)="getOrders(OrderState.delivered)" [ngClass]="{'border-green-700': activeOrderState == OrderState.delivered}"
+        class="order-state border bg-green-50 text-green-700 ring-green-600/20 mb-3 mx-2"><i class="mt-1 mr-2 fa-solid fa-check"></i> Delivered</div>
+        <div (click)="getOrders(OrderState.returns)" [ngClass]="{'border-yellow-700': activeOrderState == OrderState.returns}"
+        class="order-state border bg-yellow-50 text-yellow-700 ring-yellow-600/20 mb-3 mx-2"><i class="mt-1 mr-2 fa-solid fa-undo"></i> Returns</div>
+        <div (click)="getOrders(OrderState.cancellations)" [ngClass]="{'border-red-700': activeOrderState == OrderState.cancellations}"
+        class="order-state border bg-red-50 text-red-700 ring-red-600/20 mb-3 mx-2"><i class="mt-1 mr-2 fa-solid fa-ban"></i> Cancellations</div>
+      </div>
+  </div>
   <hr class="divide">
   <section aria-labelledby="products-heading" class="pt-6 pb-24">
 
-      <div class="flex px-8 pb-5">
-        <div class="inline-flex rounded-md bg-gray-50 px-3 py-2 font-medium text-gray-700 ring-1 ring-inset ring-gray-600/20 mb-3 mx-2"><i class="mt-1 mr-2 fa-solid fa-box"></i> All</div>
-        <div class="inline-flex rounded-md bg-blue-50 px-3 py-2 font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20 mb-3 mx-2"><i class="mt-1 mr-2 fa-solid fa-spinner"></i> In Progress</div>
-        <div class="inline-flex rounded-md bg-green-50 px-3 py-2 font-medium text-green-700 ring-1 ring-inset ring-green-600/20 mb-3 mx-2"><i class="mt-1 mr-2 fa-solid fa-check"></i> Delivered</div>
-        <div class="inline-flex rounded-md bg-yellow-50 px-3 py-2 font-medium text-yellow-700 ring-1 ring-inset ring-yellow-600/20 mb-3 mx-2"><i class="mt-1 mr-2 fa-solid fa-undo"></i> Returns</div>
-        <div class="inline-flex rounded-md bg-red-50 px-3 py-2 font-medium text-red-700 ring-1 ring-inset ring-red-600/20 mb-3 mx-2"><i class="mt-1 mr-2 fa-solid fa-ban"></i> Cancellations</div>
-      </div>
+
       <div class="bg-white w-full mx-auto">
         <ul class="shadow-box">
 
           <!-- Accordion Item -->
-          <li class="-mt-5">
+          <li class="-mt-5" *ngFor="let order of orders">
             <button
+              (click)="toggleWindow(order.id)"
               type="button"
-              class="accordion-button "
-              onclick="toggleAccordion(1)">
+              class="accordion-button ">
               <div class="flex w-full bg-gray-100 p-10 rounded-lg">
                 <div class="basis-1/5">
                   <div class="font-semibold">Order Date</div>
-                  <div>November 10, 2024 - 13:17</div>
+                  <div>
+                    {{ order.createdAt | date: 'dd-mm-yyyy' }}
+                    {{ order.createdAt | date: 'h:mm:ss' }}
+                  </div>
                 </div>
                 <div class="basis-1/5">
                   <div class="font-semibold">Order Summary</div>
-                  <div>1 Delivery, 1 Product</div>
+                  <div>{{order.orderItems.length}} Delivery, {{getProductCount(order)}} Product</div>
                 </div>
                 <div class="basis-1/5">
                   <div class="font-semibold">Recipient</div>
-                  <div>AYŞENUR AYDIN</div>
+                  <div>{{order.adressFullname}}</div>
                 </div>
                 <div class="basis-1/5">
                   <div class="font-semibold">Total</div>
-                  <div>5,003.79 TL</div>
+                  <div>$ {{getTotal(order) | number:'1.2-2'}}</div>
                 </div>
                 <div class="basis-1/5">
-                  <a routerLink="/order/order-details" class="inline-block w-full text-center bg-gray-700 text-white p-3 rounded-md">Order Details</a>
+                  <a routerLink="/order/order-details/{{order.id}}" class="inline-block w-full text-center bg-gray-700 text-white p-3 rounded-md">Order Details</a>
                 </div>
               </div>
             </button>
             <div
               id="accordion1"
-              class="relative overflow-hidden transition-all max-h-0 duration-700 px-10">
+              class="relative transition-all duration-700 px-10"
+               *ngIf="buttonVisible==order.id">
               <div class="p-6 flex">
                 <div class="w-full">
-                    <div class="inline-flex rounded-md bg-green-50 px-3 py-2 font-medium text-green-700 ring-1 ring-inset ring-green-600/20 mb-3"><i class="mt-1 mr-2 fa-solid fa-check"></i> Delivered</div>
-                  <div>1 product was delivered on November 12.</div>
+                    <p> <span class="mr-2 font-bold mt-10">Order Code:</span> {{ order.orderCode }}</p>
+
+                    <div class="inline-flex px-4 py-3 mt-5 min-w-36 rounded-md font-medium ring-1 ring-inset text-center"
+                    [ngClass]="{
+                      'bg-blue-50 text-blue-700 ring-blue-600/20': order.orderState === OrderState.inProgress,
+                      'bg-red-50 text-red-700 ring-red-600/20': order.orderState === OrderState.cancellations,
+                      'bg-yellow-50 text-yellow-700 ring-yellow-600/20': order.orderState === OrderState.returns,
+                      'bg-green-50 text-green-700 ring-green-600/20': order.orderState === OrderState.delivered
+                    }" >
+                    <i class="fa-solid mr-4 mt-1"
+                    [ngClass]="{
+                      'fa-spinner': order.orderState === OrderState.inProgress,
+                      'fa-ban': order.orderState === OrderState.cancellations,
+                      'fa-undo': order.orderState === OrderState.returns,
+                      'fa-check': order.orderState === OrderState.delivered
+                    }"></i>{{order.orderState}} </div>
+
                 </div>
                 <div class="w-full">
                   <ul class="flex">
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
+                    <li *ngFor="let i of order.orderItems" class="mx-1"><img [src]="i.imgUrl" routerLink="/product/product-detail/{{i.id}}" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] hover:cursor-pointer"></li>
                   </ul>
                 </div>
               </div>
             </div>
           </li>
-          <li class="-mt-5">
-            <button
-              type="button"
-              class="accordion-button "
-              onclick="toggleAccordion(2)">
-              <div class="flex w-full bg-gray-100 p-10 rounded-lg">
-                <div class="basis-1/5">
-                  <div class="font-semibold">Order Date</div>
-                  <div>November 10, 2024 - 13:17</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Order Summary</div>
-                  <div>1 Delivery, 1 Product</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Recipient</div>
-                  <div>AYŞENUR AYDIN</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Total</div>
-                  <div>5,003.79 TL</div>
-                </div>
-                <div class="basis-1/5">
-                  <a routerLink="/order/order-details" class="inline-block w-full text-center bg-gray-700 text-white p-3 rounded-md">Order Details</a>
-                </div>
-              </div>
-            </button>
-            <div
-              id="accordion2"
-              class="relative overflow-hidden transition-all max-h-0 duration-700 px-10">
-              <div class="p-6 flex">
-                <div class="w-full">
-                  <div class="inline-flex rounded-md bg-red-50 px-3 py-2 font-medium text-red-700 ring-1 ring-inset ring-red-600/20 mb-3 mx-2"><i class="mt-1 mr-2 fa-solid fa-ban"></i> Cancellations</div>
-                  <div>1 product was delivered on November 12.</div>
-                </div>
-                <div class="w-full">
-                  <ul class="flex">
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="-mt-5">
-            <button
-              type="button"
-              class="accordion-button "
-              onclick="toggleAccordion(3)">
-              <div class="flex w-full bg-gray-100 p-10 rounded-lg">
-                <div class="basis-1/5">
-                  <div class="font-semibold">Order Date</div>
-                  <div>November 10, 2024 - 13:17</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Order Summary</div>
-                  <div>1 Delivery, 1 Product</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Recipient</div>
-                  <div>AYŞENUR AYDIN</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Total</div>
-                  <div>5,003.79 TL</div>
-                </div>
-                <div class="basis-1/5">
-                  <a routerLink="/order/order-details" class="inline-block w-full text-center bg-gray-700 text-white p-3 rounded-md">Order Details</a>
-                </div>
-              </div>
-            </button>
-            <div
-              id="accordion3"
-              class="relative overflow-hidden transition-all max-h-0 duration-700 px-10">
-              <div class="p-6 flex">
-                <div class="w-full">
-                  <div class="inline-flex rounded-md bg-yellow-50 px-3 py-2 font-medium text-yellow-700 ring-1 ring-inset ring-yellow-600/20 mb-3 mx-2"><i class="mt-1 mr-2 fa-solid fa-undo"></i> Returns</div>
-                  <div>1 product was delivered on November 12.</div>
-                </div>
-                <div class="w-full">
-                  <ul class="flex">
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="-mt-5">
-            <button
-              type="button"
-              class="accordion-button "
-              onclick="toggleAccordion(4)">
-              <div class="flex w-full bg-gray-100 p-10 rounded-lg">
-                <div class="basis-1/5">
-                  <div class="font-semibold">Order Date</div>
-                  <div>November 10, 2024 - 13:17</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Order Summary</div>
-                  <div>1 Delivery, 1 Product</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Recipient</div>
-                  <div>AYŞENUR AYDIN</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Total</div>
-                  <div>5,003.79 TL</div>
-                </div>
-                <div class="basis-1/5">
-                  <a routerLink="/order/order-details" class="inline-block w-full text-center bg-gray-700 text-white p-3 rounded-md">Order Details</a>
-                </div>
-              </div>
-            </button>
-            <div
-              id="accordion4"
-              class="relative overflow-hidden transition-all max-h-0 duration-700 px-10">
-              <div class="p-6 flex">
-                <div class="w-full">
-                  <div class="inline-flex rounded-md bg-blue-50 px-3 py-2 font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20 mb-3 mx-2"><i class="mt-1 mr-2 fa-solid fa-spinner"></i> In Progress</div>
-                  <div>1 product was delivered on November 12.</div>
-                </div>
-                <div class="w-full">
-                  <ul class="flex">
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="-mt-5">
-            <button
-              type="button"
-              class="accordion-button "
-              onclick="toggleAccordion(5)">
-              <div class="flex w-full bg-gray-100 p-10 rounded-lg">
-                <div class="basis-1/5">
-                  <div class="font-semibold">Order Date</div>
-                  <div>November 10, 2024 - 13:17</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Order Summary</div>
-                  <div>1 Delivery, 1 Product</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Recipient</div>
-                  <div>AYŞENUR AYDIN</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Total</div>
-                  <div>5,003.79 TL</div>
-                </div>
-                <div class="basis-1/5">
-                  <a routerLink="/order/order-details" class="inline-block w-full text-center bg-gray-700 text-white p-3 rounded-md">Order Details</a>
-                </div>
-              </div>
-            </button>
-            <div
-              id="accordion5"
-              class="relative overflow-hidden transition-all max-h-0 duration-700 px-10">
-              <div class="p-6 flex">
-                <div class="w-full">
-                  <div class="inline-flex rounded-md bg-green-50 px-3 py-2 font-medium text-green-700 ring-1 ring-inset ring-green-600/20 mb-3"><i class="mt-1 mr-2 fa-solid fa-check"></i> Delivered</div>
-                  <div>1 product was delivered on November 12.</div>
-                </div>
-                <div class="w-full">
-                  <ul class="flex">
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="-mt-5">
-            <button
-              type="button"
-              class="accordion-button "
-              onclick="toggleAccordion(6)">
-              <div class="flex w-full bg-gray-100 p-10 rounded-lg">
-                <div class="basis-1/5">
-                  <div class="font-semibold">Order Date</div>
-                  <div>November 10, 2024 - 13:17</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Order Summary</div>
-                  <div>1 Delivery, 1 Product</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Recipient</div>
-                  <div>AYŞENUR AYDIN</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Total</div>
-                  <div>5,003.79 TL</div>
-                </div>
-                <div class="basis-1/5">
-                  <a routerLink="/order/order-details" class="inline-block w-full text-center bg-gray-700 text-white p-3 rounded-md">Order Details</a>
-                </div>
-              </div>
-            </button>
-            <div
-              id="accordion6"
-              class="relative overflow-hidden transition-all max-h-0 duration-700 px-10">
-              <div class="p-6 flex">
-                <div class="w-full">
-                  <div class="inline-flex rounded-md bg-green-50 px-3 py-2 font-medium text-green-700 ring-1 ring-inset ring-green-600/20 mb-3"><i class="mt-1 mr-2 fa-solid fa-check"></i> Delivered</div>
-                  <div>1 product was delivered on November 12.</div>
-                </div>
-                <div class="w-full">
-                  <ul class="flex">
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="-mt-5">
-            <button
-              type="button"
-              class="accordion-button "
-              onclick="toggleAccordion(7)">
-              <div class="flex w-full bg-gray-100 p-10 rounded-lg">
-                <div class="basis-1/5">
-                  <div class="font-semibold">Order Date</div>
-                  <div>November 10, 2024 - 13:17</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Order Summary</div>
-                  <div>1 Delivery, 1 Product</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Recipient</div>
-                  <div>AYŞENUR AYDIN</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Total</div>
-                  <div>5,003.79 TL</div>
-                </div>
-                <div class="basis-1/5">
-                  <a routerLink="/order/order-details" class="inline-block w-full text-center bg-gray-700 text-white p-3 rounded-md">Order Details</a>
-                </div>
-              </div>
-            </button>
-            <div
-              id="accordion7"
-              class="relative overflow-hidden transition-all max-h-0 duration-700 px-10">
-              <div class="p-6 flex">
-                <div class="w-full">
-                  <div class="inline-flex rounded-md bg-green-50 px-3 py-2 font-medium text-green-700 ring-1 ring-inset ring-green-600/20 mb-3"><i class="mt-1 mr-2 fa-solid fa-check"></i> Delivered</div>
-                  <div>1 product was delivered on November 12.</div>
-                </div>
-                <div class="w-full">
-                  <ul class="flex">
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="-mt-5">
-            <button
-              type="button"
-              class="accordion-button "
-              onclick="toggleAccordion(8)">
-              <div class="flex w-full bg-gray-100 p-10 rounded-lg">
-                <div class="basis-1/5">
-                  <div class="font-semibold">Order Date</div>
-                  <div>November 10, 2024 - 13:17</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Order Summary</div>
-                  <div>1 Delivery, 1 Product</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Recipient</div>
-                  <div>AYŞENUR AYDIN</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Total</div>
-                  <div>5,003.79 TL</div>
-                </div>
-                <div class="basis-1/5">
-                  <a routerLink="/order/order-details" class="inline-block w-full text-center bg-gray-700 text-white p-3 rounded-md">Order Details</a>
-                </div>
-              </div>
-            </button>
-            <div
-              id="accordion8"
-              class="relative overflow-hidden transition-all max-h-0 duration-700 px-10">
-              <div class="p-6 flex">
-                <div class="w-full">
-                  <div class="inline-flex rounded-md bg-green-50 px-3 py-2 font-medium text-green-700 ring-1 ring-inset ring-green-600/20 mb-3"><i class="mt-1 mr-2 fa-solid fa-check"></i> Delivered</div>
-                  <div>1 product was delivered on November 12.</div>
-                </div>
-                <div class="w-full">
-                  <ul class="flex">
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </li>
-          <li class="-mt-5">
-            <button
-              type="button"
-              class="accordion-button "
-              onclick="toggleAccordion(9)">
-              <div class="flex w-full bg-gray-100 p-10 rounded-lg">
-                <div class="basis-1/5">
-                  <div class="font-semibold">Order Date</div>
-                  <div>November 10, 2024 - 13:17</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Order Summary</div>
-                  <div>1 Delivery, 1 Product</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Recipient</div>
-                  <div>AYŞENUR AYDIN</div>
-                </div>
-                <div class="basis-1/5">
-                  <div class="font-semibold">Total</div>
-                  <div>5,003.79 TL</div>
-                </div>
-                <div class="basis-1/5">
-                  <a routerLink="/order/order-details" class="inline-block w-full text-center bg-gray-700 text-white p-3 rounded-md">Order Details</a>
-                </div>
-              </div>
-            </button>
-            <div
-              id="accordion9"
-              class="relative overflow-hidden transition-all max-h-0 duration-700 px-10">
-              <div class="p-6 flex">
-                <div class="w-full">
-                  <div class="inline-flex rounded-md bg-blue-50 px-3 py-2 font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20 mb-3 mx-2"><i class="mt-1 mr-2 fa-solid fa-spinner"></i> In Progress</div>
-                  <div>1 product was delivered on November 12.</div>
-                </div>
-                <div class="w-full">
-                  <ul class="flex">
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                    <li class="mx-1"><img src="https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg" class="aspect-square h-20 rounded-lg bg-gray-200 object-cover group-hover:opacity-75 xl:aspect-[7/8] "></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </li>
+          <div *ngIf="orders.length === 0" class="bg-gray-100 text-center mt-4 p-14 rounded-md shadow border">
+            <i class="fa-solid fa-xmark"></i>
+            No orders available.
+          </div>
         </ul>
       </div>
   </section>

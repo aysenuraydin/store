@@ -12,7 +12,7 @@ const routes: Routes = [
       canActivate: [],
       children: [
         { path: '', component: CartComponent  },
-        { path: 'cart-confirm', component: CartConfirmComponent }
+        { path: 'cart-confirm/:id', component: CartConfirmComponent }
       ]
     }
 ]

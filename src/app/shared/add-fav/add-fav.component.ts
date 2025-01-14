@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Product } from '../../models/product';
 import { FavService } from '../../services/fav.service';
+import { ProductList } from '../../models/productList';
 
 @Component({
   selector: 'add-fav',
@@ -8,28 +8,19 @@ import { FavService } from '../../services/fav.service';
   styleUrl: './add-fav.component.css'
 })
 export class AddFavComponent {
-  products: Product[] = [];
+    products: ProductList[] = [];
 
-  constructor(private favService: FavService) {  }
+    constructor(private favService: FavService) {  }
 
-  ngOnInit(): void {
-    this.getProducts();
-  }
-  getProducts(): void{
-    this.favService.getFavItems()
-        .subscribe(
-          (data) => {
-            data.map(d =>
-              this.products.push({
-                id : d.id,
-                name : d.name,
-                price : d.price,
-                imgUrl : d.imgUrl,
-                description : "",
-                details : ""
-              })
-            )
-          }
-      );
-  }
+    ngOnInit(): void {
+      this.getProducts();
+    }
+    getProducts(): void{
+      this.favService.getFavItems()
+          .subscribe(
+            (data) => {
+              this.products= data;
+            }
+        );
+    }
 }

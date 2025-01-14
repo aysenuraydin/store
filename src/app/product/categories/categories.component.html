@@ -16,10 +16,13 @@
     </li>
     <li *ngFor="let c of category">
       <a routerLink="/product/product-list/{{ c.id}}" *ngIf="c.id!=0">
-        <div class="p-2 rounded-lg"
+        <div class="p-3 rounded-lg"
         [ngStyle]="{
           'background-color': colorOpacity(c?.color),
-          'color': c?.color
+          'color': c?.color,
+          'border-color':c?.color,
+          'border-width': '1px',
+          'border-style': 'solid'
         }">
           {{c.name}}
         </div>
