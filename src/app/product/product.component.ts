@@ -41,23 +41,10 @@ export class ProductComponent implements OnInit{
     )
   }
 
-
-
   heartClick(product: ProductList): void {
     this.product?.isFav , product.isFav = !product.isFav;
     if( product.isFav) this.createFav(product);
     else this.deleteFav(product.id);
-    this.updateProduct(product.id);
-
-  }
-  updateProduct(id:number){
-    this.productService.getProduct(id).subscribe(
-      (data) =>
-      {
-        data.isFav = !data.isFav;
-        this.productService.updateProduct(data).subscribe();
-      }
-    )
   }
   createFav(product:ProductList){
         this.favService.createFavItem(product).subscribe();

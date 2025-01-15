@@ -5,7 +5,6 @@ export class RecentlyItem {
     name: string;
     price: number;
     imgUrl: string;
-    isFav?: boolean;
 
     //todo isconfirmedi stockAmount yoksa listelenmesin
     constructor() {
@@ -14,7 +13,6 @@ export class RecentlyItem {
       this.userId = 0;
       this.name = '';
       this.price = 0;
-      this.isFav = false;
       this.imgUrl = 'https://via.placeholder.com/150';
   }
 }

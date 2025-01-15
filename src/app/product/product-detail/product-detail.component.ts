@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryProductService } from '../../services/category-product.service';
 import { CartService } from '../../services/cart.service';
 import { ReviewService } from '../../services/reiew.service';
+import { FavService } from '../../services/fav.service';
+import { ProductList } from '../../models/productList';
 
 @Component({
   selector: 'product-detail',
@@ -12,8 +14,10 @@ import { ReviewService } from '../../services/reiew.service';
 export class ProductDetailComponent {
   activeTab: Number = 0;
   product: any;
+
   averageReviews:number = 0;
   reviewsCount:number = 0;
+
   fullStars: any[] = [];
   hasHalfStar: boolean = false;
   emptyStars: any[] = [];
@@ -22,6 +26,7 @@ export class ProductDetailComponent {
     private router: Router,
     private route: ActivatedRoute,
     private categoryProductService: CategoryProductService,
+    private favService: FavService,
     private reviewService: ReviewService,
     private cartService: CartService
   ) { }
@@ -30,7 +35,23 @@ export class ProductDetailComponent {
     let id = Number(this.route.snapshot.paramMap.get('id'));
     this.getProduct(id);
   }
+  heartClick(product: ProductList): void {
+    this.product?.isFav , product.isFav = !product.isFav;
+    if( product.isFav) this.createFav();
+    else this.deleteFav(product.id);
 
+  }
+  getFavState(){
+    this.favService.isOrNot(this.product.id).subscribe(
+      data=> this.product.isFav = data
+    );
+  }
+  createFav(){
+    this.favService.createFavItem(this.product).subscribe();
+  }
+  deleteFav(id:number){
+    this.favService.deleteFavItem(id).subscribe();
+  }
   getStarState() :void {
       const fullStarCount = Math.floor(this.averageReviews);
       const hasHalfStar = this.averageReviews % 1 !== 0;
@@ -39,7 +60,7 @@ export class ProductDetailComponent {
       this.fullStars = Array(fullStarCount);
       this.hasHalfStar = hasHalfStar;
       this.emptyStars = Array(emptyStarCount);
-    }
+  }
   getAverange() :void {
     this.reviewService.getAverageAndCountByProductId(this.product.id)
       .subscribe(
@@ -50,12 +71,12 @@ export class ProductDetailComponent {
       }
     );
   }
-
   getProduct(id:number):void{
     this.categoryProductService.getProductWithCategoryName(id)
     .subscribe(
       (data) => {
         this.product = data;
+        this.getFavState();
         this.getAverange();
       }
     );

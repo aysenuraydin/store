@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { ProductList } from '../../models/productList';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FavService } from '../../services/fav.service';
+import { forkJoin, map, switchMap } from 'rxjs';
 
 @Component({
   selector: 'product-list',
@@ -16,7 +18,8 @@ export class ProductListComponent {
   constructor(
     private productService: ProductService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+     private favService: FavService
   ) {  }
 
   ngOnInit(): void {
@@ -28,7 +31,7 @@ export class ProductListComponent {
     this.getProducts(categoryId);
   }
   getProducts(id:number): void{
-    this.productService.getProductsByCategoryId(id)
+    this.productService.getProductItemsByCategoryId(id)
         .subscribe(
           (data) => {
             this.products = data;

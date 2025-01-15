@@ -4,6 +4,7 @@ import { Product } from '../models/product';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { forkJoin, map, Observable, of, switchMap, pipe } from 'rxjs';
 import { ProductList } from '../models/productList';
+import { FavService } from './fav.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,32 +12,81 @@ import { ProductList } from '../models/productList';
 export class ProductService {
   private apiUrl:string = 'api/product';
 
-  constructor(private http: HttpClient ) {}
-  getProductItems(userId: number = 0): Observable<ProductList[]> {
+  constructor(private http: HttpClient, private favService: FavService ) {}
+  getProductItemsByViewCount(): Observable<ProductList[]> {
     return this.http.get<Product[]>(this.apiUrl).pipe(
       map((products: Product[]) =>
-        products.map((product) => ({
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          imgUrl: product.imgUrl,
-          categoryId: undefined,
-          isFav: false
-        }))
-      )
+        products
+          .sort((a, b) => b.viewCount - a.viewCount)
+          .slice(0, 10)
+      ),
+      switchMap((topProducts: Product[]) => {
+        const productsWithFavStatus$ = topProducts.map((product) =>
+          this.favService.isOrNot(product.id).pipe(
+            map((isFav) => ({
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              imgUrl: product.imgUrl,
+              isFav: isFav
+            }))
+          )
+        );
+        return forkJoin(productsWithFavStatus$);
+      })
     );
   }
+  getProductItemsByCategoryId(id:number): Observable<ProductList[]> {
+    return this.http.get<Product[]>(this.apiUrl).pipe(
+      map((products: Product[]) =>
+          id == 0
+          ? products
+          : products.filter(product => product.categoryId == id)
+      ),
+      switchMap((topProducts: Product[]) => {
+        const productsWithFavStatus$ = topProducts.map((product) =>
+          this.favService.isOrNot(product.id).pipe(
+            map((isFav) => ({
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              imgUrl: product.imgUrl,
+              isFav: isFav
+            }))
+          )
+        );
+        return forkJoin(productsWithFavStatus$);
+      })
+    );
+  }
+  getProductItems(): Observable<ProductList[]> {
+    return this.http.get<Product[]>(this.apiUrl).pipe(
+      map((products: Product[]) =>
+        products
+      ),
+      switchMap((topProducts: Product[]) => {
+        const productsWithFavStatus$ = topProducts.map((product) =>
+          this.favService.isOrNot(product.id).pipe(
+            map((isFav) => ({
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              imgUrl: product.imgUrl,
+              isFav: isFav
+            }))
+          )
+        );
+        return forkJoin(productsWithFavStatus$);
+      })
+    );
+  }
+
   getProductsByCategoryId(id:number) :Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl).pipe(
       map(products =>
         id == 0
         ? products
         : products.filter(product => product.categoryId == id))
-    );
-  }
-  getProducts() :Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiUrl).pipe(
-      map( product =>product )
     );
   }
   getProductsByCount(neededCount:number) :Observable<Product[]> {
@@ -46,20 +96,9 @@ export class ProductService {
       )
     );
   }
-  getProductItemsByCategoryId(id: number): Observable<ProductList[]> {
+  getProducts() :Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl).pipe(
-      map((products: Product[]) =>
-        products
-          .filter((product) => id === 0 || product.categoryId === id) // Kategori ID'ye göre filtreleme
-          .map((product) => ({
-            id: product.id,
-            name: product.name,
-            price: product.price,
-            imgUrl: product.imgUrl,
-            categoryId: product.categoryId,
-            isFav: false
-          }))
-      )
+      map( product =>product )
     );
   }
   getProduct(id:number) : Observable<Product>{

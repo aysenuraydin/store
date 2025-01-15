@@ -38,12 +38,6 @@ export class OrdersComponent {
     this.cancel();
   }
   getOrders(state?:OrderState): void{
-    // this.orderService.getOrdersByOrderState(state)
-    // .subscribe(
-    //   (data) => {
-    //     this.orders = data;
-    // }
-    // );
     this.activeOrderState = state;
     this.orderService.getOrdersWithFullname()
       .subscribe(
@@ -73,7 +67,6 @@ export class OrdersComponent {
   updateOrder(order:Order):void{
     this.orderService.updateOrder(order)
     .subscribe((data) => {
-      console.log(data);
       this.getOrders();
       this.getOrder(order.id);
       this.toggleWindow(this.buttonVisible)
@@ -82,12 +75,4 @@ export class OrdersComponent {
   cancel():void{
     this.order = new Order();
   }
-   // getOrders(): void{
-  //   this.orderService.getOrdersWithFullname()
-  //       .subscribe(
-  //         (data) => {
-  //           this.orders = data;
-  //       }
-  //     );
-  // }
 }
