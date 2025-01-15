@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, Observable, pipe, switchMap } from 'rxjs';
+import { catchError, map, Observable, of, pipe, switchMap, throwError } from 'rxjs';
 import { FavItem } from '../models/favItem';
 import { ProductList } from '../models/productList';
 import { ProductService } from './product.service';
@@ -12,7 +12,6 @@ export class FavService {
 
   constructor(
     private http: HttpClient,
-    private productService: ProductService,
     ) {}
 
   getFavItems(userId:number=0): Observable<FavItem[]> {
@@ -20,6 +19,20 @@ export class FavService {
         map(fav => fav)
       );
   }
+  getFavItem(id:number): Observable<FavItem> {
+    return this.http.get<FavItem>(this.apiUrl+'/'+id).pipe(
+      map(fav => fav)
+    );
+  }
+  isOrNot(id:number): Observable<boolean> {
+    return this.http.get<FavItem>(this.apiUrl+'/'+id).pipe(
+      map(() => true),
+      catchError(() => {
+        return of(false);
+      })
+    );
+  }
+
   createFavItem(fav: ProductList): Observable<FavItem> {
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})

@@ -16,7 +16,7 @@ export class ProductRepository {
             isConfirmed: false,
             details:'lorem 18',
             stockAmount: 1,
-            isFav:false,
+
             viewCount:1
           },
           {
@@ -30,7 +30,7 @@ export class ProductRepository {
             isConfirmed: false,
             details:'lorem 18',
             stockAmount: 2,
-            isFav:false,
+
             viewCount:2
           },
           {
@@ -44,7 +44,7 @@ export class ProductRepository {
             isConfirmed: true,
             details:'lorem 18',
             stockAmount: 3,
-            isFav:false,
+
             viewCount:3
           },
           {
@@ -58,7 +58,7 @@ export class ProductRepository {
             isConfirmed: true,
             details:'lorem 18',
             stockAmount: 4,
-            isFav:false,
+
             viewCount:4
           },
           {
@@ -72,7 +72,7 @@ export class ProductRepository {
             isConfirmed: true,
             details:'lorem 18',
             stockAmount: 5,
-            isFav:false,
+
             viewCount:0
           },
           {
@@ -86,7 +86,7 @@ export class ProductRepository {
             isConfirmed: false,
             details:'lorem 18',
             stockAmount: 6,
-            isFav:false,
+
             viewCount:0
           },
           {
@@ -100,7 +100,7 @@ export class ProductRepository {
             isConfirmed: true,
             details:'lorem 18',
             stockAmount: 7,
-            isFav:false,
+
             viewCount:0
           },
           {
@@ -114,7 +114,7 @@ export class ProductRepository {
             isConfirmed: true,
             details:'lorem 18',
             stockAmount: 8,
-            isFav:false,
+
             viewCount:0
           },
           {
@@ -128,7 +128,7 @@ export class ProductRepository {
             isConfirmed: true,
             details:'lorem 18',
             stockAmount: 9,
-            isFav:false,
+
             viewCount:0
           },
           {
@@ -142,7 +142,7 @@ export class ProductRepository {
             isConfirmed: false,
             details:'lorem 18',
             stockAmount: 10,
-            isFav:false,
+
             viewCount:0
           },
           {
@@ -156,7 +156,7 @@ export class ProductRepository {
             isConfirmed: true,
             details:'lorem 18',
             stockAmount: 11,
-            isFav:false,
+
             viewCount:0
           },
           {
@@ -170,7 +170,7 @@ export class ProductRepository {
             isConfirmed: false,
             details:'lorem 18',
             stockAmount: 12,
-            isFav:false,
+
             viewCount:0
           },
           {
@@ -184,7 +184,7 @@ export class ProductRepository {
             isConfirmed: true,
             details:'lorem 18',
             stockAmount: 13,
-            isFav:false,
+
             viewCount:0
           },
           {
@@ -198,7 +198,7 @@ export class ProductRepository {
             isConfirmed: true,
             details:'lorem 18',
             stockAmount: 14,
-            isFav:false,
+
             viewCount:0
           },
           {
@@ -212,7 +212,7 @@ export class ProductRepository {
             isConfirmed: true,
             details:'lorem 18',
             stockAmount: 15,
-            isFav:false,
+
             viewCount:0
           },
           {
@@ -226,7 +226,7 @@ export class ProductRepository {
             isConfirmed: false,
             details:'lorem 18',
             stockAmount: 16,
-            isFav:false,
+
             viewCount:0
           },
 
@@ -241,7 +241,7 @@ export class ProductRepository {
             isConfirmed: false,
             details:'lorem 18',
             stockAmount: 17,
-            isFav:false,
+
             viewCount:0
           },
           {
@@ -255,7 +255,7 @@ export class ProductRepository {
             isConfirmed: true,
             details:'lorem 18',
             stockAmount: 18,
-            isFav:false,
+
             viewCount:0
           },
       );
