@@ -5,7 +5,7 @@ import { ReviewService } from '../../services/reiew.service';
 @Component({
   selector: 'reviews',
   templateUrl: './reviews.component.html',
-  styleUrl: './reviews.component.css'
+  styles: [``]
 })
 export class ReviewsComponent {
   buttonVisible:boolean = true;
@@ -34,6 +34,7 @@ export class ReviewsComponent {
     this.reviewService.getReview(id)
     .subscribe(
       (data) => {
+        this.toggleWindow(true);
         this.review = data;
       }
     );
@@ -42,6 +43,7 @@ export class ReviewsComponent {
     review.isConfirmed=!review.isConfirmed;
     this.reviewService.updateReview(review)
     .subscribe(() => {
+      this.toggleWindow(true)
       this.getReviews();
       this.cancel();
     });
@@ -49,6 +51,7 @@ export class ReviewsComponent {
   deletReview(id:number):void{
     this.reviewService.deleteReview(id)
     .subscribe(() => {
+      this.toggleWindow(true)
       this.getReviews();
       this.cancel();
     });

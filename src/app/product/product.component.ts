@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'product',
   templateUrl: './product.component.html',
-  styleUrl: './product.component.css'
+  styles: [``]
 })
 export class ProductComponent implements OnInit{
 

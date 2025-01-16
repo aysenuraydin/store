@@ -7,7 +7,7 @@ import { Info } from '../models/informations';
 @Component({
   selector: 'contact',
   templateUrl: './contact.component.html',
-  styleUrl: './contact.component.css'
+  styles: [``]
 })
 export class ContactComponent {
   contact: Message = new Message();

@@ -2,36 +2,37 @@
   <div class="flex h-full items-center justify-center">
     <div class="bg-white p-8 w-full my-16 max-w-2xl border">
       <h2 class="text-2xl font-semibold text-gray-600 mb-6 text-center">Create an Account</h2>
-      <form>
+      <div>
+
         <div class="mb-4">
-          <input type="text" id="name" name="name" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" placeholder="Name">
-        </div>
-        <div class="mb-4">
-          <input type="text" id="surname" name="surname" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" placeholder="Surname">
+          <input #name type="text" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" [(ngModel)]="user.name" placeholder="Name">
         </div>
         <div class="mb-4">
-          <input type="tel" id="tel" name="tel" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" placeholder="Phone Number">
+          <input #surname type="text" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" [(ngModel)]="user.surname" placeholder="Surname">
         </div>
         <div class="mb-4">
-          <input type="email" id="email" name="email" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" placeholder="Email">
+          <input #phone type="text" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" [(ngModel)]="user.phone" placeholder="Phone">
         </div>
-        <div class="mb-6">
-          <input type="password" id="password" name="password" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" placeholder="Password">
+        <div class="mb-4">
+          <input #email type="text" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" [(ngModel)]="user.email" placeholder="Email">
         </div>
-        <div class="mb-6">
-          <input type="password" id="confirm-password" name="confirm-password" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none mb-6" placeholder="Confirm Password">
+        <div class="mb-4">
+          <input #password type="text" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" [(ngModel)]="user.password" placeholder="Password">
         </div>
-        <button type="submit" class="w-full p-4 bg-gray-800 text-white rounded-sm hover:bg-gray-600">
+        <div class="mb-4">
+          <input #password type="text" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" [(ngModel)]="user.confirmPassword" placeholder="Confirm Password">
+        </div>
+        <a (click)="createUser()" class="w-full block text-center p-4 bg-gray-800 text-white rounded-md mb-10 cursor-pointer">
           Sign Up
           <i class="fa-solid fa-user-plus"></i>
-        </button>
-      </form>
+        </a>
+      </div>
         <div class="pt-8 p-2 text-center flex">
           <div class="flex-grow my-auto border-t"></div>
           <div  class="px-4 text-gray-500">Already have an account? Log in!</div>
           <div class="flex-grow my-auto border-t"></div>
         </div>
-        <a routerLink="/account/login" class="w-full block text-center p-4 bg-gray-200 text-gray-600 rounded-sm mb-10 cursor-pointer">
+        <a routerLink="/account/login" class="w-full block text-center p-4 bg-gray-200 text-gray-600 rounded-md mb-10 cursor-pointer">
           Sign In
           <i class="fa-solid fa-right-to-bracket"></i>
         </a>

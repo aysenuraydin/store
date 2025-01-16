@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'user-layout',
   templateUrl: './user-layout.component.html',
-  styleUrl: './user-layout.component.css'
+  styles: [``]
 })
 export class UserLayoutComponent {
 

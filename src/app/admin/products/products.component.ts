@@ -7,11 +7,10 @@ import { CategoryProductService } from '../../services/category-product.service'
 @Component({
   selector: 'products',
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css']
+  styles: [``]
 })
 export class ProductsComponent {
-  product: Product = new Product();
-  products: Product [] = [];
+  product: any;
   productsWithCategoriesName: any [] = [];
   categories: Category [] = [];
   buttonVisible:boolean = true;
@@ -24,7 +23,6 @@ export class ProductsComponent {
   ngOnInit(): void {
     this.getCategories();
     this.getProductsWithCategoriesName();
-    this.getProducts();
   }
 
   toggleWindow(value:boolean) :void {
@@ -36,6 +34,17 @@ export class ProductsComponent {
   }
   onDetailsChange(updatedDetails: string): void {
     this.product.details = updatedDetails;
+  }
+  colorOpacity(color?: string) {
+    return color ? `${color}33` : 'transparent';
+  }
+
+  onCategoryChange(event: Event): void {
+    const selectedCategoryId = +(event.target as HTMLSelectElement).value;
+    const selectedCategory = this.categories.find(c => c.id === selectedCategoryId);
+      if (this.product && selectedCategory?.color) {
+        this.product.categoryColor = selectedCategory?.color;
+      }
   }
 
   getCategories(): void{
@@ -50,14 +59,6 @@ export class ProductsComponent {
     this.categoryProductService.getCategory(id).subscribe()
   }
 
-  getProducts(): void{
-    this.productService.getProducts()
-        .subscribe(
-          (data) => {
-            this.products = data;
-        }
-      );
-  }
   getProductsWithCategoriesName(){
     return this.categoryProductService.getProductsWithCategoryNames().subscribe(
       (data) => {
@@ -66,9 +67,10 @@ export class ProductsComponent {
     );
   }
   editProduct(id:number):void{
-    this.productService.getProduct(id)
+    this.categoryProductService.getProductWithCategoryName(id)
     .subscribe(
       (data) => {
+        this.toggleWindow(true);
         this.product = data;
       }
     );
@@ -83,21 +85,18 @@ export class ProductsComponent {
     this.productService.createProduct(product)
     .subscribe(() => {
       this.getProductsWithCategoriesName();
-      this.getProducts();
     });
   }
   updateProduct(product:Product):void{
     this.productService.updateProduct(product)
     .subscribe(() => {
       this.getProductsWithCategoriesName();
-      this.getProducts();
     });
   }
   deleteProduct(id:number):void{
     this.productService.deleteProduct(id)
     .subscribe(() => {
       this.getProductsWithCategoriesName();
-      this.getProducts();
     });
     this.cancel();
   }

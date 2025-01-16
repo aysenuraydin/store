@@ -5,7 +5,7 @@ import { ReviewService } from '../../../services/reiew.service';
 @Component({
   selector: 'comment',
   templateUrl: './comment.component.html',
-  styleUrl: './comment.component.css'
+  styles: [``]
 })
 export class CommentComponent {
   buttonVisible:boolean = true;

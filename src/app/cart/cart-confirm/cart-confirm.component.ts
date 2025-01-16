@@ -6,7 +6,7 @@ import { OrderService } from '../../services/order.service';
 @Component({
   selector: 'cart-confirm',
   templateUrl: './cart-confirm.component.html',
-  styleUrl: './cart-confirm.component.css'
+  styles: [``]
 })
 export class CartConfirmComponent {
   order: Order = new Order();

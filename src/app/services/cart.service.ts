@@ -4,6 +4,8 @@ import { catchError, forkJoin, map, Observable, pipe, switchMap, throwError } fr
 import { ProductList } from '../models/productList';
 import { ProductService } from './product.service';
 import { CartItem } from '../models/cart';
+import { AuthService } from './auth.service';
+import { User } from '../models/user';
 @Injectable({
 providedIn: 'root'
 })
@@ -13,11 +15,13 @@ export class CartService {
   constructor(
     private http: HttpClient,
     private productService: ProductService,
+    private authService: AuthService
     ) {}
 
-  getCartItems(userId:number=0): Observable<CartItem[]> {
+  getCartItems(): Observable<CartItem[]> {
+    const id = this.authService.getUser()?.id;
       return this.http.get<CartItem[]>(this.apiUrl).pipe(
-        map(cart => cart)
+        map(cart => cart.filter(i=>i.userId == id))
       );
   }
   getCartItem(id:number) : Observable<CartItem>{
@@ -35,6 +39,7 @@ export class CartService {
           return this.updateCartItem(existingItem);
         } else {
           cart.quantity = 1;
+          cart.userId = this.authService.getUser()?.id;
           return this.http.post<CartItem>(this.apiUrl, cart, httpOptions);
         }
       })

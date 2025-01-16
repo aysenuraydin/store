@@ -13,13 +13,15 @@ import { CategoriesComponent } from "./categories/categories.component";
 import { SubscribesComponent } from "./subscribes/subscribes.component";
 import { InformationsComponent } from "./informations/informations.component";
 import { AdminLayoutComponent } from "../layout/admin-layout/admin-layout.component";
+import { AdminGuard } from "../guard/admin.guard";
 
 const routes: Routes = [
   {
     path: '',
+    canActivate: [AdminGuard],
     component: AdminLayoutComponent,
     children: [
-      { path: '', component: AdminComponent },
+      { path: '', component: AdminComponent},
       { path: 'admin', component: AdminComponent },
       { path: 'banner', component: BannerComponent },
       { path: 'slider', component: SliderComponent },

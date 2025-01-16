@@ -6,7 +6,7 @@ import { SubscribeService } from '../../services/subscribe.service';
 @Component({
   selector: 'subscribes',
   templateUrl: './subscribes.component.html',
-  styleUrl: './subscribes.component.css'
+  styles: [``]
 })
 export class SubscribesComponent {
   subscribe: Subscribe = new Subscribe();
@@ -39,19 +39,17 @@ export class SubscribesComponent {
         this.subscribe = data;
       }
     );
-  }
-  createSubscribe(subscribe:Subscribe):void{
-    this.subscribeService.createSubscribe(subscribe).subscribe();
-    this.getSubscribes();
-    this.cancel();
+    this.toggleWindow(false);
   }
   saveSubscribe(subscribe:Subscribe):void{
     this.subscribeService.updateSubscribe(subscribe).subscribe();
+    this.toggleWindow(true);
     this.getSubscribes();
     this.cancel();
   }
   deleteSubscribe(id: number): void {
     this.subscribeService.deleteSubscribe(id).subscribe();
+    this.toggleWindow(true);
     this.getSubscribes();
     this.cancel();
   }

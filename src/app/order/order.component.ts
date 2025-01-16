@@ -5,7 +5,7 @@ import { OrderService } from '../services/order.service';
 @Component({
   selector: 'order',
   templateUrl: './order.component.html',
-  styleUrl: './order.component.css'
+  styles: [``]
 })
 export class OrderComponent {
   selected : any = 0;
@@ -31,7 +31,7 @@ export class OrderComponent {
   getOrders(state?:OrderState): void{
 
     this.activeOrderState = state;
-      this.orderService.getOrdersWithFullname()
+      this.orderService.getOrdersWithFullnameByUserId()
       .subscribe(
         (data) => {
           this.orders = (state == null) ? data : data.filter(i => i.orderState == state);

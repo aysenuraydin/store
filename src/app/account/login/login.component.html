@@ -3,17 +3,17 @@
     <h2 class="text-2xl font-semibold text-gray-600 mb-6 text-center">Sign In</h2>
     <form>
       <div class="mb-4">
-        <input type="email" id="email" name="email" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" placeholder="Email">
+        <input [(ngModel)]="user.email" type="email" id="email" name="email" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" placeholder="Email">
       </div>
       <div class="mb-6">
-        <input type="password" id="password" name="password" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none mb-6" placeholder="Password">
+        <input [(ngModel)]="user.password" type="password" id="password" name="password" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none mb-6" placeholder="Password">
         <a routerLink="/account/forgot-password" class="text-end block w-full text-gray-600 rounded-sm">
           Forgot My Password!
           <i class="fa-solid fa-arrow-right"></i>
         </a>
       </div>
 
-      <button type="submit" class="w-full p-4 bg-gray-800 text-white rounded-sm hover:bg-gray-600">
+      <button type="submit" class="w-full p-4 bg-gray-800 text-white rounded-sm hover:bg-gray-600" (click)="login()">
         Sign In
         <i class="fa-solid fa-user-plus"></i>
       </button>

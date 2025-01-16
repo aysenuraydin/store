@@ -50,7 +50,7 @@
 
       <div class="pl-[6rem]">
           <div class="w-full flex">
-            <button class="block w-full px-4 py-2 text-sm mr-2 hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="updateReview(review)" (click)="toggleWindow(buttonVisible)">
+            <button class="block w-full px-4 py-2 text-sm mr-2 hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="updateReview(review)">
                 <span *ngIf="review.isConfirmed">
                   <i class="fa-solid fa-xmark mr-1"></i>Unconfirm
                 </span>
@@ -58,10 +58,8 @@
                   <i class="fa-solid fa-check mr-1"></i>Confirm
                 </span>
             </button>
-          <button class="block w-full px-4 py-2 text-sm mr-2 hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="deletReview(review.id)" (click)="toggleWindow(buttonVisible)"> Delete
+          <button class="block w-full px-4 py-2 text-sm mr-2 hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="deletReview(review.id)"> Delete
             <i class="fa-solid fa-trash"></i></button>
-
-          <button class="block w-full px-4 py-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="toggleWindow(buttonVisible)"> Clear <i class="fa-solid fa-cancel"></i> </button>
       </div>
       </div>
     </div>
@@ -96,7 +94,7 @@
             <span class="text-xs uppercase text-gray-600 font-bold"></span>
           </span>
         </div>
-        <div id="reviews" class="space-y-5 px-5 h-[65vh] overflow-scroll">
+        <div id="reviews" class="space-y-5 px-5 h-[67vh] overflow-scroll">
           @defer ()  {
             <div class="" *ngFor="let r of reviews let i = index"[ngClass]="r.isConfirmed ? 'bg-white' : 'bg-gray-50'">
               <div class="flex items-center px-4 rounded-md shadow border p-4 " [ngClass]="(r.id==review.id)?' border-[#5f5f5f7c] shadow-xl':''">
@@ -130,7 +128,7 @@
                   {{ r?.createdAt | date: 'h:mm:ss' }}
                 </span>
                 <span class="w-1/12 flex items-center justify-center">
-                  <button class="block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14" (click)="toggleWindow(buttonVisible)" (click)="getReview(r.id)">
+                  <button class="block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14" (click)="getReview(r.id)">
                     <i class="fa-solid fa-pen-to-square"></i>
                   </button>
                 </span>

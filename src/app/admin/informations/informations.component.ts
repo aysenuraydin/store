@@ -5,7 +5,7 @@ import { About, Faqs, Info, SocialMedia } from '../../models/informations';
 @Component({
   selector: 'informations',
   templateUrl: './informations.component.html',
-  styleUrl: './informations.component.css',
+  styles: [``]
 })
 export class InformationsComponent {
   about: About = new About();

@@ -6,7 +6,7 @@ import { forkJoin } from 'rxjs';
 @Component({
   selector: 'slider',
   templateUrl: './slider.component.html',
-  styleUrl: './slider.component.css'
+  styles: [``]
 })
 export class SliderComponent {
 
@@ -59,6 +59,7 @@ export class SliderComponent {
         this.slider = data;
       }
     );
+    this.toggleWindow(true);
   }
   saveSlider(slider:Slider):void{
     slider.id

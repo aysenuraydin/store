@@ -1,19 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, Observable, pipe, switchMap } from 'rxjs';
+import { map, Observable, of, pipe, switchMap } from 'rxjs';
 import { AdressItem } from '../models/adressItem';
+import { AuthService } from './auth.service';
 @Injectable({
 providedIn: 'root'
 })
 export class AdressItemService {
   private apiUrl:string = 'api/adress';
 
-  constructor( private http: HttpClient) {  }
+  constructor( private http: HttpClient, private authService: AuthService) {  }
 
-  getAdressItems(userId:number=0): Observable<AdressItem[]> {
-      return this.http.get<AdressItem[]>(this.apiUrl).pipe(
-        map(adress => adress)
-      );
+  getAdressItems(): Observable<AdressItem[]> {
+    const currentUser = this.authService.getUser();
+
+    return this.http.get<AdressItem[]>(this.apiUrl).pipe(
+      map(adress => adress.filter(i=>i.userId==currentUser?.id))
+    );
   }
   getAdressItem(id:number) : Observable<AdressItem>{
     return this.http.get<AdressItem>(this.apiUrl+'/'+id);
@@ -29,6 +32,7 @@ export class AdressItemService {
         return adress;
       }),
       switchMap((c) => {
+        c.userId = this.authService.getUser()?.id
         return this.http.post<AdressItem>(this.apiUrl, c, httpOptions);
       })
     );

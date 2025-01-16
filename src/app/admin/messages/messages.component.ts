@@ -7,7 +7,7 @@ import { filter } from 'rxjs';
 @Component({
   selector: 'messages',
   templateUrl: './messages.component.html',
-  styleUrl: './messages.component.css'
+  styles: [``]
 })
 export class MessagesComponent {
   message: Message = new Message();
@@ -39,6 +39,7 @@ export class MessagesComponent {
     this.messageService.getContact(id)
     .subscribe(
       (data) => {
+        this.toggleWindow(true);
         this.message = data;
       }
     );
@@ -58,12 +59,14 @@ export class MessagesComponent {
   archivedMessage(message:Message):void{
     message.isArchive = !message.isArchive;
     this.messageService.updateContact(message).subscribe(() => {
+      this.toggleWindow(false);
       this.showMessages(this.showOrHide);
       this.cancel();
     });
   }
   deleteMessage(id: number): void {
     this.messageService.deleteContact(id).subscribe();
+    this.toggleWindow(false);
     this.showMessages(this.showOrHide);
     this.cancel();
   }
