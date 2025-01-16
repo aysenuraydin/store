@@ -25,6 +25,11 @@ npm install --save  @ckeditor/ckeditor5 @ckeditor/ckeditor5-angular--legacy-peer
 //todo navbar ve modal dinamikliği
 //todo pagination ve belirli sayıda çek
 
+//todo search hem nav hem admin
+//todo navbar ve modal dinamikliği
+//todo pagination ve belirli sayıda çek
+
+
 
 
 
