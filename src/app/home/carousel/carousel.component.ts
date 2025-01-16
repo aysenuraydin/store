@@ -5,7 +5,7 @@ import { SliderService } from '../../services/slider.service';
 @Component({
   selector: 'carousel',
   templateUrl: './carousel.component.html',
-  styleUrls: ['./carousel.component.css']
+  styles: [``]
 })
 export class CarouselComponent {
   sliders: Slider[] = [];

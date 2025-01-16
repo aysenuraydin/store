@@ -63,14 +63,12 @@
 
       <div class="pl-[6rem]">
           <div class="w-full flex">
-          <button class="block w-full px-4 py-2 text-sm mr-2 hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="deleteMessage(message.id)" (click)="toggleWindow(buttonVisible)"> Delete
+          <button class="block w-full px-4 py-2 text-sm mr-2 hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="deleteMessage(message.id)"> Delete
             <i class="fa-solid fa-trash"></i></button>
 
-          <button class="block w-full px-4 py-2 text-sm mr-2 hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="archivedMessage(message)" (click)="toggleWindow(buttonVisible)">
+          <button class="block w-full px-4 py-2 text-sm mr-2 hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="archivedMessage(message)">
             {{showOrHide?'Archive':'Unarchive'}}
             <i [ngClass]="showOrHide?'fa-box-archive':'fa-envelope'" class="fa-solid"></i></button>
-
-          <button class="block w-full px-4 py-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="toggleWindow(buttonVisible)"> Clear <i class="fa-solid fa-cancel"></i> </button>
       </div>
       </div>
       </div>
@@ -104,7 +102,7 @@
           </div>
         </div>
         @defer ()  {
-          <div id="messages" class="space-y-5 min-h-[65vh]">
+          <div id="messages" class="space-y-5 h-[67vh] overflow-scroll">
           <div class="flex items-center px-4 rounded-md shadow border p-5 bg-white" *ngFor="let c of messages let i = index" [ngClass]="(c.id==message.id)?' border-[#5f5f5f7c] shadow-xl':''">
             <span class="w-1/12 text-center">
               <input type="checkbox" class="contact-checkbox mr-4">
@@ -136,7 +134,7 @@
               </span>
             </span>
             <span class="w-1/4 flex items-center justify-center">
-              <button class="block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14" (click)="viewMessage(c?.id ?? 0)" (click)="toggleWindow(buttonVisible)"> <i class="fa-solid fa-eye"></i>
+              <button class="block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14" (click)="viewMessage(c?.id ?? 0)"> <i class="fa-solid fa-eye"></i>
               </button>
             </span>
           </div>

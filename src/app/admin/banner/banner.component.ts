@@ -6,7 +6,7 @@ import { forkJoin } from 'rxjs';
 @Component({
   selector: 'banner',
   templateUrl: './banner.component.html',
-  styleUrl: './banner.component.css'
+  styles: [``]
 })
 export class BannerComponent {
     banner: Banner = new Banner();
@@ -42,6 +42,7 @@ export class BannerComponent {
           this.banner = data;
         }
       );
+      this.toggleWindow(true);
     }
     getActiveBanner(): void {
       this.bannerService.getActiveBanner()

@@ -6,6 +6,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { AccountRoutingModule } from './account-routing.module';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -19,6 +20,7 @@ import { AccountRoutingModule } from './account-routing.module';
     RouterModule,
     CommonModule,
     AccountRoutingModule,
+    FormsModule,
     SharedModule
   ]
 })

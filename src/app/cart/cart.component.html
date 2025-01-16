@@ -45,7 +45,9 @@
 
           <div class="mt-10 mb-4 flex">
             <label for="adressId" class="w-1/3 mt-3">Adress</label>
-            <select [(ngModel)]="selectedAddressId" for="adressId" class="mt-1 p-2 w-2/3 border  rounded-lg text-gray-800 outline-none">
+            <p *ngIf="adressItems.length==0" class="w-2/3 text-center mt-1 p-2 border bg-white rounded-lg text-gray-700 hover:scale-105"><a routerLink="/profile">
+              <i class="fa-solid fa-plus mr-2"></i> Adres ekle</a></p>
+            <select *ngIf="adressItems.length>0" [(ngModel)]="selectedAddressId" for="adressId" class="mt-1 p-2 w-2/3 border  rounded-lg text-gray-800 outline-none">
               <option *ngFor="let a of adressItems" value="{{ a.id }}">{{ a.title }}</option>
             </select>
           </div>

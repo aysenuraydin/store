@@ -5,7 +5,7 @@ import { ProductList } from '../models/productList';
 @Component({
   selector: 'favorite',
   templateUrl: './favorite.component.html',
-  styleUrl: './favorite.component.css'
+  styles: [``]
 })
 export class FavoriteComponent {
   products: ProductList[] = [];

@@ -4,29 +4,17 @@ import { AccountLayoutComponent } from "../layout/account-layout/account-layout.
 import { LoginComponent } from "./login/login.component";
 import { RegisterComponent } from "./register/register.component";
 import { ForgotPasswordComponent } from "./forgot-password/forgot-password.component";
+import { AuthGuard } from "../guard/auth.guard";
 
-// const routes: Routes = [
-//   {
-//       path: '',
-//       component: ProductComponent,
-//       canActivate: [],
-//       children: [
-//         { path: '', component: ProductComponent,
-//         }
-//       ]
-//     },
-//     { path: 'product-list', component: ProductListComponent },
-//     { path: 'product-detail', component: ProductDetailComponent }
-// ]
 const routes: Routes = [
   {
     path: '',
+    canActivate: [AuthGuard],
     component: AccountLayoutComponent,
-    canActivate: [],
     children: [
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
-      { path: 'forgot-password', component: ForgotPasswordComponent }
+      { path: 'login', component: LoginComponent},
+      { path: 'register', component: RegisterComponent},
+      { path: 'forgot-password', component: ForgotPasswordComponent}
     ]
   }
 ];

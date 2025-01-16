@@ -4,6 +4,7 @@ import { catchError, map, Observable, of, pipe, switchMap, throwError } from 'rx
 import { FavItem } from '../models/favItem';
 import { ProductList } from '../models/productList';
 import { ProductService } from './product.service';
+import { AuthService } from './auth.service';
 @Injectable({
 providedIn: 'root'
 })
@@ -12,11 +13,13 @@ export class FavService {
 
   constructor(
     private http: HttpClient,
+    private authService: AuthService
     ) {}
 
-  getFavItems(userId:number=0): Observable<FavItem[]> {
+  getFavItems(): Observable<FavItem[]> {
+    const id = this.authService.getUser()?.id ?? 0;
       return this.http.get<FavItem[]>(this.apiUrl).pipe(
-        map(fav => fav)
+        map(fav => fav.filter(i=>i.userId == id))
       );
   }
   getFavItem(id:number): Observable<FavItem> {
@@ -25,8 +28,9 @@ export class FavService {
     );
   }
   isOrNot(id:number): Observable<boolean> {
+    const userId = this.authService.getUser()?.id ?? 0;
     return this.http.get<FavItem>(this.apiUrl+'/'+id).pipe(
-      map(() => true),
+      map((fav) => fav.userId == userId),
       catchError(() => {
         return of(false);
       })
@@ -41,9 +45,10 @@ export class FavService {
       map(c => {
         // const lastId = c.length > 0 ? c.at(-1)?.id ?? 0 : 0;
         // fav.id = lastId + 1;
-        return fav;
+        return fav as FavItem;
       }),
       switchMap((c) => {
+        c.userId = this.authService.getUser()?.id ?? 0;
         return this.http.post<FavItem>(this.apiUrl, c, httpOptions);
       })
     );

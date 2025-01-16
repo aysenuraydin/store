@@ -6,7 +6,7 @@ import { Order, OrderList, OrderState } from '../../models/order';
 @Component({
   selector: 'orderdetails',
   templateUrl: './orderdetails.component.html',
-  styleUrl: './orderdetails.component.css'
+  styles: [``]
 })
 export class OrderdetailsComponent {
   order: OrderList = new OrderList();
@@ -30,10 +30,12 @@ export class OrderdetailsComponent {
   }
 
   getOrder(id:number):void{
-    this.orderService.getOrderWithFullname(id)
+    this.orderService.getOrderWithFullnameByUserId(id)
     .subscribe(
       (data) => {
-        this.order = data;
+        if(data != null){
+          this.order = data;
+        }
     }
   );
   }

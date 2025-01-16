@@ -7,7 +7,7 @@ import { AdressItem } from '../../models/adressItem';
 @Component({
   selector: 'orders',
   templateUrl: './orders.component.html',
-  styleUrl: './orders.component.css'
+  styles: [``]
 })
 export class OrdersComponent {
   order: Order = new Order();
@@ -51,6 +51,7 @@ export class OrdersComponent {
     this.orderService.getOrderWithFullname(id)
         .subscribe(
           (data) => {
+            this.toggleWindow(true)
             this.order = data;
             this.getAdress(data.adressId)
         }

@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'admin',
   templateUrl: './admin.component.html',
-  styleUrl: './admin.component.css',
+  styles: [``]
 })
 export class AdminComponent {
 

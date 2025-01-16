@@ -1,16 +1,69 @@
 import { Component } from '@angular/core';
+import { Role } from '../../models/role';
+import { RoleService } from '../../services/role.service';
 
 @Component({
   selector: 'roles',
   templateUrl: './roles.component.html',
-  styleUrl: './roles.component.css'
+  styles: [``]
 })
 export class RolesComponent {
   buttonVisible:boolean = true;
-  roles:number[]= [1,2,3,4];
 
+  role:Role = new Role();
+  roles:Role[] = [];
+
+  constructor(
+    private roleService: RoleService,
+  ) {}
+
+  ngOnInit(): void {
+    this.getRoles();
+  }
   toggleWindow(value:boolean) :void {
     this.buttonVisible = !value;
-    // this.cancel();
+    this.cancel();
+  }
+
+  getRoles(): void{
+    this.roleService.getRoles()
+        .subscribe(
+          (data) => {
+            this.roles = data;
+        }
+      );
+  }
+  getRole(id:number):void{
+    this.roleService.getRole(id)
+    .subscribe(
+      (data) => {
+        this.toggleWindow(true);
+        this.role = data;
+      }
+    );
+  }
+  saveRole(role:Role):void{
+    this.updateRole(role);
+    this.cancel();
+  }
+  updateRole(role:Role):void{
+    this.roleService.updateRole(role)
+    .subscribe(() => {
+      this.getRoles();
+    });
+  }
+  deleteRole(id:number):void{
+    this.roleService.deleteRole(id)
+    .subscribe(() => {
+      this.getRoles();
+    });
+    this.cancel();
+  }
+
+  cancel():void{
+    this.role = new Role();
+  }
+  colorOpacity(color?: string) {
+    return color ? `${color}33` : 'transparent';
   }
 }

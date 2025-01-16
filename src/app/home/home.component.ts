@@ -3,35 +3,45 @@ import { Product } from '../models/product';
 import { ProductService } from '../services/product.service';
 import { ProductList } from '../models/productList';
 import { FavService } from '../services/fav.service';
-import { forkJoin, map, switchMap } from 'rxjs';
+import { forkJoin, map, switchMap }from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Category } from '../models/category';
+import { CategoryService } from '../services/category.service';
 
 @Component({
   selector: 'home',
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styles: [``]
 })
 export class HomeComponent {
   products: ProductList[] = [];
-
+  categories: Category[] = [];
   constructor(
     private productService: ProductService,
-    private favService: FavService
+    private categoryService: CategoryService,
+    private favService: FavService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {  }
 
   ngOnInit(): void {
+    this.getCategories();
     this.getProducts();
   }
-  // getProducts(): void{
-  //   this.productService.getProducts()
-  //       .subscribe(
-  //         (data) => {
-  //           this.products = data.reverse();
-  //           this.products.map(i=>
-  //             i.isFav = this.favService.isOrNot(i.id).subscribe()
-  //           )
-  //       }
-  //     );
-  // }
+
+  getCategories(): void{
+    this.categoryService.getCategories().subscribe(
+      d=> this.categories =d
+    )
+  }
+
+  loadProducts() {
+    this.router.navigate(['/products'], {
+      queryParams: {
+        page: 1
+      }
+    });
+  }
 
   getProducts(): void{
     this.productService.getProductItems()
@@ -42,27 +52,31 @@ export class HomeComponent {
       );
   }
 
-  // getProducts(): void {
-  //   this.productService.getProducts()
-  //     .pipe(
-  //       map(data => data.reverse()),
-  //       switchMap(products => {
-  //         const productsWithFavStatus$ = products.map(product =>
-  //           this.favService.isOrNot(product.id).pipe(
-  //             map(isFav => ({
-  //               ...product,
-  //               isFav
-  //             }))
-  //           )
-  //         );
-  //         return forkJoin(productsWithFavStatus$);
-  //       })
-  //     )
-  //     .subscribe(
-  //       (productsWithFavStatus) => {
-  //         this.products = productsWithFavStatus;
-  //       }
-  //     );
+      // this.route.queryParamMap.subscribe(params=> {
+    //   console.log(params);
+    // });
+
+    // let page = this.route.snapshot.queryParamMap.get('page');
+    // console.log(page);
+
+    // let id = +this.route.snapshot.paramMap.get('id');
+    // this.selectedProduct = products.find(i => i.id === id);
+
+    // constructor(private route: ActivatedRoute)
+    // this.route.paramMap
+    // .subscribe(params=> {
+    //   let id = +params.get('id');
+    //   this.selectedProduct = products.find(i=>i.id===id);
+    // })
+  // loadPages() {
+  //   this.router.navigate(['/products'], {
+  //     queryParams: {
+  //       page: 1
+  //     }
+  //   });
   // }
 
-  }
+  // loadPages() {
+  //   this.router.navigate(['/products']);
+  // }
+}

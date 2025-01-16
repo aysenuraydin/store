@@ -5,7 +5,7 @@ import { BannerService } from '../../services/banner.service';
 @Component({
   selector: 'banners',
   templateUrl: './banners.component.html',
-  styleUrl: './banners.component.css'
+  styles: [``]
 })
 export class BannersComponent {
   banner: Banner = new Banner();

@@ -27,6 +27,10 @@ import { CartItem } from '../models/cart';
 import { CartItemRepository } from '../repository/cartItem.repository';
 import { Order } from '../models/order';
 import { OrderRepository } from '../repository/order.repository';
+import { User } from '../models/user';
+import { Role } from '../models/role';
+import { UserRepository } from '../repository/user.repository';
+import { RoleRepository } from '../repository/role.repository';
 
 @Injectable({
   providedIn: 'root'
@@ -52,6 +56,9 @@ export class InMemoryDataService implements InMemoryDbService {
   private cartItems: CartItem[]=[];
   private orders: Order[]=[];
 
+  private users: User[]=[];
+  private roles: Role[]=[];
+
   constructor() {
     new ProductRepository().getProducts().forEach(p => this.products.push(p));
     new SliderRepository().getSliders().forEach(p => this.sliders.push(p));
@@ -71,6 +78,8 @@ export class InMemoryDataService implements InMemoryDbService {
     new CartItemRepository().getCartItems().forEach(p => this.cartItems.push(p));
     new OrderRepository().getOrders().forEach(p => this.orders.push(p));
 
+    new UserRepository().getUsers().forEach(p => this.users.push(p));
+    new RoleRepository().getRoles().forEach(p => this.roles.push(p));
   }
 
   createDb() {
@@ -122,6 +131,12 @@ export class InMemoryDataService implements InMemoryDbService {
     const order: Order[] = [
       ...this.orders,
     ];
+    const role: Role[] = [
+      ...this.roles,
+    ];
+    const user: User[] = [
+      ...this.users,
+    ];
 
     return {
       product,
@@ -139,7 +154,9 @@ export class InMemoryDataService implements InMemoryDbService {
       recently,
       fav,
       cart,
-      order
+      order,
+      role,
+      user,
     };
   }
 }

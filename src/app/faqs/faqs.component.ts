@@ -5,7 +5,7 @@ import { Contact, Faqs } from '../models/informations';
 @Component({
   selector: 'faqs',
   templateUrl: './faqs.component.html',
-  styleUrl: './faqs.component.css'
+  styles: [``]
 })
 export class FAQsComponent {
   faqs: Faqs[] = [];

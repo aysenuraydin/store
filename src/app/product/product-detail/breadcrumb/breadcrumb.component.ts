@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'breadcrumb',
   templateUrl: './breadcrumb.component.html',
-  styleUrl: './breadcrumb.component.css'
+  styles: [``]
 })
 export class BreadcrumbComponent {
   @Input() productName: string |undefined;

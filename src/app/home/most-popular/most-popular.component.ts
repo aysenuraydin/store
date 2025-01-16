@@ -7,7 +7,7 @@ import { FavService } from '../../services/fav.service';
 @Component({
   selector: 'most-popular',
   templateUrl: './most-popular.component.html',
-  styleUrl: './most-popular.component.css'
+  styles: [``]
 })
 export class MostPopularComponent {
   products: ProductList[] = [];

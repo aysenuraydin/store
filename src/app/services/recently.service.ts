@@ -5,6 +5,7 @@ import { RecentlyItem } from '../models/recentlyItem';
 import { ProductList } from '../models/productList';
 import { ProductService } from './product.service';
 import { FavService } from './fav.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
 providedIn: 'root'
@@ -15,10 +16,12 @@ export class RecentlyService {
   constructor(
     private http: HttpClient,
     private productService: ProductService,
+    private authService: AuthService,
     private favService: FavService
   ) {  }
 
   getRecentlyItems(): Observable<ProductList[]> {
+    const currentUser = this.authService.getUser();
     return this.http.get<RecentlyItem[]>(this.apiUrl).pipe(
       switchMap((recentlyItems: RecentlyItem[]) => {
         const neededCount = 4 - recentlyItems.length;
@@ -26,7 +29,8 @@ export class RecentlyService {
           return this.productService.getProductsByCount(neededCount).pipe(
             map((extraProducts) => {
               const extraRecentlyItems = extraProducts;
-              return [...recentlyItems.reverse(), ...extraRecentlyItems];
+              return [...recentlyItems.reverse().filter(i=>i.userId==currentUser?.id),
+                      ...extraRecentlyItems];
             })
           );
         }
@@ -49,30 +53,6 @@ export class RecentlyService {
     );
   }
 
-  getRecentlyItems2(userId: number = 0): Observable<ProductList[]> {
-    return this.http.get<RecentlyItem[]>(this.apiUrl).pipe(
-      switchMap(recently => {
-        const neededCount = 4 - recently.length;
-
-        if (neededCount > 0 && neededCount != 4) {
-          return this.productService.getProductsByCount(neededCount).pipe(
-            map(extraProducts => {
-              const extraRecentlyItems = extraProducts.map(product => ({
-                id: product.id,
-                name: product.name,
-                price: product.price,
-                imgUrl: product.imgUrl,
-                categoryId: product.categoryId,
-                // isFav: product.isFav,
-              } as ProductList));
-              return [...recently.reverse(),...extraRecentlyItems];
-            })
-          );
-        }
-        return [recently.reverse()];
-      })
-    );
-  }
   createRecentlyItem(recently: ProductList): Observable<RecentlyItem> {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -85,12 +65,13 @@ export class RecentlyService {
         }
         if (products.length >= 8) {
           return this.deleteRecentlyItem(products[0].id).pipe(
-            map(() => recently)
+            map(() => recently as RecentlyItem)
           );
         }
-        return [recently];
+        return [recently as RecentlyItem];
       }),
       switchMap((recentlyToSave) => {
+        recentlyToSave.userId =this.authService.getUser()?.id ?? 0;
         return this.http.post<RecentlyItem>(this.apiUrl, recentlyToSave, httpOptions);
       })
     );

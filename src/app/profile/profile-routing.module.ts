@@ -6,10 +6,12 @@ import { SettingsComponent } from "./settings/settings.component";
 import { CartComponent } from "../cart/cart.component";
 import { FavoriteComponent } from "../favorite/favorite.component";
 import { OrderComponent } from "../order/order.component";
+import { UserGuard } from "../guard/user.guard";
 
 const routes: Routes = [
   {
     path: '',
+    canActivate: [UserGuard],
     component: ProfileLayoutComponent,
     children: [
       { path: '', component: ProfileComponent },

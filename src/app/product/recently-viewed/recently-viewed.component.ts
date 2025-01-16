@@ -8,7 +8,7 @@ import { forkJoin, map, switchMap } from 'rxjs';
 @Component({
   selector: 'recently-viewed',
   templateUrl: './recently-viewed.component.html',
-  styleUrl: './recently-viewed.component.css'
+  styles: [``]
 })
 export class RecentlyViewedComponent {
   products: ProductList[] = [];

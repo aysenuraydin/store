@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'categories',
   templateUrl: './categories.component.html',
-  styleUrl: './categories.component.css'
+  styles: [``]
 })
 export class CategoriesComponent {
   @Output() categoryId = new EventEmitter<number>();

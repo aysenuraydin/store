@@ -21,8 +21,10 @@ npm install --save  @ckeditor/ckeditor5 @ckeditor/ckeditor5-angular--legacy-peer
 
 
 
-//todo productlist by category id
-//todo productdetail average start
+//todo search hem nav hem admin
+//todo navbar ve modal dinamikliği
+//todo pagination ve belirli sayıda çek
+
 
 
 

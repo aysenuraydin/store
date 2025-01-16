@@ -6,7 +6,7 @@ import { CategoryProductService } from '../../services/category-product.service'
 @Component({
   selector: 'categories',
   templateUrl: './categories.component.html',
-  styleUrl: './categories.component.css'
+  styles: [``]
 })
 export class CategoriesComponent {
   category: Category = new Category();
@@ -38,6 +38,7 @@ export class CategoriesComponent {
     this.categoryService.getCategory(id)
     .subscribe(
       (data) => {
+        this.toggleWindow(true);
         this.category = data;
       }
     );

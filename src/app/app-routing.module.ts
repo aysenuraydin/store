@@ -7,6 +7,7 @@ import { ContactComponent } from './contact/contact.component';
 import { FAQsComponent } from './faqs/faqs.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { FavoriteComponent } from './favorite/favorite.component';
+import { UserGuard } from './guard/user.guard';
 
 const routes: Routes = [
   {
@@ -38,11 +39,12 @@ const routes: Routes = [
     component: UserLayoutComponent,
     children: [
       { path: '', component: HomeComponent },
+      { path: 'home', component: HomeComponent },
       { path: 'about', component: AboutComponent },
       { path: 'contact', component: ContactComponent },
       { path: 'faqs', component: FAQsComponent },
       { path: 'not-found', component: NotFoundComponent },
-      { path: 'fav', component: FavoriteComponent },
+      { path: 'fav', component: FavoriteComponent, canActivate: [UserGuard], },
 
       { path: '**', component: NotFoundComponent }
     ]

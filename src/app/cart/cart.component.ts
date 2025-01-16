@@ -9,7 +9,7 @@ import { OrderService } from '../services/order.service';
 @Component({
   selector: 'cart',
   templateUrl: './cart.component.html',
-  styleUrl: './cart.component.css'
+  styles: [``]
 })
 export class CartComponent {
   cartItem: CartItem = new CartItem();

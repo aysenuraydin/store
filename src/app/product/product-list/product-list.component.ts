@@ -8,7 +8,7 @@ import { forkJoin, map, switchMap } from 'rxjs';
 @Component({
   selector: 'product-list',
   templateUrl: './product-list.component.html',
-  styleUrl: './product-list.component.css'
+  styles: [``]
 })
 export class ProductListComponent {
 

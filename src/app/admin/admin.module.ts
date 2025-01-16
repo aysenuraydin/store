@@ -18,6 +18,7 @@ import { ReviewsComponent } from './reviews/reviews.component';
 import { LayoutModule } from '../layout/layout.module';
 import { FormsModule } from '@angular/forms';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { AuthService } from '../services/auth.service';
 @NgModule({
   declarations: [
     AdminComponent,
@@ -42,6 +43,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     LayoutModule,
     FormsModule,
     CKEditorModule
-  ]
+  ],
+  // providers: [AuthGuard,AuthService]
 })
 export class AdminModule { }

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { forkJoin, map, Observable, switchMap } from 'rxjs';
+import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { Order, OrderItem, OrderList, OrderState } from '../models/order';
 import { ProductList } from '../models/productList';
 import { CartItem } from '../models/cart';
 import { AdressItemService } from './adress.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,10 @@ import { AdressItemService } from './adress.service';
 export class OrderService {
   private apiUrl = 'api/order';
 
-  constructor(private http: HttpClient, private adressItemService: AdressItemService) {  }
+  constructor(private http: HttpClient,
+    private adressItemService: AdressItemService,
+    private authService: AuthService
+  ) {  }
 
   getOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(this.apiUrl).pipe(
@@ -20,6 +24,12 @@ export class OrderService {
     );
   }
 
+  getOrdersByUserId(): Observable<Order[]> {
+    const currentUser = this.authService.getUser();
+    return this.http.get<Order[]>(this.apiUrl).pipe(
+      map(orders => orders.filter(i=>i.userId == currentUser?.id) )
+    );
+  }
   getOrdersByOrderState(state?: OrderState): Observable<OrderList[]> {
     return this.http.get<Order[]>(this.apiUrl).pipe(
       switchMap(orders => {
@@ -36,11 +46,6 @@ export class OrderService {
       })
     );
   }
-  // getOrdersByOrderState(state:OrderState): Observable<Order[]> {
-  //   return this.http.get<Order[]>(this.apiUrl).pipe(
-  //     map(orders => orders.filter(i=>i.orderState==state) )
-  //   );
-  // }
   getOrdersWithFullname(): Observable<OrderList[]> {
     return this.http.get<Order[]>(this.apiUrl).pipe(
       switchMap(orders => {
@@ -56,7 +61,27 @@ export class OrderService {
       })
     );
   }
+  getOrdersWithFullnameByUserId(): Observable<OrderList[]> {
+    const currentUser = this.authService.getUser();
+    return this.http.get<Order[]>(this.apiUrl).pipe(
+      switchMap(orders => {
+        const ordersWithAddress$ = orders
+        .filter(i=>i.userId == currentUser?.id)
+        .map(order =>
+          this.adressItemService.getAdressItem(order.adressId).pipe(
+            map(address => ({
+              ...order,
+              adressFullname: address.fullname
+            }))
+          )
+        );
+        return forkJoin(ordersWithAddress$.reverse());
+      })
+    );
+  }
+
   getOrderWithFullname(orderId: number): Observable<OrderList> {
+    const currentUser = this.authService.getUser();
     return this.http.get<Order>(`${this.apiUrl}/${orderId}`).pipe(
       switchMap(order =>
         this.adressItemService.getAdressItem(order.adressId).pipe(
@@ -66,6 +91,22 @@ export class OrderService {
           }))
         )
       )
+    );
+  }
+  getOrderWithFullnameByUserId(orderId: number): Observable<OrderList | null> {
+    const currentUser = this.authService.getUser();
+    return this.http.get<Order>(`${this.apiUrl}/${orderId}`).pipe(
+      switchMap(order => {
+        if (order.userId !== currentUser?.id) {
+          return of(null);
+        }
+        return this.adressItemService.getAdressItem(order.adressId).pipe(
+          map(address => ({
+            ...order,
+            adressFullname: address.fullname,
+          }))
+        );
+      })
     );
   }
   getOrder(id:number) :Observable<Order>{
@@ -91,9 +132,10 @@ export class OrderService {
           imgUrl: p.imgUrl,
           orderState: OrderState.inProgress
         }));
-        return o;
+        return o
       }),
       switchMap((order) => {
+        order.userId = this.authService.getUser()?.id ?? 0;
         return this.http.post<Order>(this.apiUrl, order, httpOptions);
       })
     );
