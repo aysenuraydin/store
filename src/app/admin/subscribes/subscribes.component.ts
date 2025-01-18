@@ -12,6 +12,7 @@ export class SubscribesComponent {
   subscribe: Subscribe = new Subscribe();
   subscribes: Subscribe[] = [];
   buttonVisible:boolean = false;
+  search:string = "";
 
   constructor(private subscribeService: SubscribeService) { }
 
@@ -24,11 +25,32 @@ export class SubscribesComponent {
     this.cancel();
   }
 
+  Search() {
+    this.getQuerySubscribes();
+  }
+  onInputChange(event: Event) {
+    this.search = (event.target as HTMLInputElement).value;
+    this.getQuerySubscribes();
+  }
+  Clear() {
+    this.search = "";
+    this.getSubscribes();
+  }
+  getQuerySubscribes(): void{
+      this.subscribeService.searchSubscribes(this.search)
+          .subscribe(
+            (data) => {
+              this.subscribes = data;
+          }
+        );
+  }
+
   getSubscribes(): void {
       this.subscribeService.getSubscribes()
         .subscribe(
           (data) => {
             this.subscribes = data.reverse().slice(0,9);
+            this.toggleWindow(true);
         }
       );
   }
@@ -42,14 +64,13 @@ export class SubscribesComponent {
     this.toggleWindow(false);
   }
   saveSubscribe(subscribe:Subscribe):void{
+    subscribe.isActive=!subscribe.isActive;
     this.subscribeService.updateSubscribe(subscribe).subscribe();
-    this.toggleWindow(true);
     this.getSubscribes();
     this.cancel();
   }
   deleteSubscribe(id: number): void {
     this.subscribeService.deleteSubscribe(id).subscribe();
-    this.toggleWindow(true);
     this.getSubscribes();
     this.cancel();
   }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Order, OrderState } from '../../models/order';
+import { Order, OrderList, OrderState } from '../../models/order';
 import { OrderService } from '../../services/order.service';
 import { AdressItemService } from '../../services/adress.service';
 import { AdressItem } from '../../models/adressItem';
@@ -10,13 +10,16 @@ import { AdressItem } from '../../models/adressItem';
   styles: [``]
 })
 export class OrdersComponent {
-  order: Order = new Order();
-  orders: Order [] = [];
+  order: OrderList & { username: string; } = Object.assign(
+      new OrderList(), {username: '' }
+    );
+  orders: (OrderList & { username: string; }) [] = [];
   buttonVisible:boolean = true;
   orderStates = Object.values(OrderState);
   OrderState = OrderState
   adress: AdressItem = new AdressItem();
   activeOrderState?: OrderState | null = null;
+  search:string = "";
 
   constructor(
     private orderService: OrderService,
@@ -26,7 +29,25 @@ export class OrdersComponent {
   ngOnInit(): void {
     this.getOrders();
   }
-
+  Search() {
+    this.getQueryOrders();
+  }
+  onInputChange(event: Event) {
+    this.search = (event.target as HTMLInputElement).value;
+    this.getQueryOrders();
+  }
+  Clear() {
+    this.search = "";
+    this.getOrders();
+  }
+  getQueryOrders(): void{
+    this.orderService.searchOrders(this.search)
+        .subscribe(
+          (data) => {
+            this.orders = data;
+        }
+      );
+  }
   getTotal(order: Order): number{
     return order.orderItems.reduce((sum, item) => sum + (item.unitPrice * item.quantity), 0);
   }
@@ -43,10 +64,10 @@ export class OrdersComponent {
       .subscribe(
         (data) => {
           this.orders = (state == null)? data : data.filter(i => i.orderState == state);
+          this.toggleWindow(this.buttonVisible)
       }
     );
   }
-
   getOrder(id:number): void{
     this.orderService.getOrderWithFullname(id)
         .subscribe(
@@ -69,11 +90,11 @@ export class OrdersComponent {
     this.orderService.updateOrder(order)
     .subscribe((data) => {
       this.getOrders();
-      this.getOrder(order.id);
-      this.toggleWindow(this.buttonVisible)
     });
   }
   cancel():void{
-    this.order = new Order();
+    this.order = Object.assign(
+      new OrderList(), {username: '' }
+    );
   }
 }

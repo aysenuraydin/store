@@ -9,55 +9,89 @@ import { ReviewService } from '../../services/reiew.service';
 })
 export class ReviewsComponent {
   buttonVisible:boolean = true;
-  reviews:Review[]= [];
-  review: Review = new Review();
-
-    constructor( private reviewService: ReviewService ) {}
-
-    ngOnInit(): void {
-      this.getReviews();
+  reviews:any[]= [];
+  review: Review & { username: string; productName: string; productUrl: string } = Object.assign(
+    new Review(),
+    {
+      username: '',
+      productName: '',
+      productUrl: ''
     }
+  );
+  search:string = "";
+
+  constructor( private reviewService: ReviewService ) {}
+
+  ngOnInit(): void {
+    this.getReviews();
+  }
+
+  Search() {
+    this.getQueryReviews();
+  }
+  onInputChange(event: Event) {
+    this.search = (event.target as HTMLInputElement).value;
+    this.getQueryReviews();
+  }
+  Clear() {
+    this.search = "";
+    this.getReviews();
+  }
+  getQueryReviews(): void{
+      this.reviewService.searchReviews(this.search)
+          .subscribe(
+            (data) => {
+              this.reviews = data;
+          }
+        );
+  }
 
   toggleWindow(value:boolean) :void {
     this.buttonVisible = !value;
     this.cancel();
   }
   getReviews(): void{
-    this.reviewService.getReviews()
+    this.reviewService.getReviewsWithUserAndProduct()
         .subscribe(
           (data) => {
+            this.toggleWindow(false);
             this.reviews = data.reverse().slice(0,10);
         }
       );
   }
   getReview(id:number):void{
-    this.reviewService.getReview(id)
+    this.reviewService.getReviewWithUserAndProduct(id)
     .subscribe(
       (data) => {
-        this.toggleWindow(true);
         this.review = data;
       }
     );
+    this.toggleWindow(true);
   }
   updateReview(review:Review):void{
     review.isConfirmed=!review.isConfirmed;
     this.reviewService.updateReview(review)
     .subscribe(() => {
-      this.toggleWindow(true)
       this.getReviews();
       this.cancel();
     });
   }
-  deletReview(id:number):void{
+  deleteReview(id:number):void{
     this.reviewService.deleteReview(id)
     .subscribe(() => {
-      this.toggleWindow(true)
       this.getReviews();
       this.cancel();
     });
   }
   cancel():void{
-    this.review = new Review();
+    this.review = Object.assign(
+      new Review(),
+      {
+        username: '',
+        productName: '',
+        productUrl: ''
+      }
+    );
   }
 }
 

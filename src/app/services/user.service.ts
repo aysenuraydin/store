@@ -38,6 +38,14 @@ export class UserService {
       )
     );
   }
+  searchUsers(query: string): Observable<(User & { roleName: string; roleColor: string })[]> {
+    return this.getUsersWithRoleName().pipe(
+      map(users =>
+        users.filter(p => [p.name, p.surname, p.email, p.roleName, p.roleColor]
+          .some(field => field.toLowerCase().includes(query.toLowerCase()))
+        ) )
+      );
+  }
   getUserWithRoleName(id: number): Observable<User & { roleName: string; roleColor: string }> {
     return this.http.get<User>(`${this.apiUrl}/${id}`).pipe(
       switchMap(user =>

@@ -11,6 +11,13 @@ export class MessageService {
 
   constructor(private http: HttpClient) {  }
 
+  searchContacts(query: string) :Observable<Message[]> {
+    return this.http.get<Message[]>(this.apiUrl).pipe(
+      map( role =>role.filter(p => [p.firstname, p.lastname, p.email, p.message, p.company]
+          .some(field => field?.toLowerCase().includes(query.toLowerCase()))
+      ) )
+    );
+  }
   getAllContacts(): Observable<Message[]> {
     return this.http.get<Message[]>(this.apiUrl).pipe(
       map(messages =>

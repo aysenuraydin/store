@@ -86,7 +86,7 @@ export class ProductDetailComponent {
     else this.activeTab = value;
   }
   addCart(product:any):void{
-    this.cartService.crateOrUpdateCartItem(product).subscribe(
+    this.cartService.createOrUpdateCartItem(product).subscribe(
       (data) => {
         this.router.navigate(['/cart/']);
       }

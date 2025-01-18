@@ -1,25 +1,21 @@
-<div class="fixed w-full h-full top-0 bottom-0 z-30 hidden" id="modal-fav">
+<div class="fixed w-full h-full top-0 bottom-0 z-30" *ngIf="visible">
 
   <!-- id="card-box" -->
 <div class="hidden sm:flex h-full">
 
 <div class="flex sm:flex-none ml-auto">
   <div class="flex h-full flex-col border-l bg-white shadow-xl md:p-3 lg:p-6">
-    <div class="flex-1 overflow-y-scroll px-4 py-6 sm:px-6 mt-32 ">
+    <div class="flex-1 overflow-y-scroll px-4 py-6 sm:px-6 mt-32">
       <div class="flex items-start justify-between">
-        <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">favorites Products</h2>
+        <h2 class="text-2xl font-medium text-gray-900" id="slide-over-title">Favorites Products</h2>
         <div class="ml-3 flex h-7 items-center">
-          <button type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500" id="fav-button">
-            <span class="absolute -inset-0.5"></span>
-            <span class="sr-only">Close panel</span>
-            <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-            </svg>
+          <button (click)="close()" type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500" >
+            <i class="fa-solid fa-xmark text-2xl"></i>
           </button>
         </div>
       </div>
 
-      <div class="mt-8">
+      <div class="mt-8 w-80">
         <div class="flow-root">
           <ul role="list" class="-my-6 divide-y divide-gray-200">
             <li class="flex py-6" *ngFor="let p of products">
@@ -27,20 +23,20 @@
                 <img [src]="p.imgUrl"  class="size-full object-cover">
               </div>
 
-              <div class="ml-4 flex flex-1 flex-col">
-                <div>
-                  <div class="flex justify-between text-base font-medium text-gray-900  min-w-52">
+              <div class="ml-4 flex min-w-52 items-center">
+                <div class="w-full">
+                  <div class="flex justify-between text-base font-medium text-gray-900">
                     <h3>
                       <a href="#">{{p.name}}</a>
                     </h3>
                   </div>
                   <p class="mt-1 text-sm text-gray-500">{{p.price}}</p>
                 </div>
-                <div class="flex flex-1 items-end justify-between text-sm">
-
-                  <div class="flex">
-                    <button type="button" class="font-medium text-gray-600 hover:text-gray-500">Remove</button>
-                  </div>
+                <div>
+                  <a class="rounded-md px-3 text-2xl font-medium text-gray-400 fav-link group/item hover:cursor-pointer" (click)="heartClick(p!)">
+                    <i *ngIf="!p?.isFav" class="fa-regular fa-heart text-2xl"></i>
+                    <i *ngIf="p?.isFav"  class="fa-solid fa-heart text-2xl" ></i>
+                  </a>
                 </div>
               </div>
             </li>
@@ -52,7 +48,7 @@
       <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
         <p>
           or
-          <a routerLink="/fav" class="font-medium text-gray-600 hover:text-gray-500">
+          <a (click)="goFav()" class="font-medium text-gray-600 hover:cursor-pointer hover:text-gray-500">
             Go to Favories
             <span aria-hidden="true"> &rarr;</span>
           </a>

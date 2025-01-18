@@ -17,7 +17,7 @@ export class CartItem {
     this.createdAt = new Date();;
     this.name = '';
     this.price = 0;
-    this.imgUrl = 'https://via.placeholder.com/150';
+    this.imgUrl = 'https://dummyimage.com/600x500/ccc/aaa';
   }
 }
 

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
+import { catchError, forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { Order, OrderItem, OrderList, OrderState } from '../models/order';
 import { ProductList } from '../models/productList';
 import { CartItem } from '../models/cart';
 import { AdressItemService } from './adress.service';
 import { AuthService } from './auth.service';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +16,33 @@ export class OrderService {
 
   constructor(private http: HttpClient,
     private adressItemService: AdressItemService,
+    private userService: UserService,
     private authService: AuthService
   ) {  }
 
+  private getOrdersWithDetails(orders: Order[]): Observable<(OrderList & { username: string; adressFullname: string })[]> {
+    const ordersWithDetails$ = orders.map(order =>
+      forkJoin({
+        address: this.adressItemService.getAdressItem(order.adressId),
+        user: this.userService.getUser(order.userId)
+      }).pipe(
+        map(({ address, user }) => ({
+          ...order,
+          adressFullname: address ? address.fullname : 'Unknown Address',
+          username: user ? `${user.name} ${user.surname}` : 'Unknown User'
+        })),
+        catchError(err => {
+          console.error('Error fetching address or user:', err);
+          return of({
+            ...order,
+            adressFullname: 'Error retrieving address',
+            username: 'Error retrieving user'
+          });
+        })
+      )
+    );
+    return forkJoin(ordersWithDetails$);
+  }
   getOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(this.apiUrl).pipe(
       map(orders => orders )
@@ -46,19 +71,9 @@ export class OrderService {
       })
     );
   }
-  getOrdersWithFullname(): Observable<OrderList[]> {
+  getOrdersWithFullname(): Observable<(OrderList & { username: string; })[]> {
     return this.http.get<Order[]>(this.apiUrl).pipe(
-      switchMap(orders => {
-        const ordersWithAddress$ = orders.map(order =>
-          this.adressItemService.getAdressItem(order.adressId).pipe(
-            map(address => ({
-              ...order,
-              adressFullname: address.fullname
-            }))
-          )
-        );
-        return forkJoin(ordersWithAddress$.reverse());
-      })
+      switchMap(orders => this.getOrdersWithDetails(orders))
     );
   }
   getOrdersWithFullnameByUserId(): Observable<OrderList[]> {
@@ -80,19 +95,41 @@ export class OrderService {
     );
   }
 
-  getOrderWithFullname(orderId: number): Observable<OrderList> {
-    const currentUser = this.authService.getUser();
-    return this.http.get<Order>(`${this.apiUrl}/${orderId}`).pipe(
+  getOrderWithFullname(id: number): Observable<OrderList & { username: string; adressFullname: string }> {
+    return this.http.get<Order>(`${this.apiUrl}/${id}`).pipe(
       switchMap(order =>
-        this.adressItemService.getAdressItem(order.adressId).pipe(
-          map(address => ({
+        forkJoin({
+          address: this.adressItemService.getAdressItem(order.adressId),
+          user: this.userService.getUser(order.userId)
+        }).pipe(
+          map(({ address, user }) => ({
             ...order,
-            adressFullname: address.fullname
-          }))
+            adressFullname: address ? address.fullname : 'Unknown Address',
+            username: user ? `${user.name} ${user.surname}` : 'Unknown User'
+          })),
+          catchError(err => {
+            console.error('Error fetching address or user:', err);
+            return of({
+              ...order,
+              adressFullname: 'Error retrieving address',
+              username: 'Error retrieving user'
+            });
+          })
         )
       )
     );
   }
+  searchOrders(query: string): Observable<(OrderList & { username: string;})[]> {
+    return this.getOrdersWithFullname().pipe(
+      map(orders =>
+        orders.filter(order =>
+          [order.orderCode, order.adressFullname, order.orderState, order.username]
+            .some(field => field.toLowerCase().includes(query.toLowerCase()))
+        )
+      )
+    );
+  }
+
   getOrderWithFullnameByUserId(orderId: number): Observable<OrderList | null> {
     const currentUser = this.authService.getUser();
     return this.http.get<Order>(`${this.apiUrl}/${orderId}`).pipe(
@@ -150,3 +187,22 @@ export class OrderService {
     return this.http.delete<Order>(this.apiUrl+'/'+id)
   }
 }
+// getOrdersWithFullname2(): Observable<(OrderList & { username: string; })[]> {
+//   return this.http.get<Order[]>(this.apiUrl).pipe(
+//     switchMap(orders => {
+//       const ordersWithDetails$ = orders.map(order =>
+//         forkJoin({
+//           address: this.adressItemService.getAdressItem(order.adressId),
+//           user: this.userService.getUser(order.userId)
+//         }).pipe(
+//           map(({ address, user }) => ({
+//             ...order,
+//             adressFullname: address ? address.fullname : 'Unknown Address',
+//             username: user ? `${user.name} ${user.surname}` : 'Unknown User'
+//           }))
+//         )
+//       );
+//       return forkJoin(ordersWithDetails$);
+//     })
+//   );
+// }

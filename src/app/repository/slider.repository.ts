@@ -22,14 +22,14 @@ export class SliderRepository {
           {
             id:3,
             name: 'Earthen Bottle 2',
-            imgUrl:'https://via.placeholder.com/150',
+            imgUrl:'https://dummyimage.com/600x500/ccc/aaa',
             createdAt: new Date(),
             isActive: false
           },
           {
             id:4,
             name: 'Earthen Bottle 2',
-            imgUrl:'https://via.placeholder.com/150',
+            imgUrl:'https://dummyimage.com/600x500/ccc/aaa',
             createdAt: new Date(),
             isActive: false
           }

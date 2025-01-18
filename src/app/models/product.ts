@@ -16,7 +16,7 @@ export class Product {
       this.id = 0;
       this.name = '';
       this.price = 0;
-      this.imgUrl = 'https://via.placeholder.com/150';
+      this.imgUrl = 'https://dummyimage.com/600x500/ccc/aaa';
       this.description = '';
       this.categoryId = 1;
       this.isConfirmed= true;
@@ -24,16 +24,26 @@ export class Product {
       this.details='';
       this.stockAmount= 0;
       this.viewCount= 0;
-
-      // Array<ProductComment>
-      // Array<OrderItem>
-      // Array<CartItem>
-      // Array<ProductImage>
-      // Array<ProductFav>
   }
 }
 
-
+export class ExtendedProduct extends Product {
+  categoryName: string = '';
+  categoryColor: string = '';
+  categoryStyle: {
+    'background-color': string;
+    'color': string;
+    'border-color': string;
+    'border-width': string;
+    'border-style': string;
+  } = {
+    'background-color': '',
+    'color': '',
+    'border-color': '',
+    'border-width': '1px',
+    'border-style': 'solid'
+  };
+}
 
 
 

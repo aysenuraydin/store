@@ -14,13 +14,32 @@ export class BannerComponent {
     disableBanners: Banner[] = [];
     activeBanner: Banner = new Banner();
     buttonVisible:boolean = true;
+    search:string = "";
 
     constructor(private bannerService: BannerService) { }
 
     ngOnInit(): void {
       this.getBanners();
     }
-
+    Search() {
+      this.getQueryReviews();
+    }
+    onInputChange(event: Event) {
+      this.search = (event.target as HTMLInputElement).value;
+      this.getQueryReviews();
+    }
+    Clear() {
+      this.search = "";
+      this.getBanners();
+    }
+    getQueryReviews(): void{
+        this.bannerService.searchBanners(this.search)
+            .subscribe(
+              (data) => {
+                this.banners = data;
+            }
+          );
+    }
     toggleWindow(value:boolean) :void {
       this.buttonVisible = !value;
       this.cancel();

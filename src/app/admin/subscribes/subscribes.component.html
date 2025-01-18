@@ -8,9 +8,12 @@
 
           <div class="flex gap-4">
             <div class="relative flex items-center w-full h-12 rounded-lg shadow-2xl bg-white overflow-hidden pl-5">
-              <input class="h-full w-full outline-none text-sm text-gray-700 pr-2"
-              type="text" id="search"  placeholder="Search something.." />
-              <button type="submit" class="bg-gray-700 hover:bg-gray-500 rounded-md text-white text-xl p-3 border ">
+              <div class="w-3" (click)="Clear()">
+                <i class="fa-solid fa-xmark" *ngIf="search.length>0"></i>
+              </div>
+              <input class="h-full pl-3 w-full outline-none text-sm text-gray-700 pr-2"
+              type="text" id="search" [(ngModel)]="search" (input)="onInputChange($event)" placeholder="Search something.." />
+              <button class="bg-gray-700 hover:bg-gray-500 rounded-md text-white text-xl p-3 border ">
                 <i class="fa-solid fa-magnifying-glass"></i>
               </button>
           </div>
@@ -34,15 +37,17 @@
           <label for="email" class="min-w-24 mt-3 pl-3">Email</label>
           <div div class="mt-1 p-2 w-full border  rounded-lg text-gray-800 outline-none">{{subscribe.email}}</div>
         </div>
-        <div class="mb-3">
-          <label for="isActive" class="min-w-24 mt-3">IsActive</label>
-          <input #isActive type="checkbox" class="p-2 border  rounded-lg text-gray-800 outline-none mt-5 w-6" [(ngModel)]="subscribe.isActive">
-        </div>
       </div>
       <div class="">
           <div class="w-full flex">
-            <button class="block w-full px-4 py-2 mr-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="saveSubscribe(subscribe)"> Edit <i class="fa-solid fa-pen-to-square"></i>
-            </button>
+            <button class="block w-full px-4 py-2 text-sm mr-2 hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="saveSubscribe(subscribe)">
+              <span *ngIf="subscribe.isActive">
+                <i class="fa-solid fa-xmark mr-1"></i>Unconfirm
+              </span>
+              <span  *ngIf="!subscribe.isActive">
+                <i class="fa-solid fa-check mr-1"></i>Confirm
+              </span>
+          </button>
             <button *ngIf="subscribe.id" class="block w-full px-4 py-2 mr-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="deleteSubscribe(subscribe.id)"> Delete <i class="fa-solid fa-trash"></i> </button>
       </div>
       </div>
@@ -51,7 +56,7 @@
   </div>
   <div class="flex items-center px-5 pb-2 border-b mb-5 mt-16 ml-3">
     <span class="w-1/12 text-center">
-      <input type="checkbox" onclick="toggleSelect()" />
+      <input type="checkbox"/>
     </span>
     <span class="w-1/12 text-center">
       <span class="text-xs uppercase text-gray-600 font-bold">serial number</span>

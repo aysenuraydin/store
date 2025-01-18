@@ -12,7 +12,7 @@ export class CategoriesComponent {
   category: Category = new Category();
   categories: Category[] = [];
   buttonVisible:boolean = true;
-
+  search:string = "";
   constructor(
     private categoryService: CategoryService,
     private categoryProductService: CategoryProductService
@@ -20,6 +20,26 @@ export class CategoriesComponent {
 
   ngOnInit(): void {
     this.getCategories();
+  }
+
+  Search() {
+    this.getQueryCategories();
+  }
+  onInputChange(event: Event) {
+    this.search = (event.target as HTMLInputElement).value;
+    this.getQueryCategories();
+  }
+  Clear() {
+    this.search = "";
+    this.getCategories();
+  }
+  getQueryCategories(): void{
+    this.categoryService.searchCategories(this.search)
+        .subscribe(
+          (data) => {
+            this.categories = data;
+        }
+      );
   }
 
   toggleWindow(value:boolean) :void {

@@ -76,6 +76,24 @@ export class OrderRepository {
               name:"deneme",
               imgUrl:"https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-03.jpg",
               orderState: OrderState.inProgress,
+            },
+            {
+              id:1,
+              orderId:1,
+              quantity:3,
+              unitPrice:11,
+              name:"deneme",
+              imgUrl:"https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-04.jpg",
+              orderState: OrderState.inProgress,
+            },
+            {
+              id:1,
+              orderId:1,
+              quantity:3,
+              unitPrice:11,
+              name:"deneme",
+              imgUrl:"https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-03.jpg",
+              orderState: OrderState.inProgress,
             }
           ]
         }

@@ -9,13 +9,14 @@ import { UserService } from './user.service';
 })
 export class AuthService {
   private currentUserSubject: BehaviorSubject<User | null>;
-  public currentUser: Observable<User | null>;
+  public currentUser$: Observable<User | null>;
 
   constructor() {
     const storedUser = localStorage.getItem('user');
     const user: User | null = storedUser ? JSON.parse(storedUser) : null;
+    //!
     this.currentUserSubject = new BehaviorSubject<User | null>(user);
-    this.currentUser = this.currentUserSubject.asObservable();
+    this.currentUser$ = this.currentUserSubject.asObservable();
   }
 
   login(user: User): void {
@@ -32,12 +33,12 @@ export class AuthService {
     return this.currentUserSubject.value !== null;
   }
 
-  updateUser(user: User): void {
-    localStorage.setItem('user', JSON.stringify(user));
-    this.currentUserSubject.next(user);
-  }
-
   getUser(): User | null {
     return this.currentUserSubject.value;
   }
 }
+
+  // updateUser(user: User): void {
+  //   localStorage.setItem('user', JSON.stringify(user));
+  //   this.currentUserSubject.next(user);
+  // }
