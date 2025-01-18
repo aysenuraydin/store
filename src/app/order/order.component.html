@@ -20,8 +20,7 @@
 
       <div class="bg-white w-full mx-auto">
         <ul class="shadow-box">
-
-          <!-- Accordion Item -->
+          @defer ()  {
           <li class="-mt-5" *ngFor="let order of orders">
             <button
               (click)="toggleWindow(order.id)"
@@ -88,6 +87,12 @@
             <i class="fa-solid fa-xmark"></i>
             No orders available.
           </div>
+
+          } @placeholder (minimum 1s) {
+            <div class="pt-10 flex justify-center items-center">
+              <i class="fa-solid fa-spinner text-5xl animate-spin text-gray-500 mr-5"></i> Loading..
+            </div>
+          }
         </ul>
       </div>
   </section>

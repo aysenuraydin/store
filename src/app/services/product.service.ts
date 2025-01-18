@@ -80,7 +80,6 @@ export class ProductService {
       })
     );
   }
-
   getProductsByCategoryId(id:number) :Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl).pipe(
       map(products =>

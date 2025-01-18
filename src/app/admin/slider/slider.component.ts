@@ -15,11 +15,30 @@ export class SliderComponent {
   disableSliders: Slider[] = [];
   activeSliders: Slider[] = [];
   buttonVisible:boolean = true;
-
+  search:string = "";
   constructor(private sliderService: SliderService) { }
 
   ngOnInit(): void {
     this.getSliders();
+  }
+  Search() {
+    this.getQuerySliders();
+  }
+  onInputChange(event: Event) {
+    this.search = (event.target as HTMLInputElement).value;
+    this.getQuerySliders();
+  }
+  Clear() {
+    this.search = "";
+    this.getSliders();
+  }
+  getQuerySliders(): void{
+      this.sliderService.searchSliders(this.search)
+          .subscribe(
+            (data) => {
+              this.sliders = data;
+          }
+        );
   }
   toggleWindow(value:boolean) :void {
     this.buttonVisible = !value;

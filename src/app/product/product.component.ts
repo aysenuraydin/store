@@ -4,6 +4,7 @@ import { ProductService } from '../services/product.service';
 import { FavService } from '../services/fav.service';
 import { RecentlyService } from '../services/recently.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'product',
@@ -18,6 +19,7 @@ export class ProductComponent implements OnInit{
     private productService: ProductService,
     private recentlService: RecentlyService,
     private favService: FavService,
+    private cartService: CartService,
     private router: Router,
     private route: ActivatedRoute,
   ) {}
@@ -40,7 +42,13 @@ export class ProductComponent implements OnInit{
       }
     )
   }
-
+  addCart(product:any):void{
+    this.cartService.createOrUpdateCartItem(product).subscribe(
+      (data) => {
+        this.router.navigate(['/cart/']);
+      }
+    );
+  }
   heartClick(product: ProductList): void {
     this.product?.isFav , product.isFav = !product.isFav;
     if( product.isFav) this.createFav(product);

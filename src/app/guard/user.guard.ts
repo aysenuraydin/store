@@ -14,7 +14,7 @@ export class UserGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    return this.authService.currentUser.pipe(
+    return this.authService.currentUser$.pipe(
       map(user => {
         const isAdmin = !!user;
         if (!isAdmin) {

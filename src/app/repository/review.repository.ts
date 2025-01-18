@@ -39,7 +39,7 @@ export class ReviewRepository {
             starCount :2,
             isConfirmed :true,
             createdAt: new Date(),
-            userId :4,
+            userId :1,
             productId :4
           },
           {
@@ -48,7 +48,7 @@ export class ReviewRepository {
             starCount :5,
             isConfirmed :false,
             createdAt: new Date(),
-            userId :5,
+            userId :2,
             productId :4
           },
           {
@@ -57,7 +57,7 @@ export class ReviewRepository {
             starCount :4,
             isConfirmed :true,
             createdAt: new Date(),
-            userId :6,
+            userId :3,
             productId :4
           },
           {
@@ -66,7 +66,7 @@ export class ReviewRepository {
             starCount :5,
             isConfirmed :true,
             createdAt: new Date(),
-            userId :7,
+            userId :1,
             productId :4
           },
       );

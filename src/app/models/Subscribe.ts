@@ -1,6 +1,6 @@
 export class Subscribe {
     id?:number;
-    email?: string;
+    email: string;
     createdAt?: Date;
     isActive: Boolean;
 

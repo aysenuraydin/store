@@ -3,7 +3,7 @@ import { ProductService } from "./product.service";
 import { CategoryService } from "./category.service";
 import { Injectable } from "@angular/core";
 import { Category } from "../models/category";
-import { HttpClient } from "@angular/common/http";
+import { ExtendedProduct, Product } from "../models/product";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class CategoryProductService {
     private categoryService: CategoryService
   ) {}
 
-  getProductsWithCategoryNames(): Observable<any[]> {
+  getProductsWithCategoryNames(): Observable<ExtendedProduct[]> {
     return this.productService.getProducts().pipe(
       switchMap(products => {
         const productObservables = products.map(product =>
@@ -36,6 +36,16 @@ export class CategoryProductService {
         );
         return productObservables.length > 0 ? forkJoin(productObservables) : of([]);
       })
+    );
+  }
+  searchProducts(query: string): Observable<ExtendedProduct[]> {
+    return this.getProductsWithCategoryNames().pipe(
+      map(products =>
+        products.filter(i =>
+          [i.name, i.categoryColor, i.categoryName, i.description, i.details]
+          .some(field => field.toLowerCase().includes(query.toLowerCase()))
+        )
+      )
     );
   }
   getProductWithCategoryName(id: number): Observable<any> {

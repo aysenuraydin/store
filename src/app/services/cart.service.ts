@@ -27,7 +27,7 @@ export class CartService {
   getCartItem(id:number) : Observable<CartItem>{
     return this.http.get<CartItem>(this.apiUrl+'/'+id);
   }
-  crateOrUpdateCartItem(cart: any): Observable<CartItem> {
+  createOrUpdateCartItem(cart: any): Observable<CartItem> {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };

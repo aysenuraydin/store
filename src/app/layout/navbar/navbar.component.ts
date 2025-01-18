@@ -13,7 +13,11 @@ export class NavbarComponent {
   categories: Category[] = [];
   showOrHide = true;
   message: string ="";
+  search: string ="";
   isAuthenticated= false;
+  searchVisible= false;
+  cartVisible= false;
+  favVisible= false;
   roleId:number = 0;
   username:string = "";
 
@@ -24,36 +28,55 @@ export class NavbarComponent {
   ){ }
 
   ngOnInit(): void {
-    this.getCategories();
-    this.getAuthenticated();
-    this.getUser();
+    this.authService.currentUser$.subscribe((user) => {
+      this.isAuthenticated = !!user;
+      this.username = user ? `${user.name} ${user.surname}` : '';
+      this.roleId = user?.roleId ?? 0;
+    });
 
-  }
-  getAuthenticated(){
-    this.isAuthenticated=this.authService.isAuthenticated();
-    if(this.isAuthenticated) this.getUser();
-    else {
-      this.roleId = 0;
-      this.username = "";
-    }
+    this.categoryService.currentCategory$.subscribe((categories) => {
+      this.categories = categories
+    });
   }
   logout(): void {
     this.authService.logout();
-    this.getAuthenticated();
     this.router.navigate(['/account/login']);
   }
-  getCategories(): void{
-    this.categoryService.getCategories()
-        .subscribe(
-          (data) => {
-            this.categories = data;
+  // getCategories(): void{
+  //   this.categoryService.getCategories()
+  //       .subscribe(
+  //         (data) => {
+  //           this.categories = data;
+  //       }
+  //     );
+  // }
+  Search(): void{
+    if(this.search.length==0)this.searchVisible = !this.searchVisible;
+    else{
+      this.router.navigate(['product/product-list'], {
+        queryParams: {
+          query: this.search
         }
-      );
+      });
+      this.search = "";
+    }
   }
-  getUser(): void{
-    const user = this.authService.getUser();
-    this.username = `${user?.name} ${user?.surname}`;
-    this.roleId = user?.roleId ?? 0;
+  Close(): void{
+    this.search = "";
+    this.searchVisible=false;
+  }
+  clickFav(): void{
+    this.cartVisible=true;
+    this.favVisible=false;
+  }
+  clickCart(): void{
+    this.favVisible=true;
+    this.cartVisible=false;
+  }
+  changeCartVisible(value:boolean): void{
+    this.cartVisible=value;
+  }
+  changeFavVisible(value:boolean): void{
+    this.favVisible=value;
   }
 }
-

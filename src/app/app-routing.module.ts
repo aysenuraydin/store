@@ -47,6 +47,9 @@ const routes: Routes = [
       { path: 'fav', component: FavoriteComponent, canActivate: [UserGuard], },
 
       { path: '**', component: NotFoundComponent }
+
+      //{ path: '', redirectTo: '/categories', pathMatch: 'full' }, // Ana sayfa yönlendirmesi
+      //{ path: '**', redirectTo: '/categories' } // Hatalı rota yönlendirmesi
     ]
   }
 ];

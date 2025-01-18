@@ -16,7 +16,7 @@
               <div class="flex space-x-4">
                 <div class="relative group/categories">
                   <div class="">
-                    <button routerLink="/product/product-list/0" type="button" class="inline-flex w-full justify-center gap-x-1.5 rounded-md p-3 py-5 text-sm font-semibold shadow-sm text-gray-300" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                    <button routerLink="/product/product-list" type="button" class="inline-flex w-full justify-center gap-x-1.5 rounded-md p-3 py-5 text-sm font-semibold shadow-sm text-gray-300" id="menu-button" aria-expanded="true" aria-haspopup="true">
                       Categories
                       <i class="fa-solid fa-caret-down mt-1"></i>
                     </button>
@@ -30,14 +30,13 @@
                     </div>
                   </div>
                 </div>
-                <div class="p-5 hover:bg-gray-700" (click)="getCategories()"></div>
 
               </div>
             </div>
           </div>
           <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 
-            <div class="hidden sm:block px-6 py-2 mr-5 text-sm text-white hover:bg-gray-700" (click)="getAuthenticated()">
+            <div class="hidden sm:block px-6 py-2 mr-5 text-sm text-white hover:bg-gray-700">
               {{username}}
             </div>
             <a routerLink="/account/register" class="hidden sm:block px-6 py-2 mr-5 text-sm text-white hover:bg-gray-700 border rounded-[1.5rem]" *ngIf="!isAuthenticated" >
@@ -56,19 +55,22 @@
               <i class="fa-solid fa-right-to-bracket rotate-180 pl-1"></i>
               Sign Out
             </a>
-
-            <a id="search-link" class="cursor-pointer rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
-              <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-            </svg>
-            </a>
-            <a *ngIf="isAuthenticated" id="fav-link" class="rounded-md px-3 py-2 text-xl font-medium text-gray-400 hover:bg-gray-700 hover:text-white cursor-pointer">
+            <div class="flex items-center relative">
+              <div *ngIf="searchVisible">
+                <input [(ngModel)]="search" class="px-2 mr-2 py-1 pr-7 w-52 rounded-lg bg-gray-700 text-white border-white" type="text" name="search" id="search" placeholder="Search Products ...">
+                <i (click)="Close()" *ngIf="search.length>0" class="fa-solid fa-xmark text-2xl absolute right-14 top-0 text-white p-1 hover:cursor-pointer"></i>
+              </div>
+              <div (click)="Search()" id="search-link" class="cursor-pointer rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+                <i class="fa-solid fa-magnifying-glass text-xl"></i>
+              </div>
+            </div>
+            <a *ngIf="isAuthenticated" (click)="clickCart()" class="rounded-md px-3 py-2 text-xl font-medium text-gray-200 hover:bg-gray-700 hover:text-white cursor-pointer">
               <i class="fa-regular fa-heart"></i>
             </a>
-            <a *ngIf="isAuthenticated" id="cart-link" class="cursor-pointer rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
+            <a *ngIf="isAuthenticated" (click)="clickFav()" class="cursor-pointer rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">
               <i class="fa-solid fa-cart-shopping text-xl"></i>
             </a>
-            <!-- Profile dropdown -->
+
             <div *ngIf="isAuthenticated" class="relative ml-3 group">
               <div>
                 <button type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
@@ -118,10 +120,8 @@
     </nav>
   </div>
 </div>
-
-
-
-
+<add-fav *ngIf="favVisible" (isFavVisible)="changeFavVisible($event)"/>
+<add-carts *ngIf="cartVisible" (isCartVisible)="changeCartVisible($event)"/>
 
 
 

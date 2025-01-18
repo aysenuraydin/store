@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { AddCartsComponent } from './add-carts/add-carts.component';
 import { AddFavComponent } from './add-fav/add-fav.component';
 import { AddProductModalComponent } from './add-product/add-product.component';
-import { SearchBarComponent } from './search-bar/search-bar.component';
 import { ScrollTopComponent } from './scroll-top/scroll-top.component';
 import { AppRoutingModule } from '../app-routing.module';
 import { CarouselComponent } from '../home/carousel/carousel.component';
@@ -16,15 +15,14 @@ import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
-    AddCartsComponent,
     AddFavComponent,
     AddProductModalComponent,
-    SearchBarComponent,
     CarouselComponent,
     ScrollTopComponent,
     AlertsComponent,
     PaginationComponent,
     CktextComponent,
+    AddCartsComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +36,6 @@ import { BrowserModule } from '@angular/platform-browser';
     AddCartsComponent,
     AddFavComponent,
     AddProductModalComponent,
-    SearchBarComponent,
     CarouselComponent,
     ScrollTopComponent,
     AlertsComponent,

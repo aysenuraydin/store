@@ -12,6 +12,14 @@ export class SubscribeService {
 
   constructor (private http: HttpClient) { }
 
+  searchSubscribes(query: string) :Observable<Subscribe[]> {
+    return this.http.get<Subscribe[]>(this.apiUrl).pipe(
+      map( role =>role.filter(
+        (r) =>
+          r.email?.toLowerCase().includes(query.toLowerCase())
+      ) )
+    );
+  }
   getSubscribes() :Observable<Subscribe[]> {
     return this.http.get<Subscribe[]>(this.apiUrl).pipe(
       map(categories => categories)

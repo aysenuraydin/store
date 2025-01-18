@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Product } from '../../models/product';
+import { ExtendedProduct, Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { Category } from '../../models/category';
 import { CategoryProductService } from '../../services/category-product.service';
@@ -10,10 +10,11 @@ import { CategoryProductService } from '../../services/category-product.service'
   styles: [``]
 })
 export class ProductsComponent {
-  product: any;
-  productsWithCategoriesName: any [] = [];
+  product: ExtendedProduct = new ExtendedProduct();
+  productsWithCategoriesName: ExtendedProduct [] = [];
   categories: Category [] = [];
   buttonVisible:boolean = true;
+  search:string = "";
 
   constructor(
     private productService: ProductService,
@@ -24,7 +25,25 @@ export class ProductsComponent {
     this.getCategories();
     this.getProductsWithCategoriesName();
   }
-
+  Search() {
+    this.getQueryProducts();
+  }
+  onInputChange(event: Event) {
+    this.search = (event.target as HTMLInputElement).value;
+    this.getQueryProducts();
+  }
+  Clear() {
+    this.search = "";
+    this.getProductsWithCategoriesName();
+  }
+  getQueryProducts(): void{
+    this.categoryProductService.searchProducts(this.search)
+        .subscribe(
+          (data) => {
+            this.productsWithCategoriesName = data;
+        }
+      );
+  }
   toggleWindow(value:boolean) :void {
     this.buttonVisible = !value;
     this.cancel();
@@ -102,6 +121,8 @@ export class ProductsComponent {
   }
 
   cancel():void{
-    this.product = new Product();
+    this.product = new ExtendedProduct();
   }
 }
+
+

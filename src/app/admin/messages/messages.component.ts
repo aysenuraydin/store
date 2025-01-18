@@ -14,11 +14,32 @@ export class MessagesComponent {
   messages: Message[] = [];
   showOrHide:boolean = true;
   buttonVisible:boolean = true;
+  search:string = "";
 
   constructor(private messageService: MessageService ) { }
 
   ngOnInit(): void {
     this.showMessages(this.showOrHide);
+  }
+
+  Search() {
+    this.getQueryMessages();
+  }
+  onInputChange(event: Event) {
+    this.search = (event.target as HTMLInputElement).value;
+    this.getQueryMessages();
+  }
+  Clear() {
+    this.search = "";
+    this.showMessages(this.showOrHide);
+  }
+  getQueryMessages(): void{
+      this.messageService.searchContacts(this.search)
+          .subscribe(
+            (data) => {
+              this.messages = data;
+          }
+        );
   }
 
   toggleWindow(value:boolean) :void {
@@ -27,6 +48,7 @@ export class MessagesComponent {
   }
 
   showMessages(value:boolean): void {
+    this.toggleWindow(false);
     this.showOrHide = value;
     this.messageService.getContacts(value)
       .subscribe(
@@ -44,12 +66,6 @@ export class MessagesComponent {
       }
     );
   }
-  createMessages(message: Message): void {
-    this.messageService.createContact(message).subscribe(() => {
-      this.showMessages(this.showOrHide);
-      this.cancel();
-    });
-  }
   saveMessage(message:Message):void{
     this.messageService.updateContact(message).subscribe(() => {
       this.showMessages(this.showOrHide);
@@ -59,14 +75,12 @@ export class MessagesComponent {
   archivedMessage(message:Message):void{
     message.isArchive = !message.isArchive;
     this.messageService.updateContact(message).subscribe(() => {
-      this.toggleWindow(false);
       this.showMessages(this.showOrHide);
       this.cancel();
     });
   }
   deleteMessage(id: number): void {
     this.messageService.deleteContact(id).subscribe();
-    this.toggleWindow(false);
     this.showMessages(this.showOrHide);
     this.cancel();
   }

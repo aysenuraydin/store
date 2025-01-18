@@ -14,7 +14,14 @@ export class RoleService {
 
   getRoles() :Observable<Role[]> {
     return this.http.get<Role[]>(this.apiUrl).pipe(
-      map( role =>role )
+      map( role =>role)
+    );
+  }
+  searchRoles(query: string) :Observable<Role[]> {
+    return this.http.get<Role[]>(this.apiUrl).pipe(
+      map( role =>role.filter(p => [p.color, p.name]
+        .some(field => field?.toLowerCase().includes(query.toLowerCase()))
+      ) )
     );
   }
   getRole(id:number) : Observable<Role>{

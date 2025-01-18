@@ -1,6 +1,6 @@
 export class Slider {
     id?:number;
-    name?: string;
+    name: string;
     imgUrl?: string;
     createdAt?: Date;
     isActive: Boolean;
@@ -8,7 +8,7 @@ export class Slider {
     constructor() {
       this.id = 0;
       this.name = '';
-      this.imgUrl = 'https://via.placeholder.com/150';
+      this.imgUrl = 'https://dummyimage.com/600x500/ccc/aaa';
       this.createdAt = new Date();
       this.isActive = false;
   }

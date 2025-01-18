@@ -9,7 +9,7 @@ import { RoleService } from '../../services/role.service';
 })
 export class RolesComponent {
   buttonVisible:boolean = true;
-
+  search:string = "";
   role:Role = new Role();
   roles:Role[] = [];
 
@@ -19,6 +19,26 @@ export class RolesComponent {
 
   ngOnInit(): void {
     this.getRoles();
+  }
+
+  Search() {
+    this.getQueryRoles();
+  }
+  onInputChange(event: Event) {
+    this.search = (event.target as HTMLInputElement).value;
+    this.getQueryRoles();
+  }
+  Clear() {
+    this.search = "";
+    this.getRoles();
+  }
+  getQueryRoles(): void{
+    this.roleService.searchRoles(this.search)
+        .subscribe(
+          (data) => {
+            this.roles = data;
+        }
+      );
   }
   toggleWindow(value:boolean) :void {
     this.buttonVisible = !value;

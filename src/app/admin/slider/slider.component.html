@@ -7,9 +7,12 @@
           <i class="fa-solid fa-arrows-left-right text-3xl mr-6"></i>Slider</h1>
           <div class="flex gap-4">
             <div class="relative flex items-center w-full h-12 rounded-lg shadow-2xl bg-white overflow-hidden pl-5">
-              <input class="h-full w-full outline-none text-sm text-gray-700 pr-2"
-              type="text" id="search"  placeholder="Search something.." />
-              <button type="submit" class="bg-gray-700 hover:bg-gray-500 rounded-md text-white text-xl p-3 border ">
+              <div class="w-3" (click)="Clear()">
+                <i class="fa-solid fa-xmark" *ngIf="search.length>0"></i>
+              </div>
+              <input class="h-full pl-3 w-full outline-none text-sm text-gray-700 pr-2"
+              type="text" id="search" [(ngModel)]="search" (input)="onInputChange($event)" placeholder="Search something.." />
+              <button class="bg-gray-700 hover:bg-gray-500 rounded-md text-white text-xl p-3 border ">
                 <i class="fa-solid fa-magnifying-glass"></i>
               </button>
           </div>
@@ -31,11 +34,11 @@
 
       <div class="w-1/3 p-5">
       <div class="flex justify-center">
-        <img [src]="slider.imgUrl || 'https://via.placeholder.com/150'" [alt]="slider.name" class="object-cover">
+        <img [src]="slider.imgUrl" [alt]="slider.name" class="object-cover">
       </div>
       <div class="mb-3 flex justify-center">
-        <input #imgUrl type="file" class="mt-1 p-2 w-[6.5rem]  rounded-lg text-gray-800 outline-none" [ngModel]="slider.imgUrl">
-      </div>
+        <input #imgUrl type="file" class="mt-1 p-2 w-[6.5rem]  rounded-lg text-gray-800 outline-none" [(ngModel)]="slider.imgUrl">
+      </div>  <!-- [ngModel]="slider.imgUrl" -->
       </div>
       <div class="w-2/3 pt-6 ml-12">
       <input #id type="text" class="hidden" [(ngModel)]="slider.id">
@@ -52,7 +55,7 @@
       </div>
       <div class="mb-3 flex">
         <label for="imgUrl" class="min-w-24 mt-2">Img Url</label>
-        <input #imgUrl type="text" class="mt-1 p-2 w-full border rounded-lg text-gray-800 outline-none" [(ngModel)]="slider.createdAt">
+        <input #imgUrl type="text" class="mt-1 p-2 w-full border rounded-lg text-gray-800 outline-none" [(ngModel)]="slider.imgUrl">
       </div>
 
       <div class="w-full flex mt-6">
@@ -76,7 +79,7 @@
 
         <div class="flex items-start px-5 pb-2 border-b mb-5 mt-16">
           <span class="w-1/12 text-center">
-            <input type="checkbox" onclick="toggleSelect()" />
+            <input type="checkbox"/>
           </span>
           <span class="w-1/12 text-center">
             <span class="text-xs uppercase text-gray-600 font-bold">serial number</span>
@@ -108,7 +111,7 @@
             </span>
 
             <span class="w-1/3">
-                <img [src]="s.imgUrl || 'https://via.placeholder.com/150'" [alt]="s.name" class="w-80">
+                <img [src]="s.imgUrl" [alt]="s.name" class="w-80">
             </span>
             <span class="w-1/3 text-center">
                 <div class="ml-4">

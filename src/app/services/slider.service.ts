@@ -17,6 +17,13 @@ export class SliderService {
       map(categories => categories)
     );
   }
+  searchSliders(query: string) :Observable<Slider[]> {
+    return this.http.get<Slider[]>(this.apiUrl).pipe(
+      map( role =>role.filter(p => [p.name, p.imgUrl]
+        .some(field => field?.toLowerCase().includes(query.toLowerCase()))
+      ) )
+    );
+  }
   getActiveSliders(): Observable<Slider[]> {
     return this.http.get<Slider[]>(this.apiUrl).pipe(
       map(banners => banners.filter(banner => banner.isActive))

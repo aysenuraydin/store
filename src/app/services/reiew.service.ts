@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { count, map, Observable, switchMap } from 'rxjs';
+import { catchError, count, forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { Review } from '../models/review';
+import { UserService } from './user.service';
+import { ProductService } from './product.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,15 +11,83 @@ import { Review } from '../models/review';
 export class ReviewService {
   private apiUrl = 'api/review';
 
-  constructor(private http: HttpClient) {  }
+  constructor(
+    private http: HttpClient,
+    private userService: UserService,
+    private productService: ProductService
+  ) {  }
 
   getReviews() :Observable<Review[]> {
     return this.http.get<Review[]>(this.apiUrl).pipe(
       map(reviews => reviews)
     );
   }
+  getReviewsWithUserAndProduct(): Observable<(Review & { username: string; productName: string; productUrl: string })[]> {
+    return this.http.get<Review[]>(this.apiUrl).pipe(
+      switchMap(reviews => {
+        const reviewsWithUserAndProduct$ = reviews.map(review =>
+          forkJoin({
+            user: this.userService.getUser(review.userId),
+            product: this.productService.getProduct(review.productId)
+          }).pipe(
+            map(({ user, product }) => ({
+              ...review,
+              username: user ? `${user.name} ${user.surname}` : 'Unknown User',
+              productName: product ? product.name : 'Unknown Product',
+              productUrl: product ? product.imgUrl : 'Unknown URL'
+            })),
+            catchError(err => {
+              console.error('Error fetching user or product:', err);
+              return of({
+                ...review, username: 'Error', productName: 'Error', productUrl: 'Error'
+              });
+            })
+          )
+        );
+        return forkJoin(reviewsWithUserAndProduct$); // Tüm yorumları birleştir
+      })
+    );
+  }
+  getReviewWithUserAndProduct(id: number): Observable<Review & { username: string; productName: string; productUrl: string }> {
+    return this.http.get<Review>(`${this.apiUrl}/${id}`).pipe(
+      switchMap(review =>
+        forkJoin({
+          user: this.userService.getUser(review.userId),
+          product: this.productService.getProduct(review.productId)
+        }).pipe(
+          map(({ user, product }) => ({
+            ...review,
+            username: user ? `${user.name} ${user.surname}` : 'Unknown User',
+            productName: product ? product.name : 'Unknown Product',
+            productUrl: product ? product.imgUrl : 'Unknown URL'
+          })),
+          catchError(err => {
+            console.error('Error fetching user or product:', err);
+            return of({
+              ...review,
+              username: 'Error',
+              productName: 'Error',
+              productUrl: 'Error'
+            });
+          })
+        )
+      )
+    );
+  }
+
+
+  searchReviews(query: string): Observable<(Review & { username: string; productName: string; productUrl: string })[]> {
+    return this.getReviewsWithUserAndProduct().pipe(
+      map(reviews =>
+        reviews.filter(p => [p.username, p.productName, p.text]
+          .some(field => field.toLowerCase().includes(query.toLowerCase()))
+        )
+      )
+    );
+  }
+
+
   getReviewsByProdurtId(id:number): Observable<Review[]> {
-    //todo productname ve username i ekle any tipinde dön
     return this.http.get<Review[]>(this.apiUrl).pipe(
       map(reviews =>
         reviews.filter(review => review.isConfirmed && review.productId==id)

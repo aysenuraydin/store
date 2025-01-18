@@ -6,9 +6,12 @@
           <i class="fa-solid fa-box text-3xl mr-6"></i>Orders</h1>
           <div class="flex gap-4">
             <div class="relative flex items-center w-full h-12 rounded-lg shadow-2xl bg-white overflow-hidden pl-5">
-              <input class="h-full w-full outline-none text-sm text-gray-700 pr-2"
-              type="text" id="search"  placeholder="Search something.." />
-              <button type="submit" class="bg-gray-700 hover:bg-gray-500 rounded-md text-white text-xl p-3 border ">
+              <div class="w-3" (click)="Clear()">
+                <i class="fa-solid fa-xmark" *ngIf="search.length>0"></i>
+              </div>
+              <input class="h-full pl-3 w-full outline-none text-sm text-gray-700 pr-2"
+              type="text" id="search" (input)="onInputChange($event)" [(ngModel)]="search" placeholder="Search something.." />
+              <button class="bg-gray-700 hover:bg-gray-500 rounded-md text-white text-xl p-3 border ">
                 <i class="fa-solid fa-magnifying-glass"></i>
               </button>
           </div>
@@ -43,7 +46,7 @@
           </span>
           <span class="w-1/4 text-center">
             <span class="font-bold">Username</span><br>
-            username:{{ order.userId }}
+            {{ order.username }}
           </span>
           <span class="w-1/4 text-center font-bold">
             {{ order.orderItems.length }} orders, <br>
@@ -89,7 +92,7 @@
             </span>
           </div>
         </div>
-        <ul class="px-7 mb-10">
+        <ul class="px-7 mb-10 max-h-[20rem] overflow-scroll">
            <li class="p-4 flex items-center w-ful" [ngClass]="(i < order.orderItems.length - 1)?'border-b':''" *ngFor="let item of order.orderItems let i = index">
             <span class="w-1/12 text-center">
               {{ i + 1 }}
@@ -169,13 +172,16 @@
   </div>
     <div class="flex items-center px-5 pb-2 border-b mb-5 mt-16">
       <span class="w-1/12 text-center">
-        <input type="checkbox" onclick="toggleSelect()" />
+        <input type="checkbox"/>
       </span>
       <span class="w-1/12 text-center">
         <span class="text-xs uppercase text-gray-600 font-bold">number</span>
       </span>
       <span class="w-2/5 pl-32">
         <span class="text-xs uppercase text-gray-600 font-bold">orders</span>
+      </span>
+      <span class="w-1/6 text-center pr-5">
+        <span class="text-xs uppercase text-gray-600 font-bold">User</span>
       </span>
       <span class="w-1/12 text-end pr-5">
         <span class="text-xs uppercase text-gray-600 font-bold">Price</span>
@@ -190,8 +196,8 @@
     </div>
     <div id="orders" class="space-y-5 px-5 h-[60vh] overflow-scroll">
       @defer ()  {
-        <div *ngFor="let order of orders let i = index" >
-          <div class="flex items-center px-4 p-3 shadow rounded-md  bg-white" *ngIf="order.id!=0" [ngClass]="(order.id==order.id)?' border-[#5f5f5f7c] shadow-xl':''">
+        <div *ngFor="let o of orders let i = index" >
+          <div class="flex items-center px-4 p-3 shadow rounded-md  bg-white" [ngClass]="(o.id==order.id)?' border-[#5f5f5f7c] shadow-xl':''">
             <span class="w-1/12 text-center">
               <input type="checkbox" class="contact-checkbox mr-4">
             </span>
@@ -199,36 +205,39 @@
               {{ i + 1 }}
             </span>
             <span class="w-2/5 text-center flex overflow-scroll scrollbar-hide">
-              <img *ngFor="let o of order.orderItems" [src]="o.imgUrl || 'https://via.placeholder.com/150'" [alt]="o.name" class="h-24 p-1">
+              <img *ngFor="let o of o.orderItems" [src]="o.imgUrl" [alt]="o.name" class="h-24 p-1">
+            </span>
+            <span class="w-1/6 text-center">
+              {{ o.username }}
             </span>
             <span class="w-1/12 text-center">
-              $ {{ getTotal(order) | number:'1.2-2'}}
+              $ {{ getTotal(o) | number:'1.2-2'}}
             </span>
             <div class="w-1/6 min-w-24 px-5">
               <div class="w-full rounded-md p-3 mb-3 capitalize mt-3 px-2 py-3 font-medium ring-1 ring-inset text-center border"
               [ngClass]="{
-                'bg-blue-50 text-blue-700 border-blue-700 ring-blue-600/20': order.orderState === OrderState.inProgress,
-                'bg-red-50 text-red-700 border-red-700 ring-red-600/20': order.orderState === OrderState.cancellations,
-                'bg-yellow-50 text-yellow-700 border-yellow-700 ring-yellow-600/20': order.orderState === OrderState.returns,
-                'bg-green-50 text-green-700 border-green-700  ring-green-600/20': order.orderState === OrderState.delivered
+                'bg-blue-50 text-blue-700 border-blue-700 ring-blue-600/20': o.orderState === OrderState.inProgress,
+                'bg-red-50 text-red-700 border-red-700 ring-red-600/20': o.orderState === OrderState.cancellations,
+                'bg-yellow-50 text-yellow-700 border-yellow-700 ring-yellow-600/20': o.orderState === OrderState.returns,
+                'bg-green-50 text-green-700 border-green-700  ring-green-600/20': o.orderState === OrderState.delivered
               }" >
               <i class="fa-solid mr-2"
               [ngClass]="{
-                'fa-spinner': order.orderState === OrderState.inProgress,
-                'fa-ban': order.orderState === OrderState.cancellations,
-                'fa-undo': order.orderState === OrderState.returns,
-                'fa-check': order.orderState === OrderState.delivered
-              }"></i>{{order.orderState}} </div>
+                'fa-spinner': o.orderState === OrderState.inProgress,
+                'fa-ban': o.orderState === OrderState.cancellations,
+                'fa-undo': o.orderState === OrderState.returns,
+                'fa-check': o.orderState === OrderState.delivered
+              }"></i>{{o.orderState}} </div>
             </div>
             <span class="w-1/6 text-center">
               <span class="text-xs text-gray-600 font-bold">
-                {{ order?.createdAt | date: 'dd-mm-yyyy' }}
-                {{ order?.createdAt | date: 'h:mm:ss' }}
+                {{ o?.createdAt | date: 'dd-mm-yyyy' }}
+                {{ o?.createdAt | date: 'h:mm:ss' }}
               </span>
             </span>
             <span class="w-1/12">
-              <div *ngIf="order.id != 0" class="flex items-center justify-center">
-              <button class="block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14" (click)="getOrder(order.id)">
+              <div *ngIf="o.id != 0" class="flex items-center justify-center">
+              <button class="block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14" (click)="getOrder(o.id)">
                 <i class="fa-solid fa-eye"></i>
               </button>
               </div>

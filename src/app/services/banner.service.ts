@@ -21,6 +21,15 @@ export class BannerService {
       map(banners => banners.filter(banner => !banner.isActive))
     );
   }
+  searchBanners(query: string) :Observable<Banner[]> {
+    return this.http.get<Banner[]>(this.apiUrl).pipe(
+      map( role =>role.filter(
+        (r) => [r.message, r.button]
+        .some(field => field.toLowerCase().includes(query.toLowerCase()))
+        )
+      )
+    );
+  }
   getBanner(id:number) :Observable<Banner>{
     return this.http.get<Banner>(this.apiUrl+'/'+id);
   }
