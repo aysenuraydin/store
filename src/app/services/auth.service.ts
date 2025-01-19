@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '../models/user';
 import { UserService } from './user.service';
+import { AlertService } from './alert.service';
 
 
 @Injectable({
@@ -11,7 +12,7 @@ export class AuthService {
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser$: Observable<User | null>;
 
-  constructor() {
+  constructor( ) {
     const storedUser = localStorage.getItem('user');
     const user: User | null = storedUser ? JSON.parse(storedUser) : null;
     //!

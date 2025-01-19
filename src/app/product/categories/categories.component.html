@@ -12,16 +12,16 @@
         </div>
       </a>
     </li>
-    <li *ngFor="let c of category">
+    <li *ngFor="let c of categories">
       <a routerLink="/product/product-list/{{ c.id}}" *ngIf="c.id != 0">
         <div class="p-3 rounded-lg shadow-md"
         (click)="clickCategory(c.id??0)"
         [ngStyle]="{
-          'color': c?.color,
-          'border-color':c?.color,
+          'color': c.color,
+          'border-color':c.color,
           'border-width': '1px',
           'border-style': 'solid',
-          'background-color': c.id === activeId ? colorOpacity(c?.color) : ''
+          'background-color': c.id === activeId ? colorOpacity(c.color) : ''
         }">
           {{c.name}}
         </div>

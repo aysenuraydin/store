@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class CategoriesComponent {
   @Output() categoryId = new EventEmitter<number>();
-  category: Category[] = [];
+  categories: Category[] = [];
   activeId:number = 0;
 
   constructor(
@@ -31,7 +31,7 @@ export class CategoriesComponent {
     this.categoryService.getCategories()
         .subscribe(
           (data) => {
-            this.category = data;
+            this.categories = data;
         }
       );
   }

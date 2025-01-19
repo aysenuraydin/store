@@ -38,7 +38,7 @@ export class CategoryService {
     return this.http.get<Category[]>(this.apiUrl).pipe(
       catchError((error) => {
         console.error('Kategori verisi alınırken hata oluştu:', error);
-        throw error; // Hata geri fırlatılır
+        throw error;
       })
     );
   }
@@ -91,7 +91,7 @@ export class CategoryService {
 
   deleteCategory(id: number): Observable<Category> {
     return this.http.delete<Category>(`${this.apiUrl}/${id}`).pipe(
-      tap(() => this.loadCategories()), // Kategori silindikten sonra listeyi günceller
+      tap(() => this.loadCategories()),
       catchError((error) => {
         console.error(`Kategori ${id} silinirken hata oluştu:`, error);
         throw error;

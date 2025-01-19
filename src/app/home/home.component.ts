@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { Product } from '../models/product';
 import { ProductService } from '../services/product.service';
 import { ProductList } from '../models/productList';
 import { FavService } from '../services/fav.service';
-import { forkJoin, map, switchMap }from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Category } from '../models/category';
 import { CategoryService } from '../services/category.service';
@@ -16,6 +14,7 @@ import { CategoryService } from '../services/category.service';
 export class HomeComponent {
   products: ProductList[] = [];
   categories: Category[] = [];
+
   constructor(
     private productService: ProductService,
     private categoryService: CategoryService,
@@ -23,18 +22,15 @@ export class HomeComponent {
     private router: Router,
     private route: ActivatedRoute,
   ) {  }
-
   ngOnInit(): void {
     this.getCategories();
     this.getProducts();
   }
-
   getCategories(): void{
     this.categoryService.getCategories().subscribe(
       d=> this.categories =d
     )
   }
-
   loadProducts() {
     this.router.navigate(['/products'], {
       queryParams: {
@@ -42,7 +38,6 @@ export class HomeComponent {
       }
     });
   }
-
   getProducts(): void{
     this.productService.getProductItems()
         .subscribe(
@@ -52,7 +47,7 @@ export class HomeComponent {
       );
   }
 
-      // this.route.queryParamMap.subscribe(params=> {
+    // this.route.queryParamMap.subscribe(params=> {
     //   console.log(params);
     // });
 

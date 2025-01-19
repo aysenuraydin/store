@@ -10,6 +10,7 @@ import { AuthService } from '../../services/auth.service';
   styles: [``]
 })
 export class NavbarComponent {
+  activeId =3;
   categories: Category[] = [];
   showOrHide = true;
   message: string ="";
@@ -42,14 +43,7 @@ export class NavbarComponent {
     this.authService.logout();
     this.router.navigate(['/account/login']);
   }
-  // getCategories(): void{
-  //   this.categoryService.getCategories()
-  //       .subscribe(
-  //         (data) => {
-  //           this.categories = data;
-  //       }
-  //     );
-  // }
+
   Search(): void{
     if(this.search.length==0)this.searchVisible = !this.searchVisible;
     else{
@@ -78,5 +72,8 @@ export class NavbarComponent {
   }
   changeFavVisible(value:boolean): void{
     this.favVisible=value;
+  }
+  colorOpacity(hex: string="") {
+    return hex+'30';
   }
 }

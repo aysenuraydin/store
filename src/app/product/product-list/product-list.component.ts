@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { ProductList } from '../../models/productList';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { FavService } from '../../services/fav.service';
-import { forkJoin, map, switchMap } from 'rxjs';
 import { CategoryProductService } from '../../services/category-product.service';
+import { AlertService } from '../../services/alert.service';
+import { Alert, ClassName, Color } from '../../models/alert';
 
 @Component({
   selector: 'product-list',
@@ -20,44 +20,50 @@ export class ProductListComponent {
   constructor(
     private productService: ProductService,
     private categoryProductService: CategoryProductService,
+    private alertService: AlertService,
     private route: ActivatedRoute,
   ) {  }
 
-  // ngOnInit(): void {
-  //   this.route.queryParams.subscribe(params => {
-  //     this.query = params['query'];
-  //     if(this.query.length>0) this.getFilterProducts(params['query']);
-  //     else{
-  //       let id = Number(this.route.snapshot.paramMap.get('id'));
-  //       this.getProducts(id);
-  //     }
-  //   });
-  // }
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.query = params['query'] || '';
 
       if (this.query) {
-        this.getFilterProducts(this.query);
+         this.getFilterProducts(this.query);
+        // this.categoryProductService.currentsearchProducts$.subscribe((categories) => {
+        //   this.products = categories
+        // });
       } else {
         const id = Number(this.route.snapshot.paramMap.get('id'));
         if (!isNaN(id)) {
           this.getProducts(id);
+
         }
       }
     });
-  }
-
-  getrouterId(categoryId:number){
-    this.getProducts(categoryId);
-  }
-  getProducts(id:number): void{
-    this.productService.getProductItemsByCategoryId(id)
-        .subscribe(
-          (data) => {
-            this.products = data;
+        let alert:Alert =  {
+          id:1,
+          userId:1,
+          className: ClassName.info,
+          message:"Lorem ing elit.1",
+          color: Color.blue
         }
-      );
+        this.alertService.addAlert(alert)
+  }
+  getrouterId(categoryId:number){
+     this.getProducts(categoryId);
+  }
+   getProducts(id:number): void{
+     this.productService.getProductItemsByCategoryId(id)
+         .subscribe(
+           (data) => {
+             this.products = data;
+         }
+       );
+    // this.productService.getProductItemsByCategoryId(id);
+    // this.productService.currentProductItemsByCategoryId$.subscribe((categories) => {
+    //   this.products = categories
+    // });
   }
   getFilterProducts(query:string): void{
     this.categoryProductService.searchProducts(query)

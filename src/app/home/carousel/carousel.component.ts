@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { Slider } from '../../models/slider';
 import { SliderService } from '../../services/slider.service';
 
@@ -7,23 +7,39 @@ import { SliderService } from '../../services/slider.service';
   templateUrl: './carousel.component.html',
   styles: [``]
 })
-export class CarouselComponent {
+export class CarouselComponent implements OnInit, OnDestroy {
   sliders: Slider[] = [];
-
-  class:string ="";
+  private intervalId: any;
 
   constructor(private sliderService: SliderService) { }
 
   ngOnInit(): void {
-    this.getSliders();
+    this.startAutoScroll();
+
+    this.sliderService.currentSlider$.subscribe((s) => {
+      this.sliders = s
+    });
   }
 
-  getSliders():  void {
-    this.sliderService.getActiveSliders()
-      .subscribe(
-        (data) => {
-          this.sliders = data;
+  ngOnDestroy(): void {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
+  }
+
+  getSliders(): void {
+    this.sliderService.getActiveSliders().subscribe(data => {
+      this.sliders = data;
+    });
+  }
+
+  startAutoScroll(): void {
+    const scrollInterval = 3000;
+    this.intervalId = setInterval(() => {
+      const carousel = document.querySelector('.carousel-slides') as HTMLElement;
+      if (carousel) {
+        carousel.scrollLeft += carousel.offsetWidth;
       }
-    );
+    }, scrollInterval);
   }
 }

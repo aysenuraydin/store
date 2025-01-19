@@ -22,11 +22,16 @@
                     </button>
                   </div>
 
-                  <div class="absolute left-0 z-10 mt-2 w-56 top-[3rem] origin-top-right rounded-md bg-white shadow-lg hidden group-hover/categories:block" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                    <div class="py-1" role="none">
-                      <span *ngFor="let category of categories">
-                      <a *ngIf="category.id != 0" routerLink="/product/product-list/{{ category.id}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 mx-2" role="menuitem" tabindex="-1" id="menu-item-0">{{ category.name }}</a>
-                      </span>
+                  <div class="absolute rounded-xl p-2 left-0 z-10 mt-2 w-56 top-[3rem] origin-top-right bg-white shadow-lg hidden group-hover/categories:block" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                    <div class="my-2 border rounded-lg" role="none"  *ngFor="let category of categories"
+                    [ngStyle]="{
+                      'background-color': colorOpacity(category.color),
+                      'border-color': colorOpacity(category.color)
+                    }" >
+                      <a *ngIf="category.id != 0" routerLink="/product/product-list/{{ category.id}}" class="block px-4 py-2 text-sm text-gray-700 text-[{{category.color}}]" role="menuitem" tabindex="-1" id="menu-item-0"
+                      [ngStyle]="{
+                        'color': category.color
+                      }">{{ category.name }}</a>
                     </div>
                   </div>
                 </div>
@@ -122,8 +127,7 @@
 </div>
 <add-fav *ngIf="favVisible" (isFavVisible)="changeFavVisible($event)"/>
 <add-carts *ngIf="cartVisible" (isCartVisible)="changeCartVisible($event)"/>
-
-
+<alerts *ngIf="isAuthenticated"/>
 
 
 

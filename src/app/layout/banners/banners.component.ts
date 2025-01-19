@@ -13,7 +13,11 @@ export class BannersComponent {
     constructor(private bannerService: BannerService) { }
 
     ngOnInit(): void {
-      this.getActiveBanner();
+      this.bannerService.currentBanner$.subscribe((s) => {
+        if(s!=null){
+          this.banner = s
+        }
+      });
     }
 
   getActiveBanner(): void {

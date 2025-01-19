@@ -57,7 +57,6 @@ export class ProductsComponent {
   colorOpacity(color?: string) {
     return color ? `${color}33` : 'transparent';
   }
-
   onCategoryChange(event: Event): void {
     const selectedCategoryId = +(event.target as HTMLSelectElement).value;
     const selectedCategory = this.categories.find(c => c.id === selectedCategoryId);
