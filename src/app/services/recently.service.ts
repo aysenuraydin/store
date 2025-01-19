@@ -24,7 +24,7 @@ export class RecentlyService {
     const currentUser = this.authService.getUser();
     return this.http.get<RecentlyItem[]>(this.apiUrl).pipe(
       switchMap((recentlyItems: RecentlyItem[]) => {
-        const neededCount = 4 - recentlyItems.length;
+        const neededCount = 6 - recentlyItems.length;
         if (neededCount > 0) {
           return this.productService.getProductsByCount(neededCount).pipe(
             map((extraProducts) => {
@@ -40,10 +40,7 @@ export class RecentlyService {
         const productsWithFavStatus$ = products.map((product) =>
           this.favService.isOrNot(product.id).pipe(
             map((isFav) => ({
-              id: product.id,
-              name: product.name,
-              price: product.price,
-              imgUrl: product.imgUrl,
+              ...product,
               isFav: isFav,
             }))
           )

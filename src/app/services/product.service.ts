@@ -13,6 +13,7 @@ export class ProductService {
   private apiUrl:string = 'api/product';
 
   constructor(private http: HttpClient, private favService: FavService ) {}
+
   getProductItemsByViewCount(): Observable<ProductList[]> {
     return this.http.get<Product[]>(this.apiUrl).pipe(
       map((products: Product[]) =>
@@ -24,10 +25,7 @@ export class ProductService {
         const productsWithFavStatus$ = topProducts.map((product) =>
           this.favService.isOrNot(product.id).pipe(
             map((isFav) => ({
-              id: product.id,
-              name: product.name,
-              price: product.price,
-              imgUrl: product.imgUrl,
+              ...product,
               isFav: isFav
             }))
           )
@@ -47,10 +45,7 @@ export class ProductService {
         const productsWithFavStatus$ = topProducts.map((product) =>
           this.favService.isOrNot(product.id).pipe(
             map((isFav) => ({
-              id: product.id,
-              name: product.name,
-              price: product.price,
-              imgUrl: product.imgUrl,
+              ...product,
               isFav: isFav
             }))
           )
@@ -68,10 +63,7 @@ export class ProductService {
         const productsWithFavStatus$ = topProducts.map((product) =>
           this.favService.isOrNot(product.id).pipe(
             map((isFav) => ({
-              id: product.id,
-              name: product.name,
-              price: product.price,
-              imgUrl: product.imgUrl,
+              ...product,
               isFav: isFav
             }))
           )

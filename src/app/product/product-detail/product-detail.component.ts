@@ -5,6 +5,8 @@ import { CartService } from '../../services/cart.service';
 import { ReviewService } from '../../services/reiew.service';
 import { FavService } from '../../services/fav.service';
 import { ProductList } from '../../models/productList';
+import { AlertService } from '../../services/alert.service';
+import { Alert, ClassName, Color } from '../../models/alert';
 
 @Component({
   selector: 'product-detail',
@@ -27,6 +29,7 @@ export class ProductDetailComponent {
     private route: ActivatedRoute,
     private categoryProductService: CategoryProductService,
     private favService: FavService,
+    private alertService: AlertService,
     private reviewService: ReviewService,
     private cartService: CartService
   ) { }
@@ -34,6 +37,15 @@ export class ProductDetailComponent {
   ngOnInit(): void {
     let id = Number(this.route.snapshot.paramMap.get('id'));
     this.getProduct(id);
+
+    let alert:Alert =  {
+      id:1,
+      userId:1,
+      className: ClassName.error,
+      message:"Lorem ing elit.1",
+      color: Color.red
+    }
+    this.alertService.addAlert(alert);
   }
   heartClick(product: ProductList): void {
     this.product?.isFav , product.isFav = !product.isFav;

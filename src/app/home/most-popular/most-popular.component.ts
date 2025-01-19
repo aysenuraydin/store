@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { ProductList } from '../../models/productList';
 import { forkJoin, map, switchMap } from 'rxjs';
-import { FavService } from '../../services/fav.service';
 
 @Component({
   selector: 'most-popular',
@@ -11,55 +10,49 @@ import { FavService } from '../../services/fav.service';
 })
 export class MostPopularComponent {
   products: ProductList[] = [];
-
+  defaultTransform: number = 0;
+  @ViewChild('popular', { static: true }) popular!: ElementRef;
   constructor(
     private productService: ProductService,
-    private favService: FavService
+    private renderer: Renderer2,
   ) { }
-
   ngOnInit(): void {
+    console.log("ngOnInit çalıştı!"); // Bu logu ekleyin
     this.getProducts();
+    setTimeout(() => {  this.go(true)  }, 3000);
+  }
+  go(next: boolean): void {
+    const popularElement = this.popular.nativeElement;
+
+    if (next) {
+      this.defaultTransform -= 398;
+      if (Math.abs(this.defaultTransform) >= popularElement.scrollWidth - popularElement.clientWidth) {
+        this.defaultTransform = 0;
+      }
+    } else {
+      if (this.defaultTransform !== 0) {
+        this.defaultTransform += 398;
+      }
+    }
+
+    this.renderer.setStyle(
+      popularElement,
+      'transform',
+      `translateX(${this.defaultTransform}px)`
+    );
   }
   // getProducts(): void{
-  //   this.productService.getProducts()
+  //   this.productService.getProductItemsByViewCount()
   //       .subscribe(
   //         (data) => {
-  //           this.products = data.sort((a, b) => b.viewCount - a.viewCount).slice(0,10);
+  //           this.products = data;
   //       }
   //     );
   // }
-
-  getProducts(): void{
-    this.productService.getProductItemsByViewCount()
-        .subscribe(
-          (data) => {
-            this.products = data;
-        }
-      );
+  getProducts(): void {
+    this.productService.getProductItemsByViewCount().subscribe(
+      (data) =>
+        this.products = data
+    )
   }
-
-  // getProducts2(): void {
-  //   this.productService.getProducts()
-  //     .pipe(
-  //       map(data => data.reverse()),
-  //       switchMap(products => {
-  //         const productsWithFavStatus$ = products
-  //         .sort((a, b) => b.viewCount - a.viewCount).slice(0,10)
-  //         .map(product =>
-  //           this.favService.isOrNot(product.id).pipe(
-  //             map(isFav => ({
-  //               ...product,
-  //               isFav
-  //             }))
-  //           )
-  //         );
-  //         return forkJoin(productsWithFavStatus$);
-  //       })
-  //     )
-  //     .subscribe(
-  //       (productsWithFavStatus) => {
-  //         this.products = productsWithFavStatus;
-  //       }
-  //     );
-  // }
 }

@@ -18,7 +18,6 @@ import { InformationsRepository } from '../repository/informations.repository';
 import { Review } from '../models/review';
 import { ReviewRepository } from '../repository/review.repository';
 import { AdressItem } from '../models/adressItem';
-import { AdressRepository } from '../repository/adress.repository';
 import { FavItem } from '../models/favItem';
 import { RecentlyItem } from '../models/recentlyItem';
 import { FavItemRepository } from '../repository/favItem.repository';
@@ -31,6 +30,9 @@ import { User } from '../models/user';
 import { Role } from '../models/role';
 import { UserRepository } from '../repository/user.repository';
 import { RoleRepository } from '../repository/role.repository';
+import { AdressRepository } from '../repository/adress.repository';
+import { AlertRepository } from '../repository/alert.repository';
+import { Alert } from '../models/alert';
 
 @Injectable({
   providedIn: 'root'
@@ -59,6 +61,8 @@ export class InMemoryDataService implements InMemoryDbService {
   private users: User[]=[];
   private roles: Role[]=[];
 
+  private alerts: Alert[]=[];
+
   constructor() {
     new ProductRepository().getProducts().forEach(p => this.products.push(p));
     new SliderRepository().getSliders().forEach(p => this.sliders.push(p));
@@ -80,6 +84,8 @@ export class InMemoryDataService implements InMemoryDbService {
 
     new UserRepository().getUsers().forEach(p => this.users.push(p));
     new RoleRepository().getRoles().forEach(p => this.roles.push(p));
+
+    new AlertRepository().getAlerts().forEach(p => this.alerts.push(p));
   }
 
   createDb() {
@@ -137,6 +143,10 @@ export class InMemoryDataService implements InMemoryDbService {
     const user: User[] = [
       ...this.users,
     ];
+    const alert: Alert[] = [
+      ...this.alerts,
+    ];
+
 
     return {
       product,
@@ -157,6 +167,7 @@ export class InMemoryDataService implements InMemoryDbService {
       order,
       role,
       user,
+      alert
     };
   }
 }

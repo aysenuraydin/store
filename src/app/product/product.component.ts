@@ -55,7 +55,7 @@ export class ProductComponent implements OnInit{
     else this.deleteFav(product.id);
   }
   createFav(product:ProductList){
-        this.favService.createFavItem(product).subscribe();
+    this.favService.createFavItem(product).subscribe();
   }
   deleteFav(id:number){
     this.favService.deleteFavItem(id).subscribe();

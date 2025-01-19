@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Slider } from '../models/slider';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { forkJoin, map, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, catchError, forkJoin, map, Observable, switchMap, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +9,26 @@ import { forkJoin, map, Observable, switchMap } from 'rxjs';
 export class SliderService {
 
   private apiUrl = 'api/slider';
+  private currentSliderSubject: BehaviorSubject<Slider[]>;
+  public currentSlider$: Observable<Slider[]>;
 
-  constructor (private http: HttpClient) { }
+  constructor (private http: HttpClient) {
+    this.currentSliderSubject = new BehaviorSubject<Slider[]>([]);
+    this.currentSlider$ = this.currentSliderSubject.asObservable();
+
+    this.loadSliders();
+  }
+
+  private loadSliders(): void {
+    this.getActiveSliders().subscribe(
+      (categories) => {
+        this.currentSliderSubject.next(categories);
+      },
+      (error) => {
+        console.error('Kategori yüklenirken hata oluştu:', error);
+      }
+    );
+  }
 
   getSliders() :Observable<Slider[]> {
     return this.http.get<Slider[]>(this.apiUrl).pipe(
@@ -48,7 +66,13 @@ export class SliderService {
         return slider;
       }),
       switchMap((updatedSubscribe) => {
-        return this.http.post<Slider>(this.apiUrl, updatedSubscribe, httpOptions);
+        return this.http.post<Slider>(this.apiUrl, updatedSubscribe, httpOptions).pipe(
+              tap(() => this.loadSliders()),
+              catchError((error) => {
+                console.error('Kategori oluşturulurken hata oluştu:', error);
+                throw error;
+              })
+            );
       })
     );
   }
@@ -56,9 +80,21 @@ export class SliderService {
     const httpOptions= {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
-    return this.http.put(this.apiUrl, slider, httpOptions)
+    return this.http.put(this.apiUrl, slider, httpOptions).pipe(
+      tap(() => this.loadSliders()),
+      catchError((error) => {
+        console.error('Kategori oluşturulurken hata oluştu:', error);
+        throw error;
+      })
+    );
   }
   deleteSubscribe(id: number): Observable<Slider>  {
-    return this.http.delete<Slider>(this.apiUrl+'/'+id)
+    return this.http.delete<Slider>(this.apiUrl+'/'+id).pipe(
+      tap(() => this.loadSliders()),
+      catchError((error) => {
+        console.error('Kategori oluşturulurken hata oluştu:', error);
+        throw error;
+      })
+    );
   }
 }

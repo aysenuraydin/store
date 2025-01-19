@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Banner } from '../models/banner';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, switchMap, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +9,30 @@ import { map, Observable, switchMap } from 'rxjs';
 export class BannerService {
   private apiUrl = 'api/banner';
 
-  constructor(private http: HttpClient) {  }
+  private currentBannerSubject: BehaviorSubject<Banner | null>;
+  public currentBanner$: Observable<Banner | null>;
 
+  constructor(private http: HttpClient) {
+    this.currentBannerSubject = new BehaviorSubject<Banner | null>(null);
+    this.currentBanner$ = this.currentBannerSubject.asObservable();
+    this.loadBanners();
+  }
+
+  private loadBanners(): void {
+    this.getActiveBanner().subscribe(
+      (b) => {
+        this.currentBannerSubject.next(b);
+      },
+      (error) => {
+        console.error('Kategori yüklenirken hata oluştu:', error);
+      }
+    );
+  }
+  getActiveBanner(): Observable<Banner> {
+    return this.http.get<Banner[]>(this.apiUrl).pipe(
+      map(banners => banners.find(banner => banner.isActive) ?? new Banner())
+    );
+  }
   getBanners() :Observable<Banner[]> {
     return this.http.get<Banner[]>(this.apiUrl).pipe(
       map(categories => categories)
@@ -28,12 +50,12 @@ export class BannerService {
         .some(field => field.toLowerCase().includes(query.toLowerCase()))
         )
       )
-    );
+    )
   }
   getBanner(id:number) :Observable<Banner>{
     return this.http.get<Banner>(this.apiUrl+'/'+id);
   }
-  getActiveBanner(): Observable<Banner> {
+  getActiveBanner2(): Observable<Banner> {
     return this.http.get<Banner[]>(this.apiUrl).pipe(
       map(banners => banners.find(banner => banner.isActive) ?? new Banner())
     );
@@ -49,7 +71,13 @@ export class BannerService {
         return banner;
       }),
       switchMap((updatedSubscribe) => {
-        return this.http.post<Banner>(this.apiUrl, updatedSubscribe, httpOptions);
+        return this.http.post<Banner>(this.apiUrl, updatedSubscribe, httpOptions).pipe(
+          tap(() => this.loadBanners()),
+          catchError((error) => {
+            console.error('Kategori oluşturulurken hata oluştu:', error);
+            throw error;
+          })
+        );
       })
     );
   }
@@ -64,19 +92,43 @@ export class BannerService {
             activeBanner.isActive = false;
             return this.http.put(this.apiUrl, activeBanner, httpOptions).pipe(
               switchMap(() => {
-                return this.http.put(this.apiUrl, banner, httpOptions);
+                return this.http.put(this.apiUrl, banner, httpOptions).pipe(
+                  tap(() => this.loadBanners()),
+                  catchError((error) => {
+                    console.error('Kategori oluşturulurken hata oluştu:', error);
+                    throw error;
+                  })
+                );
               })
             );
           } else {
-            return this.http.put(this.apiUrl, banner, httpOptions);
+            return this.http.put(this.apiUrl, banner, httpOptions).pipe(
+              tap(() => this.loadBanners()),
+              catchError((error) => {
+                console.error('Kategori oluşturulurken hata oluştu:', error);
+                throw error;
+              })
+            );
           }
         })
       );
     }
-    return this.http.put(this.apiUrl, banner, httpOptions);
+    return this.http.put(this.apiUrl, banner, httpOptions).pipe(
+      tap(() => this.loadBanners()),
+      catchError((error) => {
+        console.error('Kategori oluşturulurken hata oluştu:', error);
+        throw error;
+      })
+    );
   }
   deleteBanner(id: number): Observable<Banner>  {
-    return this.http.delete<Banner>(this.apiUrl+'/'+id)
+    return this.http.delete<Banner>(this.apiUrl+'/'+id).pipe(
+      tap(() => this.loadBanners()),
+      catchError((error) => {
+        console.error('Kategori oluşturulurken hata oluştu:', error);
+        throw error;
+      })
+    );
   }
 }
 
