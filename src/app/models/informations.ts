@@ -34,14 +34,14 @@ export class SocialMedia {
   instagram: string;
   facebook: string;
   twitter: string;
-  githup: string;
+  github: string;
 
   constructor() {
     this.id = 0;
     this.instagram = '';
     this.facebook = '';
     this.twitter = '';
-    this.githup = '';
+    this.github = '';
   }
 }
 export class Faqs {

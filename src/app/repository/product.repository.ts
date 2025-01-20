@@ -4,1275 +4,401 @@ export class ProductRepository {
   private products: Product[];
 
   constructor() {
-      this.products = new Array<Product>(
-          {
-            id:1,
-            name: 'Earthen Bottle 1',
-            price: 48.10,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg',
-            description:'lorem',
-            categoryId:1,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 1,
-
-            viewCount:1
-          },
-          {
-            id:2,
-            name: 'Earthen Bottle 2',
-            price: 48.20,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-02.jpg',
-            description:'lorem',
-            categoryId:2,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 2,
-
-            viewCount:2
-          },
-          {
-            id:3,
-            name: 'Earthen Bottle 3',
-            price: 48.30,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-03.jpg',
-            description:'lorem',
-            categoryId:3,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 3,
-
-            viewCount:3
-          },
-          {
-            id:4,
-            name: 'Earthen Bottle 4',
-            price: 48.40,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-04.jpg',
-            description:'lorem',
-            categoryId:4,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 4,
-
-            viewCount:4
-          },
-          {
-            id:5,
-            name: 'Earthen Bottle 5',
-            price: 48.50,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-05.jpg',
-            description:'lorem',
-            categoryId:5,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 5,
-
-            viewCount:0
-          },
-          {
-            id:6,
-            name: 'Earthen Bottle 6',
-            price: 48.60,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-06.jpg',
-            description:'lorem',
-            categoryId:6,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 6,
-
-            viewCount:0
-          },
-          {
-            id:7,
-            name: 'Earthen Bottle 7',
-            price: 48.70,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-07.jpg',
-            description:'lorem',
-            categoryId:7,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 7,
-
-            viewCount:0
-          },
-          {
-            id:8,
-            name: 'Earthen Bottle 8',
-            price: 48.80,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-08.jpg',
-            description:'lorem',
-            categoryId:8,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 8,
-
-            viewCount:0
-          },
-          {
-            id:9,
-            name: 'Earthen Bottle 9',
-            price: 48.90,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg',
-            description:'lorem',
-            categoryId:1,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 9,
-
-            viewCount:0
-          },
-          {
-            id:10,
-            name: 'Earthen Bottle 10',
-            price: 48.10,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-02.jpg',
-            description:'lorem',
-            categoryId:2,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 10,
-
-            viewCount:0
-          },
-          {
-            id:11,
-            name: 'Earthen Bottle 11',
-            price: 48.20,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-03.jpg',
-            description:'lorem',
-            categoryId:3,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 11,
-
-            viewCount:0
-          },
-          {
-            id:12,
-            name: 'Earthen Bottle 12',
-            price: 48.30,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-04.jpg',
-            description:'lorem',
-            categoryId:4,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 12,
-
-            viewCount:0
-          },
-          {
-            id:13,
-            name: 'Earthen Bottle 13',
-            price: 48.40,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-05.jpg',
-            description:'lorem',
-            categoryId:5,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 13,
-
-            viewCount:0
-          },
-          {
-            id:14,
-            name: 'Earthen Bottle 14',
-            price: 48.50,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-06.jpg',
-            description:'lorem',
-            categoryId:6,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 14,
-
-            viewCount:0
-          },
-          {
-            id:15,
-            name: 'Earthen Bottle 15',
-            price: 48.60,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-07.jpg',
-            description:'lorem',
-            categoryId:7,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 15,
-
-            viewCount:0
-          },
-          {
-            id:16,
-            name: 'Earthen Bottle 16',
-            price: 48.70,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-08.jpg',
-            description:'lorem',
-            categoryId:8,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 16,
-
-            viewCount:0
-          },
-
-          {
-            id:17,
-            name: 'Earthen Bottle 17',
-            price: 48.10,
-            imgUrl: 'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg',
-            description:`lorem`,
-            categoryId:0,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 17,
-
-            viewCount:0
-          },
-          {
-            id:18,
-            name: 'Earthen Bottle 18',
-            price: 48.10,
-            imgUrl: 'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-02.jpg',
-            description:` The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.`,
-            categoryId:0,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 18,
-
-            viewCount:0
-          },
-          {
-            id:1,
-            name: 'Earthen Bottle 1',
-            price: 48.10,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg',
-            description:'lorem',
-            categoryId:1,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 1,
-
-            viewCount:1
-          },
-          {
-            id:2,
-            name: 'Earthen Bottle 2',
-            price: 48.20,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-02.jpg',
-            description:'lorem',
-            categoryId:2,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 2,
-
-            viewCount:2
-          },
-          {
-            id:3,
-            name: 'Earthen Bottle 3',
-            price: 48.30,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-03.jpg',
-            description:'lorem',
-            categoryId:3,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 3,
-
-            viewCount:3
-          },
-          {
-            id:4,
-            name: 'Earthen Bottle 4',
-            price: 48.40,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-04.jpg',
-            description:'lorem',
-            categoryId:4,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 4,
-
-            viewCount:4
-          },
-          {
-            id:5,
-            name: 'Earthen Bottle 5',
-            price: 48.50,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-05.jpg',
-            description:'lorem',
-            categoryId:5,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 5,
-
-            viewCount:0
-          },
-          {
-            id:6,
-            name: 'Earthen Bottle 6',
-            price: 48.60,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-06.jpg',
-            description:'lorem',
-            categoryId:6,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 6,
-
-            viewCount:0
-          },
-          {
-            id:7,
-            name: 'Earthen Bottle 7',
-            price: 48.70,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-07.jpg',
-            description:'lorem',
-            categoryId:7,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 7,
-
-            viewCount:0
-          },
-          {
-            id:8,
-            name: 'Earthen Bottle 8',
-            price: 48.80,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-08.jpg',
-            description:'lorem',
-            categoryId:8,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 8,
-
-            viewCount:0
-          },
-          {
-            id:9,
-            name: 'Earthen Bottle 9',
-            price: 48.90,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg',
-            description:'lorem',
-            categoryId:1,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 9,
-
-            viewCount:0
-          },
-          {
-            id:10,
-            name: 'Earthen Bottle 10',
-            price: 48.10,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-02.jpg',
-            description:'lorem',
-            categoryId:2,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 10,
-
-            viewCount:0
-          },
-          {
-            id:11,
-            name: 'Earthen Bottle 11',
-            price: 48.20,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-03.jpg',
-            description:'lorem',
-            categoryId:3,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 11,
-
-            viewCount:0
-          },
-          {
-            id:12,
-            name: 'Earthen Bottle 12',
-            price: 48.30,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-04.jpg',
-            description:'lorem',
-            categoryId:4,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 12,
-
-            viewCount:0
-          },
-          {
-            id:13,
-            name: 'Earthen Bottle 13',
-            price: 48.40,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-05.jpg',
-            description:'lorem',
-            categoryId:5,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 13,
-
-            viewCount:0
-          },
-          {
-            id:14,
-            name: 'Earthen Bottle 14',
-            price: 48.50,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-06.jpg',
-            description:'lorem',
-            categoryId:6,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 14,
-
-            viewCount:0
-          },
-          {
-            id:15,
-            name: 'Earthen Bottle 15',
-            price: 48.60,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-07.jpg',
-            description:'lorem',
-            categoryId:7,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 15,
-
-            viewCount:0
-          },
-          {
-            id:16,
-            name: 'Earthen Bottle 16',
-            price: 48.70,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-08.jpg',
-            description:'lorem',
-            categoryId:8,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 16,
-
-            viewCount:0
-          },
-
-          {
-            id:17,
-            name: 'Earthen Bottle 17',
-            price: 48.10,
-            imgUrl: 'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg',
-            description:`lorem`,
-            categoryId:0,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 17,
-
-            viewCount:0
-          },
-          {
-            id:18,
-            name: 'Earthen Bottle 18',
-            price: 48.10,
-            imgUrl: 'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-02.jpg',
-            description:` The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.`,
-            categoryId:0,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 18,
-
-            viewCount:0
-          },
-          {
-            id:1,
-            name: 'Earthen Bottle 1',
-            price: 48.10,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg',
-            description:'lorem',
-            categoryId:1,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 1,
-
-            viewCount:1
-          },
-          {
-            id:2,
-            name: 'Earthen Bottle 2',
-            price: 48.20,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-02.jpg',
-            description:'lorem',
-            categoryId:2,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 2,
-
-            viewCount:2
-          },
-          {
-            id:3,
-            name: 'Earthen Bottle 3',
-            price: 48.30,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-03.jpg',
-            description:'lorem',
-            categoryId:3,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 3,
-
-            viewCount:3
-          },
-          {
-            id:4,
-            name: 'Earthen Bottle 4',
-            price: 48.40,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-04.jpg',
-            description:'lorem',
-            categoryId:4,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 4,
-
-            viewCount:4
-          },
-          {
-            id:5,
-            name: 'Earthen Bottle 5',
-            price: 48.50,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-05.jpg',
-            description:'lorem',
-            categoryId:5,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 5,
-
-            viewCount:0
-          },
-          {
-            id:6,
-            name: 'Earthen Bottle 6',
-            price: 48.60,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-06.jpg',
-            description:'lorem',
-            categoryId:6,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 6,
-
-            viewCount:0
-          },
-          {
-            id:7,
-            name: 'Earthen Bottle 7',
-            price: 48.70,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-07.jpg',
-            description:'lorem',
-            categoryId:7,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 7,
-
-            viewCount:0
-          },
-          {
-            id:8,
-            name: 'Earthen Bottle 8',
-            price: 48.80,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-08.jpg',
-            description:'lorem',
-            categoryId:8,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 8,
-
-            viewCount:0
-          },
-          {
-            id:9,
-            name: 'Earthen Bottle 9',
-            price: 48.90,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg',
-            description:'lorem',
-            categoryId:1,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 9,
-
-            viewCount:0
-          },
-          {
-            id:10,
-            name: 'Earthen Bottle 10',
-            price: 48.10,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-02.jpg',
-            description:'lorem',
-            categoryId:2,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 10,
-
-            viewCount:0
-          },
-          {
-            id:11,
-            name: 'Earthen Bottle 11',
-            price: 48.20,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-03.jpg',
-            description:'lorem',
-            categoryId:3,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 11,
-
-            viewCount:0
-          },
-          {
-            id:12,
-            name: 'Earthen Bottle 12',
-            price: 48.30,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-04.jpg',
-            description:'lorem',
-            categoryId:4,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 12,
-
-            viewCount:0
-          },
-          {
-            id:13,
-            name: 'Earthen Bottle 13',
-            price: 48.40,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-05.jpg',
-            description:'lorem',
-            categoryId:5,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 13,
-
-            viewCount:0
-          },
-          {
-            id:14,
-            name: 'Earthen Bottle 14',
-            price: 48.50,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-06.jpg',
-            description:'lorem',
-            categoryId:6,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 14,
-
-            viewCount:0
-          },
-          {
-            id:15,
-            name: 'Earthen Bottle 15',
-            price: 48.60,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-07.jpg',
-            description:'lorem',
-            categoryId:7,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 15,
-
-            viewCount:0
-          },
-          {
-            id:16,
-            name: 'Earthen Bottle 16',
-            price: 48.70,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-08.jpg',
-            description:'lorem',
-            categoryId:8,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 16,
-
-            viewCount:0
-          },
-
-          {
-            id:17,
-            name: 'Earthen Bottle 17',
-            price: 48.10,
-            imgUrl: 'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg',
-            description:`lorem`,
-            categoryId:0,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 17,
-
-            viewCount:0
-          },
-          {
-            id:18,
-            name: 'Earthen Bottle 18',
-            price: 48.10,
-            imgUrl: 'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-02.jpg',
-            description:` The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.`,
-            categoryId:0,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 18,
-
-            viewCount:0
-          },
-          {
-            id:1,
-            name: 'Earthen Bottle 1',
-            price: 48.10,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg',
-            description:'lorem',
-            categoryId:1,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 1,
-
-            viewCount:1
-          },
-          {
-            id:2,
-            name: 'Earthen Bottle 2',
-            price: 48.20,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-02.jpg',
-            description:'lorem',
-            categoryId:2,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 2,
-
-            viewCount:2
-          },
-          {
-            id:3,
-            name: 'Earthen Bottle 3',
-            price: 48.30,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-03.jpg',
-            description:'lorem',
-            categoryId:3,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 3,
-
-            viewCount:3
-          },
-          {
-            id:4,
-            name: 'Earthen Bottle 4',
-            price: 48.40,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-04.jpg',
-            description:'lorem',
-            categoryId:4,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 4,
-
-            viewCount:4
-          },
-          {
-            id:5,
-            name: 'Earthen Bottle 5',
-            price: 48.50,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-05.jpg',
-            description:'lorem',
-            categoryId:5,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 5,
-
-            viewCount:0
-          },
-          {
-            id:6,
-            name: 'Earthen Bottle 6',
-            price: 48.60,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-06.jpg',
-            description:'lorem',
-            categoryId:6,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 6,
-
-            viewCount:0
-          },
-          {
-            id:7,
-            name: 'Earthen Bottle 7',
-            price: 48.70,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-07.jpg',
-            description:'lorem',
-            categoryId:7,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 7,
-
-            viewCount:0
-          },
-          {
-            id:8,
-            name: 'Earthen Bottle 8',
-            price: 48.80,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-08.jpg',
-            description:'lorem',
-            categoryId:8,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 8,
-
-            viewCount:0
-          },
-          {
-            id:9,
-            name: 'Earthen Bottle 9',
-            price: 48.90,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg',
-            description:'lorem',
-            categoryId:1,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 9,
-
-            viewCount:0
-          },
-          {
-            id:10,
-            name: 'Earthen Bottle 10',
-            price: 48.10,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-02.jpg',
-            description:'lorem',
-            categoryId:2,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 10,
-
-            viewCount:0
-          },
-          {
-            id:11,
-            name: 'Earthen Bottle 11',
-            price: 48.20,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-03.jpg',
-            description:'lorem',
-            categoryId:3,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 11,
-
-            viewCount:0
-          },
-          {
-            id:12,
-            name: 'Earthen Bottle 12',
-            price: 48.30,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-04.jpg',
-            description:'lorem',
-            categoryId:4,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 12,
-
-            viewCount:0
-          },
-          {
-            id:13,
-            name: 'Earthen Bottle 13',
-            price: 48.40,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-05.jpg',
-            description:'lorem',
-            categoryId:5,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 13,
-
-            viewCount:0
-          },
-          {
-            id:14,
-            name: 'Earthen Bottle 14',
-            price: 48.50,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-06.jpg',
-            description:'lorem',
-            categoryId:6,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 14,
-
-            viewCount:0
-          },
-          {
-            id:15,
-            name: 'Earthen Bottle 15',
-            price: 48.60,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-07.jpg',
-            description:'lorem',
-            categoryId:7,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 15,
-
-            viewCount:0
-          },
-          {
-            id:16,
-            name: 'Earthen Bottle 16',
-            price: 48.70,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-08.jpg',
-            description:'lorem',
-            categoryId:8,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 16,
-
-            viewCount:0
-          },
-
-          {
-            id:17,
-            name: 'Earthen Bottle 17',
-            price: 48.10,
-            imgUrl: 'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg',
-            description:`lorem`,
-            categoryId:0,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 17,
-
-            viewCount:0
-          },
-          {
-            id:18,
-            name: 'Earthen Bottle 18',
-            price: 48.10,
-            imgUrl: 'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-02.jpg',
-            description:` The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.`,
-            categoryId:0,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 18,
-
-            viewCount:0
-          },
-          {
-            id:1,
-            name: 'Earthen Bottle 1',
-            price: 48.10,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg',
-            description:'lorem',
-            categoryId:1,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 1,
-
-            viewCount:1
-          },
-          {
-            id:2,
-            name: 'Earthen Bottle 2',
-            price: 48.20,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-02.jpg',
-            description:'lorem',
-            categoryId:2,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 2,
-
-            viewCount:2
-          },
-          {
-            id:3,
-            name: 'Earthen Bottle 3',
-            price: 48.30,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-03.jpg',
-            description:'lorem',
-            categoryId:3,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 3,
-
-            viewCount:3
-          },
-          {
-            id:4,
-            name: 'Earthen Bottle 4',
-            price: 48.40,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-04.jpg',
-            description:'lorem',
-            categoryId:4,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 4,
-
-            viewCount:4
-          },
-          {
-            id:5,
-            name: 'Earthen Bottle 5',
-            price: 48.50,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-05.jpg',
-            description:'lorem',
-            categoryId:5,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 5,
-
-            viewCount:0
-          },
-          {
-            id:6,
-            name: 'Earthen Bottle 6',
-            price: 48.60,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-06.jpg',
-            description:'lorem',
-            categoryId:6,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 6,
-
-            viewCount:0
-          },
-          {
-            id:7,
-            name: 'Earthen Bottle 7',
-            price: 48.70,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-07.jpg',
-            description:'lorem',
-            categoryId:7,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 7,
-
-            viewCount:0
-          },
-          {
-            id:8,
-            name: 'Earthen Bottle 8',
-            price: 48.80,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-08.jpg',
-            description:'lorem',
-            categoryId:8,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 8,
-
-            viewCount:0
-          },
-          {
-            id:9,
-            name: 'Earthen Bottle 9',
-            price: 48.90,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg',
-            description:'lorem',
-            categoryId:1,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 9,
-
-            viewCount:0
-          },
-          {
-            id:10,
-            name: 'Earthen Bottle 10',
-            price: 48.10,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-02.jpg',
-            description:'lorem',
-            categoryId:2,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 10,
-
-            viewCount:0
-          },
-          {
-            id:11,
-            name: 'Earthen Bottle 11',
-            price: 48.20,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-03.jpg',
-            description:'lorem',
-            categoryId:3,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 11,
-
-            viewCount:0
-          },
-          {
-            id:12,
-            name: 'Earthen Bottle 12',
-            price: 48.30,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-04.jpg',
-            description:'lorem',
-            categoryId:4,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 12,
-
-            viewCount:0
-          },
-          {
-            id:13,
-            name: 'Earthen Bottle 13',
-            price: 48.40,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-05.jpg',
-            description:'lorem',
-            categoryId:5,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 13,
-
-            viewCount:0
-          },
-          {
-            id:14,
-            name: 'Earthen Bottle 14',
-            price: 48.50,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-06.jpg',
-            description:'lorem',
-            categoryId:6,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 14,
-
-            viewCount:0
-          },
-          {
-            id:15,
-            name: 'Earthen Bottle 15',
-            price: 48.60,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-07.jpg',
-            description:'lorem',
-            categoryId:7,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 15,
-
-            viewCount:0
-          },
-          {
-            id:16,
-            name: 'Earthen Bottle 16',
-            price: 48.70,
-            imgUrl:'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-08.jpg',
-            description:'lorem',
-            categoryId:8,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 16,
-
-            viewCount:0
-          },
-
-          {
-            id:17,
-            name: 'Earthen Bottle 17',
-            price: 48.10,
-            imgUrl: 'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-01.jpg',
-            description:`lorem`,
-            categoryId:0,
-            createdAt:new Date(),
-            isConfirmed: false,
-            details:'lorem 18',
-            stockAmount: 17,
-
-            viewCount:0
-          },
-          {
-            id:18,
-            name: 'Earthen Bottle 18',
-            price: 48.10,
-            imgUrl: 'https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-02.jpg',
-            description:` The Basic Tee 6-Pack allows you to fully express your vibrant personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a trendsetter? Try our exclusive colorway: "Black". Need to add an extra pop of color to your outfit? Our white tee has you covered.`,
-            categoryId:0,
-            createdAt:new Date(),
-            isConfirmed: true,
-            details:'lorem 18',
-            stockAmount: 18,
-
-            viewCount:0
-          },
-      );
+    this.products = new Array<Product>(
+      {
+        id: 1,
+        name: 'Modern Sofa Set',
+        price: 1200,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Comfortable and stylish sofa set.',
+        categoryId: 6,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Soft fabric, modern design, spacious seating area.',
+        stockAmount: 50,
+        viewCount: 10
+      },
+      {
+        id: 2,
+        name: 'Luxury Bedroom Set',
+        price: 999,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Elegant and modern bedroom set.',
+        categoryId: 5,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Wooden details, stylish design, spacious closet space.',
+        stockAmount: 45,
+        viewCount: 25
+      },
+      {
+        id: 3,
+        name: 'Classic Coffee Table',
+        price: 299,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Graceful coffee table design.',
+        categoryId: 4,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Wooden, classic design, durable material.',
+        stockAmount: 60,
+        viewCount: 30
+      },
+      {
+        id: 4,
+        name: 'Office Desk',
+        price: 450,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Practical and stylish office desk.',
+        categoryId: 3,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Drawer compartments, spacious workspace, durable surface.',
+        stockAmount: 55,
+        viewCount: 35
+      },
+      {
+        id: 5,
+        name: 'Dining Table and Chairs Set',
+        price: 799,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Elegant and comfortable dining table and chairs set.',
+        categoryId: 2,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Stylish design, comfortable seating, sturdy material.',
+        stockAmount: 80,
+        viewCount: 50
+      },
+      {
+        id: 6,
+        name: 'Wide TV Unit',
+        price: 599,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Modern design TV unit.',
+        categoryId: 1,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Wooden details, spacious, ideal for TV and media devices.',
+        stockAmount: 65,
+        viewCount: 15
+      },
+      {
+        id: 7,
+        name: 'Comfortable Armchair',
+        price: 799,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Soft and comfortable armchair.',
+        categoryId: 8,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Ergonomic design, long-lasting comfort, high-quality fabric.',
+        stockAmount: 30,
+        viewCount: 20
+      },
+      {
+        id: 8,
+        name: 'Round Dining Table',
+        price: 699,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Stylish round dining table.',
+        categoryId: 7,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Elegant design, durable material, suitable for large dining groups.',
+        stockAmount: 40,
+        viewCount: 45
+      },
+      {
+        id: 9,
+        name: 'Chic Console',
+        price: 399,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Modern and chic console.',
+        categoryId: 6,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Minimalist design, versatile use.',
+        stockAmount: 15,
+        viewCount: 10
+      },
+      {
+        id: 10,
+        name: 'Simple Bed',
+        price: 799,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Modern bed design.',
+        categoryId: 5,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'High-quality materials, comfortable and durable.',
+        stockAmount: 20,
+        viewCount: 8
+      },
+      {
+        id: 11,
+        name: 'Corner Sofa',
+        price: 1050,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Spacious corner sofa.',
+        categoryId: 4,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Corner design, soft cushions, stylish fabric.',
+        stockAmount: 50,
+        viewCount: 15
+      },
+      {
+        id: 12,
+        name: 'Wooden Dining Set',
+        price: 850,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Wooden dining table with chairs.',
+        categoryId: 3,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Sturdy wooden material, classic design, perfect for family meals.',
+        stockAmount: 45,
+        viewCount: 20
+      },
+      {
+        id: 13,
+        name: 'Elegant Armchair',
+        price: 499,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Sleek and comfortable armchair.',
+        categoryId: 2,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Smooth fabric, ergonomic design, suitable for any room.',
+        stockAmount: 30,
+        viewCount: 18
+      },
+      {
+        id: 14,
+        name: 'Modular Sofa',
+        price: 1400,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Modular and customizable sofa.',
+        categoryId: 1,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Customizable arrangement, soft fabric, modern design.',
+        stockAmount: 25,
+        viewCount: 40
+      },
+      {
+        id: 15,
+        name: 'Stylish Bed Frame',
+        price: 550,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Modern and minimalist bed frame.',
+        categoryId: 8,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Sleek design, sturdy frame, easy to assemble.',
+        stockAmount: 50,
+        viewCount: 12
+      },
+      {
+        id: 16,
+        name: 'Luxury Coffee Table',
+        price: 599,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Chic and luxurious coffee table.',
+        categoryId: 7,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Glass top, modern design, perfect for living rooms.',
+        stockAmount: 40,
+        viewCount: 25
+      },
+      {
+        id: 17,
+        name: 'Compact Work Desk',
+        price: 350,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Space-saving work desk.',
+        categoryId: 6,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Compact design, durable surface, suitable for home office.',
+        stockAmount: 60,
+        viewCount: 17
+      },
+      {
+        id: 18,
+        name: 'Contemporary Dining Set',
+        price: 950,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Contemporary style dining set.',
+        categoryId: 5,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Sleek design, high-quality material, perfect for modern homes.',
+        stockAmount: 30,
+        viewCount: 22
+      },
+      {
+        id: 19,
+        name: 'Vintage Wooden Bookshelf',
+        price: 430,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Vintage-style wooden bookshelf.',
+        categoryId: 4,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Classic wooden design, ample storage space, vintage look.',
+        stockAmount: 50,
+        viewCount: 28
+      },
+      {
+        id: 20,
+        name: 'Sofa Bed',
+        price: 699,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Functional and comfortable sofa bed.',
+        categoryId: 3,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Dual function, easy to convert, space-saving design.',
+        stockAmount: 45,
+        viewCount: 35
+      },
+      {
+        id: 21,
+        name: 'Industrial Loft Table',
+        price: 699,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Industrial-style loft table.',
+        categoryId: 2,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Metal frame, rustic wood, ideal for modern lofts.',
+        stockAmount: 32,
+        viewCount: 27
+      },
+      {
+        id: 22,
+        name: 'Small TV Stand',
+        price: 399,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Compact TV stand.',
+        categoryId: 1,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Space-efficient, sleek design, perfect for smaller spaces.',
+        stockAmount: 60,
+        viewCount: 19
+      },
+      {
+        id: 23,
+        name: 'Chesterfield Sofa',
+        price: 1200,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Classic Chesterfield sofa.',
+        categoryId: 8,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Timeless design, luxurious leather, sturdy frame.',
+        stockAmount: 25,
+        viewCount: 15
+      },
+      {
+        id: 24,
+        name: 'Modern Storage Cabinet',
+        price: 450,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Space-saving modern storage cabinet.',
+        categoryId: 7,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Multiple storage compartments, sleek modern design.',
+        stockAmount: 40,
+        viewCount: 24
+      },
+      {
+        id: 25,
+        name: 'Wooden Lounge Chair',
+        price: 599,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Wooden lounge chair with cushion.',
+        categoryId: 6,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Sturdy wooden frame, soft cushion, comfortable seating.',
+        stockAmount: 30,
+        viewCount: 32
+      },
+      {
+        id: 26,
+        name: 'Wall-Mounted Shelf',
+        price: 199,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Space-saving wall-mounted shelf.',
+        categoryId: 5,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Minimalist design, durable material, easy installation.',
+        stockAmount: 80,
+        viewCount: 40
+      },
+      {
+        id: 27,
+        name: 'Folding Dining Table',
+        price: 449,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Space-saving folding dining table.',
+        categoryId: 4,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Compact design, folding feature, perfect for small apartments.',
+        stockAmount: 50,
+        viewCount: 50
+      },
+      {
+        id: 28,
+        name: 'Leather Recliner',
+        price: 799,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Luxurious leather recliner chair.',
+        categoryId: 3,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Soft leather, reclining function, perfect for relaxation.',
+        stockAmount: 20,
+        viewCount: 10
+      },
+      {
+        id: 29,
+        name: 'Outdoor Lounge Chair',
+        price: 350,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Comfortable lounge chair for outdoor use.',
+        categoryId: 2,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Durable material, weather-resistant, ideal for outdoor spaces.',
+        stockAmount: 60,
+        viewCount: 30
+      },
+      {
+        id: 30,
+        name: 'Wooden Storage Bench',
+        price: 499,
+        imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
+        description: 'Wooden storage bench with cushion.',
+        categoryId: 1,
+        createdAt: new Date(),
+        isConfirmed: true,
+        details: 'Multi-purpose storage bench, comfortable cushion, sturdy wood.',
+        stockAmount: 35,
+        viewCount: 28
+      }
+    );
   }
+
   getProducts(): Product[] {
     return this.products;
-}
+  }
 }
