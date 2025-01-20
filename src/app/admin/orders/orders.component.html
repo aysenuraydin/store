@@ -24,16 +24,16 @@
       </div>
     </div>
     <div class="flex px-5 pb-5 mt-10">
-      <div (click)="getOrders()" [ngClass]="{'border-gray-700': activeOrderState == null}"
-      class="w-1/5 border rounded-md bg-gray-50 hover:scale-105 px-3 py-4 font-medium text-gray-700 ring-1 ring-inset ring-gray-600/20 mb-3 mx-2 text-center hover:cursor-pointer"><i class="mt-1 mr-2 fa-solid fa-box"></i> All</div>
-      <div (click)="getOrders(OrderState.inProgress)" [ngClass]="{'border-blue-700': activeOrderState == OrderState.inProgress}"
-        class="w-1/5 border hover:scale-105 rounded-md bg-blue-50 px-3 py-4 font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20 mb-3 mx-2 text-center hover:cursor-pointer"><i class="mt-1 mr-2 fa-solid fa-spinner"></i> In Progress</div>
-      <div (click)="getOrders(OrderState.delivered)" [ngClass]="{'border-green-700': activeOrderState == OrderState.delivered}"
-      class="w-1/5 border hover:scale-105 rounded-md bg-green-50 px-3 py-4 font-medium text-green-700 ring-1 ring-inset ring-green-600/20 mb-3 mx-2 text-center hover:cursor-pointer"><i class="mt-1 mr-2 fa-solid fa-check"></i> Delivered</div>
-      <div (click)="getOrders(OrderState.returns)" [ngClass]="{'border-yellow-700': activeOrderState == OrderState.returns}"
-      class="w-1/5 border hover:scale-105 rounded-md bg-yellow-50 px-3 py-4 font-medium text-yellow-700 ring-1 ring-inset ring-yellow-600/20 mb-3 mx-2 text-center hover:cursor-pointer"><i class="mt-1 mr-2 fa-solid fa-undo"></i> Returns</div>
-      <div (click)="getOrders(OrderState.cancellations)" [ngClass]="{'border-red-700': activeOrderState == OrderState.cancellations}"
-      class="w-1/5 border hover:scale-105 rounded-md bg-red-50 px-3 py-4 font-medium text-red-700 ring-1 ring-inset ring-red-600/20 mb-3 mx-2 text-center hover:cursor-pointer"><i class="mt-1 mr-2 fa-solid fa-ban"></i> Cancellations</div>
+      <div (click)="filterByOrderState()" [ngClass]="{'border-gray-700': activeOrderState == null}"
+      class="w-1/5 border rounded-md bg-gray-50 hover:scale-105 px-3 py-4 font-medium text-gray-700 ring-1 ring-inset ring-gray-600/20 mb-3 mx-2 text-center cursor-pointer"><i class="mt-1 mr-2 fa-solid fa-box"></i> All</div>
+      <div (click)="filterByOrderState(OrderState.inProgress)" [ngClass]="{'border-blue-700': activeOrderState == OrderState.inProgress}"
+        class="w-1/5 border hover:scale-105 rounded-md bg-blue-50 px-3 py-4 font-medium text-blue-700 ring-1 ring-inset ring-blue-600/20 mb-3 mx-2 text-center cursor-pointer"><i class="mt-1 mr-2 fa-solid fa-spinner"></i> In Progress</div>
+      <div (click)="filterByOrderState(OrderState.delivered)" [ngClass]="{'border-green-700': activeOrderState == OrderState.delivered}"
+      class="w-1/5 border hover:scale-105 rounded-md bg-green-50 px-3 py-4 font-medium text-green-700 ring-1 ring-inset ring-green-600/20 mb-3 mx-2 text-center cursor-pointer"><i class="mt-1 mr-2 fa-solid fa-check"></i> Delivered</div>
+      <div (click)="filterByOrderState(OrderState.returns)" [ngClass]="{'border-yellow-700': activeOrderState == OrderState.returns}"
+      class="w-1/5 border hover:scale-105 rounded-md bg-yellow-50 px-3 py-4 font-medium text-yellow-700 ring-1 ring-inset ring-yellow-600/20 mb-3 mx-2 text-center cursor-pointer"><i class="mt-1 mr-2 fa-solid fa-undo"></i> Returns</div>
+      <div (click)="filterByOrderState(OrderState.cancellations)" [ngClass]="{'border-red-700': activeOrderState == OrderState.cancellations}"
+      class="w-1/5 border hover:scale-105 rounded-md bg-red-50 px-3 py-4 font-medium text-red-700 ring-1 ring-inset ring-red-600/20 mb-3 mx-2 text-center cursor-pointer"><i class="mt-1 mr-2 fa-solid fa-ban"></i> Cancellations</div>
     </div>
     <div
     id="accordion2"
@@ -98,10 +98,10 @@
               {{ i + 1 }}
             </span>
             <span class="w-1/6">
-              <img [src]="item.imgUrl" class="w-24 hover:cursor-pointer" routerLink="/product/product-detail/{{item.id}}" alt="{{item.name}} ro">
+              <img [src]="item.imgUrl" class="w-24 cursor-pointer" routerLink="/product/product-detail/{{item.id}}" alt="{{item.name}} ro">
             </span>
             <span class="w-1/6 text-center">
-              <a  routerLink="/product/product-detail/{{item.id}}" class="hover:cursor-pointer hover:underline hover:text-gray-500">{{item.name}}</a>
+              <a  routerLink="/product/product-detail/{{item.id}}" class="cursor-pointer hover:underline hover:text-gray-500">{{item.name}}</a>
             </span>
             <span class="w-1/6 text-center">
               <span>{{item.quantity}}</span>
@@ -255,7 +255,9 @@
       </div>
     }
   </div>
-  <pagination/>
+  <pagination (newPageNumber)="getPageNumber($event)"
+        [pageNumber]="pageNumber" [pageTotal]="pageTotal"
+        *ngIf="orders.length != 0"/>
 </div>
 
 

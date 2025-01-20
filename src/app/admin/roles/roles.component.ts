@@ -12,6 +12,9 @@ export class RolesComponent {
   search:string = "";
   role:Role = new Role();
   roles:Role[] = [];
+  pageNumber:number = 1;
+  pageSize:number = 9;
+  pageTotal:number = 1;
 
   constructor(
     private roleService: RoleService,
@@ -22,21 +25,25 @@ export class RolesComponent {
   }
 
   Search() {
+    this.pageNumber=1;
     this.getQueryRoles();
   }
   onInputChange(event: Event) {
+    this.pageNumber=1;
     this.search = (event.target as HTMLInputElement).value;
     this.getQueryRoles();
   }
   Clear() {
+    this.pageNumber=1;
     this.search = "";
     this.getRoles();
   }
   getQueryRoles(): void{
-    this.roleService.searchRoles(this.search)
+    this.roleService.searchRoles(this.search,this.pageNumber, this.pageSize)
         .subscribe(
           (data) => {
-            this.roles = data;
+            this.roles = data.products;
+            this.pageTotal = data.totalPages;
         }
       );
   }
@@ -46,12 +53,18 @@ export class RolesComponent {
   }
 
   getRoles(): void{
-    this.roleService.getRoles()
+    this.roleService.getRoles(this.pageNumber, this.pageSize)
         .subscribe(
           (data) => {
-            this.roles = data;
+            this.roles = data.products;
+            this.pageTotal = data.totalPages;
         }
       );
+  }
+  getPageNumber(pageNumber:number){
+    this.pageNumber = pageNumber
+    if(this.search.length==0) this.getRoles();
+    else this.getQueryRoles();
   }
   getRole(id:number):void{
     this.roleService.getRole(id)

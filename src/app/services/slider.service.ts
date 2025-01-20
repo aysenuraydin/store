@@ -30,16 +30,24 @@ export class SliderService {
     );
   }
 
-  getSliders() :Observable<Slider[]> {
+  getEverySliders() :Observable<Slider[]> {
     return this.http.get<Slider[]>(this.apiUrl).pipe(
       map(categories => categories)
     );
   }
-  searchSliders(query: string) :Observable<Slider[]> {
-    return this.http.get<Slider[]>(this.apiUrl).pipe(
-      map( role =>role.filter(p => [p.name, p.imgUrl]
-        .some(field => field?.toLowerCase().includes(query.toLowerCase()))
-      ) )
+  searchSliders(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Slider[]; totalPages: number }> {
+    return this.getAllSliders().pipe(
+        map(response => {
+            const filteredProducts = response.filter(p => [p.name, p.imgUrl]
+                    .some(field => field?.toLowerCase().includes(query.toLowerCase()))
+            );
+
+            const startIndex = (pageNumber - 1) * pageSize;
+            const paginatedProducts = pageSize > 0 ? filteredProducts.reverse().slice(startIndex, startIndex + pageSize) : filteredProducts;
+            const totalPages = Math.ceil(filteredProducts.length / pageSize);
+
+            return { products: paginatedProducts, totalPages };
+        })
     );
   }
   getActiveSliders(): Observable<Slider[]> {
@@ -52,6 +60,29 @@ export class SliderService {
       map(banners => banners.filter(banner => !banner.isActive))
     );
   }
+    getAllSliders(): Observable<Slider[]> {
+      return forkJoin({
+        actived: this.getActiveSliders(),
+        disabled: this.getDisableSliders(),
+      }).pipe(
+        map(({ actived, disabled }) => {
+          const activeBanners = actived.reverse();
+          const disableBanners = disabled.reverse();
+          return [...activeBanners, ...disableBanners];
+        })
+      );
+    }
+  getSliders(pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Slider[]; totalPages: number }> {
+    return this.getAllSliders().pipe(
+        map(products => {
+            const startIndex = (pageNumber - 1) * pageSize;
+            const paginatedProducts = pageSize > 0 ? products.slice(startIndex, startIndex + pageSize) : products;
+            const totalPages = Math.ceil(products.length / pageSize);
+
+            return { products: paginatedProducts, totalPages };
+        })
+    );
+  }
   getSlider(id:number) :Observable<Slider>{
   return this.http.get<Slider>(this.apiUrl+'/'+id);
   }
@@ -59,7 +90,7 @@ export class SliderService {
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
-    return this.getSliders().pipe(
+    return this.getEverySliders().pipe(
       map(sliders => {
         const lastId = sliders.length > 0 ? sliders.at(-1)?.id ?? 0 : 0;
         slider.id = lastId + 1;

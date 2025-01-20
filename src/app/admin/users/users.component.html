@@ -165,7 +165,9 @@
           </div>
         }
       </div>
-      <pagination/>
+      <pagination (newPageNumber)="getPageNumber($event)"
+      [pageNumber]="pageNumber" [pageTotal]="pageTotal"
+      *ngIf="users.length != 0"/>
 </div>
 
 

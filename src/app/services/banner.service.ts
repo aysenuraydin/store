@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Banner } from '../models/banner';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, catchError, map, Observable, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, catchError, forkJoin, map, Observable, switchMap, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -28,14 +28,14 @@ export class BannerService {
       }
     );
   }
+  getEveryBanners() :Observable<Banner[]> {
+    return this.http.get<Banner[]>(this.apiUrl).pipe(
+      map(categories => categories)
+    );
+  }
   getActiveBanner(): Observable<Banner> {
     return this.http.get<Banner[]>(this.apiUrl).pipe(
       map(banners => banners.find(banner => banner.isActive) ?? new Banner())
-    );
-  }
-  getBanners() :Observable<Banner[]> {
-    return this.http.get<Banner[]>(this.apiUrl).pipe(
-      map(categories => categories)
     );
   }
   getDisableBanners(): Observable<Banner[]> {
@@ -43,28 +43,53 @@ export class BannerService {
       map(banners => banners.filter(banner => !banner.isActive))
     );
   }
-  searchBanners(query: string) :Observable<Banner[]> {
-    return this.http.get<Banner[]>(this.apiUrl).pipe(
-      map( role =>role.filter(
-        (r) => [r.message, r.button]
-        .some(field => field.toLowerCase().includes(query.toLowerCase()))
-        )
-      )
-    )
+  getAllBanners(): Observable<Banner[]> {
+    return forkJoin({
+      active: this.getActiveBanner(),
+      disabled: this.getDisableBanners(),
+    }).pipe(
+      map(({ active, disabled }) => {
+        const disableBanners = disabled.reverse();
+        return [active, ...disableBanners];
+      })
+    );
+  }
+  getBanners(pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Banner[]; totalPages: number }> {
+    return this.getAllBanners().pipe(
+        map(products => {
+            const startIndex = (pageNumber - 1) * pageSize;
+            const paginatedProducts = pageSize > 0 ? products.slice(startIndex, startIndex + pageSize) : products;
+            const totalPages = Math.ceil(products.length / pageSize);
+
+            return { products: paginatedProducts, totalPages };
+        })
+    );
+  }
+
+  searchBanners(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Banner[]; totalPages: number }> {
+    return this.getAllBanners().pipe(
+        map(response => {
+            const filteredProducts = response.filter(r =>
+              [r.message, r.button]
+                    .some(field => field?.toLowerCase().includes(query.toLowerCase()))
+            );
+
+            const startIndex = (pageNumber - 1) * pageSize;
+            const paginatedProducts = pageSize > 0 ? filteredProducts.slice(startIndex, startIndex + pageSize) : filteredProducts;
+            const totalPages = Math.ceil(filteredProducts.length / pageSize);
+
+            return { products: paginatedProducts, totalPages };
+        })
+    );
   }
   getBanner(id:number) :Observable<Banner>{
     return this.http.get<Banner>(this.apiUrl+'/'+id);
-  }
-  getActiveBanner2(): Observable<Banner> {
-    return this.http.get<Banner[]>(this.apiUrl).pipe(
-      map(banners => banners.find(banner => banner.isActive) ?? new Banner())
-    );
   }
   createBanner(banner: Banner): Observable<Banner> {
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
-    return this.getBanners().pipe(
+    return this.getEveryBanners().pipe(
       map(subscribes => {
         const lastId = subscribes.length > 0 ? subscribes.at(-1)?.id ?? 0 : 0;
         banner.id = lastId + 1;

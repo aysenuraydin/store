@@ -13,7 +13,7 @@
       <div class="accordion-button p-0 border-b">
         <div class="flex w-full justify-between items-center rounded-lg" (click)="toggleWindow(1)">
           <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5 mx-14">About</h1>
-          <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center hover:cursor-pointer bg-white">
+          <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center cursor-pointer bg-white">
             Edit  <i class="fa-solid fa-edit pl-1"></i>
           </div>
         </div>
@@ -23,7 +23,7 @@
         class="relative transition-all duration-700 px-10  pt-10" *ngIf="buttonVisible==1">
           <div class="bg-white p-10 rounded-2xl shadow-lg mx-10">
             <cktext [(content)]="about.message" (contentChange)="onMessageChange($event)"/>
-            <button class="block px-4 py-2 mt-3 text-sm bg-gray-200 border rounded-md text-center w-full hover:bg-white hover:cursor-pointer" (click)="saveAbout(about)"> Save <i class="fa-regular fa-floppy-disk"></i> </button>
+            <button class="block px-4 py-2 mt-3 text-sm bg-gray-200 border rounded-md text-center w-full hover:bg-white cursor-pointer" (click)="saveAbout(about)"> Save <i class="fa-regular fa-floppy-disk"></i> </button>
           </div>
       </div>
     </li>
@@ -32,7 +32,7 @@
       <div class="accordion-button p-0 border-b">
         <div class="flex w-full justify-between items-center rounded-lg" (click)="toggleWindow(2)">
           <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5 mx-14">Faqs</h1>
-          <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center hover:cursor-pointer bg-white">
+          <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center cursor-pointer bg-white">
             Edit  <i class="fa-solid fa-edit pl-1"></i>
           </div>
         </div>
@@ -96,7 +96,7 @@
       <div class="accordion-button p-0 border-b">
         <div class="flex w-full justify-between items-center rounded-lg" (click)="toggleWindow(3)">
           <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5 mx-14">İnfo</h1>
-          <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center hover:cursor-pointer bg-white">
+          <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center cursor-pointer bg-white">
             Edit <i class="fa-solid fa-edit pl-1"></i>
           </div>
         </div>
@@ -134,7 +134,7 @@
       <div class="accordion-button p-0 border-b">
         <div class="flex w-full justify-between items-center rounded-lg" (click)="toggleWindow(4)">
           <h1 class="text-4xl font-bold tracking-tight text-gray-900 p-5 mx-14">Social Media</h1>
-          <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center hover:cursor-pointer bg-white">
+          <div class="block px-5 py-3 mr-5 text-sm hover:text-white hover:bg-gray-700 border rounded-md text-center cursor-pointer bg-white">
             Edit  <i class="fa-solid fa-edit pl-1"></i>
           </div>
         </div>

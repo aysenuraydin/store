@@ -15,7 +15,37 @@ export class CategoryProductService {
     private categoryService: CategoryService
   ) {}
 
-  getProductsWithCategoryNames(): Observable<ExtendedProduct[]> {
+  getProductsWithCategoryNames(pageNumber: number = 1, pageSize: number = 3): Observable<{ products: ExtendedProduct[]; totalPages: number }> {
+    return this.productService.getProducts().pipe(
+      switchMap(products => {
+        const startIndex = (pageNumber - 1) * pageSize;
+        const paginatedProducts = pageSize > 0 ? products.reverse().slice(startIndex, startIndex + pageSize) : products;
+        const totalPages = Math.ceil(products.length / pageSize);
+
+        const productObservables = paginatedProducts.map(product =>
+          this.categoryService.getCategory(product.categoryId || 0).pipe(
+            map(category => ({
+              ...product,
+              categoryName: category?.name || 'Unknown Category',
+              categoryColor: category?.color || '#6d6d6d',
+              categoryStyle: {
+                'background-color': category?.color ? category.color + '30' : '#ccc',
+                'color': category?.color ?? '#000',
+                'border-color': category?.color ?? '#ccc',
+                'border-width': '1px',
+                'border-style': 'solid',
+              }
+            }))
+          )
+        );
+
+        return productObservables.length > 0
+          ? forkJoin(productObservables).pipe(map(products => ({ products, totalPages })))
+          : of({ products: [], totalPages });
+      })
+    );
+  }
+  getAllProductsWithCategoryNames(): Observable<ExtendedProduct[]> {
     return this.productService.getProducts().pipe(
       switchMap(products => {
         const productObservables = products.map(product =>
@@ -34,18 +64,27 @@ export class CategoryProductService {
             }))
           )
         );
-        return productObservables.length > 0 ? forkJoin(productObservables) : of([]);
+
+        return productObservables.length > 0
+          ? forkJoin(productObservables).pipe()
+          : of();
       })
     );
   }
-  searchProducts(query: string): Observable<ExtendedProduct[]> {
-    return this.getProductsWithCategoryNames().pipe(
-      map(products =>
-        products.filter(i =>
-          [i.name, i.categoryColor, i.categoryName, i.description, i.details]
-          .some(field => field.toLowerCase().includes(query.toLowerCase()))
+  searchProducts(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ products: ExtendedProduct[]; totalPages: number }> {
+    return this.getAllProductsWithCategoryNames().pipe(
+      map(response => {
+        const filteredProducts = response.filter(product =>
+          [product.name, product.categoryColor, product.categoryName, product.description, product.details]
+            .some(field => field?.toLowerCase().includes(query.toLowerCase()))
         )
-      )
+
+        const startIndex = (pageNumber - 1) * pageSize;
+        const paginatedProducts = pageSize > 0 ? filteredProducts.reverse().slice(startIndex, startIndex + pageSize) : filteredProducts;
+        const totalPages = Math.ceil(filteredProducts.length / pageSize);
+
+        return { products: paginatedProducts, totalPages };
+      })
     );
   }
   getProductWithCategoryName(id: number): Observable<any> {
@@ -69,7 +108,7 @@ export class CategoryProductService {
     );
   }
   getCategories(): Observable<Category[]>{
-    return this.categoryService.getCategories();
+    return this.categoryService.getAllCategories();
   }
   getCategory(id: number): Observable<Category>{
     return this.categoryService.getCategory(id);

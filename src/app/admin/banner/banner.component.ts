@@ -15,6 +15,9 @@ export class BannerComponent {
     activeBanner: Banner = new Banner();
     buttonVisible:boolean = true;
     search:string = "";
+    pageNumber:number = 1;
+    pageSize:number = 7;
+    pageTotal:number = 1;
 
     constructor(private bannerService: BannerService) { }
 
@@ -22,21 +25,25 @@ export class BannerComponent {
       this.getBanners();
     }
     Search() {
+      this.pageNumber=1;
       this.getQueryReviews();
     }
     onInputChange(event: Event) {
+      this.pageNumber=1;
       this.search = (event.target as HTMLInputElement).value;
       this.getQueryReviews();
     }
     Clear() {
+      this.pageNumber=1;
       this.search = "";
       this.getBanners();
     }
     getQueryReviews(): void{
-        this.bannerService.searchBanners(this.search)
+        this.bannerService.searchBanners(this.search,this.pageNumber, this.pageSize)
             .subscribe(
               (data) => {
-                this.banners = data;
+                this.banners = data.products;
+                this.pageTotal = data.totalPages;
             }
           );
     }
@@ -45,14 +52,18 @@ export class BannerComponent {
       this.cancel();
     }
     getBanners(): void {
-      forkJoin({
-        active: this.bannerService.getActiveBanner(),
-        disabled: this.bannerService.getDisableBanners(),
-      }).subscribe(({ active, disabled }) => {
-        const activeBanners = active;
-        const disableBanners = disabled.reverse().slice(0, 9);
-        this.banners = [activeBanners, ...disableBanners];
-      });
+      this.bannerService.getBanners(this.pageNumber, this.pageSize)
+        .subscribe(data =>
+          {
+            this.banners=data.products;
+            this.pageTotal = data.totalPages;
+          }
+        )
+    }
+    getPageNumber(pageNumber:number){
+      this.pageNumber = pageNumber
+      if(this.search.length==0) this.getBanners();
+      else this.getQueryReviews();
     }
     editBanner(id: number): void {
       this.bannerService.getBanner(id)

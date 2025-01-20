@@ -13,6 +13,9 @@ import { switchMap } from 'rxjs';
 export class UsersComponent implements OnInit {
   buttonVisible:boolean = true;
   search:string = "";
+  pageNumber:number = 1;
+  pageSize:number = 9;
+  pageTotal:number = 1;
 
   user:any;
   users: any[] = [];
@@ -29,21 +32,25 @@ export class UsersComponent implements OnInit {
   }
 
   Search() {
+    this.pageNumber=1;
     this.getQueryUsers();
   }
   onInputChange(event: Event) {
+    this.pageNumber=1;
     this.search = (event.target as HTMLInputElement).value;
     this.getQueryUsers();
   }
   Clear() {
+    this.pageNumber=1;
     this.search = "";
     this.getUsers();
   }
   getQueryUsers(): void{
-    this.userService.searchUsers(this.search)
+    this.userService.searchUsers(this.search, this.pageNumber, this.pageSize)
         .subscribe(
           (data) => {
-            this.users = data;
+            this.users = data.products;
+            this.pageTotal = data.totalPages;
         }
       );
   }
@@ -56,7 +63,7 @@ export class UsersComponent implements OnInit {
   }
 
   getRoles(): void{
-    this.roleService.getRoles()
+    this.roleService.getAllRoles()
         .subscribe(
           (data) => {
             this.roles = data;
@@ -65,13 +72,19 @@ export class UsersComponent implements OnInit {
   }
 
   getUsers(): void{
-    this.userService.getUsersWithRoleName()
+    this.userService.getUsersWithRoleName(this.pageNumber, this.pageSize)
         .subscribe(
           (data) => {
-            this.users = data;
+            this.users = data.products;
+            this.pageTotal = data.totalPages;
         }
       );
       this.toggleWindow(false);
+  }
+  getPageNumber(pageNumber:number){
+    this.pageNumber = pageNumber
+    if(this.search.length==0) this.getUsers();
+    else this.getQueryUsers();
   }
   getUser(id:number):void{
     this.userService.getUserWithRoleName(id)

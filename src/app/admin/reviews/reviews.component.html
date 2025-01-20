@@ -113,7 +113,7 @@
                   {{ i + 1 }}
                 </span>
                 <div class="w-1/5">
-                  <img [src]="r.productUrl" routerLink="/product/product-detail/{{r.id}}" [alt]="r.name" class="w-52 h-52 object-cover hover:cursor-pointer">
+                  <img [src]="r.productUrl" routerLink="/product/product-detail/{{r.id}}" [alt]="r.name" class="w-52 h-52 object-cover cursor-pointer">
                 </div>
               <div class="w-1/2 px-5">
                 <div class="font-bold pb-5">
@@ -162,7 +162,9 @@
           </div>
         }
       </div>
-      <pagination/>
+      <pagination (newPageNumber)="getPageNumber($event)"
+        [pageNumber]="pageNumber" [pageTotal]="pageTotal"
+        *ngIf="reviews.length != 0"/>
 </div>
 
 

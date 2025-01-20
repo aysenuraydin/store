@@ -96,6 +96,25 @@ export class OrderRepository {
               orderState: OrderState.inProgress,
             }
           ]
+        },
+        {
+          id:2,
+          userId:2,
+          createdAt: new Date(),
+          orderCode:"85964cc3-2588-4a",
+          adressId:2,
+          orderState: OrderState.inProgress,
+          orderItems: [
+            {
+              id:1,
+              orderId:1,
+              quantity:3,
+              unitPrice:11,
+              name:"deneme",
+              imgUrl:"https://tailwindui.com/plus/img/ecommerce-images/category-page-04-image-card-02.jpg",
+              orderState: OrderState.inProgress,
+            }
+          ]
         }
       ];
   }

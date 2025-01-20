@@ -20,29 +20,6 @@ export class OrderService {
     private authService: AuthService
   ) {  }
 
-  private getOrdersWithDetails(orders: Order[]): Observable<(OrderList & { username: string; adressFullname: string })[]> {
-    const ordersWithDetails$ = orders.map(order =>
-      forkJoin({
-        address: this.adressItemService.getAdressItem(order.adressId),
-        user: this.userService.getUser(order.userId)
-      }).pipe(
-        map(({ address, user }) => ({
-          ...order,
-          adressFullname: address ? address.fullname : 'Unknown Address',
-          username: user ? `${user.name} ${user.surname}` : 'Unknown User'
-        })),
-        catchError(err => {
-          console.error('Error fetching address or user:', err);
-          return of({
-            ...order,
-            adressFullname: 'Error retrieving address',
-            username: 'Error retrieving user'
-          });
-        })
-      )
-    );
-    return forkJoin(ordersWithDetails$);
-  }
   getOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(this.apiUrl).pipe(
       map(orders => orders )
@@ -71,11 +48,48 @@ export class OrderService {
       })
     );
   }
-  getOrdersWithFullname(): Observable<(OrderList & { username: string; })[]> {
+  getAllOrdersWithFullname(): Observable<(OrderList & { username: string; adressFullname: string })[]> {
     return this.http.get<Order[]>(this.apiUrl).pipe(
-      switchMap(orders => this.getOrdersWithDetails(orders))
+      switchMap(orders => {
+        const ordersWithDetails$ = orders.map(order =>
+          forkJoin({
+            address: this.adressItemService.getAdressItem(order.adressId),
+            user: this.userService.getUser(order.userId)
+          }).pipe(
+            map(({ address, user }) => ({
+              ...order,
+              adressFullname: address ? address.fullname : 'Unknown Address',
+              username: user ? `${user.name} ${user.surname}` : 'Unknown User'
+            })),
+            catchError(err => {
+              console.error('Error fetching address or user:', err);
+              return of({
+                ...order,
+                adressFullname: 'Error retrieving address',
+                username: 'Error retrieving user'
+              });
+            })
+          )
+        );
+        return forkJoin(ordersWithDetails$);
+      })
     );
   }
+  getOrdersWithFullname(pageNumber: number = 1, pageSize: number = 3,state?:OrderState): Observable<{ products: (OrderList & { username: string; })[]; totalPages: number }> {
+    return this.getAllOrdersWithFullname().pipe(
+        map(products => {
+          const filteredProducts = (state==null)? products: products.filter(i => i.orderState == state);
+          const startIndex = (pageNumber - 1) * pageSize;
+          const paginatedProducts = pageSize > 0
+            ? filteredProducts.reverse().slice(startIndex, startIndex + pageSize)
+            : filteredProducts;
+          const totalPages = Math.ceil(filteredProducts.length / pageSize);
+
+          return { products: paginatedProducts, totalPages };
+        })
+    );
+  }
+
   getOrdersWithFullnameByUserId(): Observable<OrderList[]> {
     const currentUser = this.authService.getUser();
     return this.http.get<Order[]>(this.apiUrl).pipe(
@@ -119,17 +133,23 @@ export class OrderService {
       )
     );
   }
-  searchOrders(query: string): Observable<(OrderList & { username: string;})[]> {
-    return this.getOrdersWithFullname().pipe(
-      map(orders =>
-        orders.filter(order =>
-          [order.orderCode, order.adressFullname, order.orderState, order.username]
-            .some(field => field.toLowerCase().includes(query.toLowerCase()))
-        )
-      )
+
+  searchOrders(query: string,pageNumber: number = 1, pageSize: number = 3, state?:OrderState): Observable<{ products: (OrderList & { username: string; })[]; totalPages: number }> {
+    return this.getAllOrdersWithFullname().pipe(
+        map(response => {
+            const orders = response.filter(order =>
+              [order.orderCode, order.adressFullname, order.orderState, order.username]
+                    .some(field => field?.toLowerCase().includes(query.toLowerCase()))
+            );
+            const filteredProducts = (state==null)? orders: orders.filter(i => i.orderState == state);
+            const startIndex = (pageNumber - 1) * pageSize;
+            const paginatedProducts = pageSize > 0 ? filteredProducts.reverse().slice(startIndex, startIndex + pageSize) : filteredProducts;
+            const totalPages = Math.ceil(filteredProducts.length / pageSize);
+
+            return { products: paginatedProducts, totalPages };
+        })
     );
   }
-
   getOrderWithFullnameByUserId(orderId: number): Observable<OrderList | null> {
     const currentUser = this.authService.getUser();
     return this.http.get<Order>(`${this.apiUrl}/${orderId}`).pipe(

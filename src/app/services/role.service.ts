@@ -12,16 +12,37 @@ export class RoleService {
 
   constructor(private http: HttpClient) {}
 
-  getRoles() :Observable<Role[]> {
+  getAllRoles() :Observable<Role[]> {
     return this.http.get<Role[]>(this.apiUrl).pipe(
       map( role =>role)
     );
   }
-  searchRoles(query: string) :Observable<Role[]> {
-    return this.http.get<Role[]>(this.apiUrl).pipe(
-      map( role =>role.filter(p => [p.color, p.name]
-        .some(field => field?.toLowerCase().includes(query.toLowerCase()))
-      ) )
+  getRoles(pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Role[]; totalPages: number }> {
+    return this.getAllRoles().pipe(
+        map(products => {
+            const startIndex = (pageNumber - 1) * pageSize;
+            const paginatedProducts = pageSize > 0 ? products.reverse().slice(startIndex, startIndex + pageSize) : products;
+            const totalPages = Math.ceil(products.length / pageSize);
+
+            return { products: paginatedProducts, totalPages };
+        })
+    );
+  }
+
+  searchRoles(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Role[]; totalPages: number }> {
+    return this.getAllRoles().pipe(
+        map(response => {
+            const filteredProducts = response.filter(p =>
+                    [p.color, p.name]
+                    .some(field => field?.toLowerCase().includes(query.toLowerCase()))
+            );
+
+            const startIndex = (pageNumber - 1) * pageSize;
+            const paginatedProducts = pageSize > 0 ? filteredProducts.reverse().slice(startIndex, startIndex + pageSize) : filteredProducts;
+            const totalPages = Math.ceil(filteredProducts.length / pageSize);
+
+            return { products: paginatedProducts, totalPages };
+        })
     );
   }
   getRole(id:number) : Observable<Role>{
@@ -31,7 +52,7 @@ export class RoleService {
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
-    return this.getRoles().pipe(
+    return this.getAllRoles().pipe(
       map(roles => {
         const lastId = roles.length > 0 ? roles.at(-1)?.id ?? 0 : 0;
         role.id = lastId + 1;
