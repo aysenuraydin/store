@@ -18,8 +18,11 @@ export class OrdersComponent {
   orderStates = Object.values(OrderState);
   OrderState = OrderState
   adress: AdressItem = new AdressItem();
-  activeOrderState?: OrderState | null = null;
+  activeOrderState?: OrderState = undefined;
   search:string = "";
+  pageNumber:number = 1;
+  pageSize:number = 6;
+  pageTotal:number = 1;
 
   constructor(
     private orderService: OrderService,
@@ -30,21 +33,29 @@ export class OrdersComponent {
     this.getOrders();
   }
   Search() {
+    this.activeOrderState= undefined;
+    this.pageNumber=1;
     this.getQueryOrders();
   }
   onInputChange(event: Event) {
+    this.activeOrderState= undefined;
+    this.pageNumber=1;
     this.search = (event.target as HTMLInputElement).value;
     this.getQueryOrders();
   }
   Clear() {
+    this.activeOrderState= undefined;
+    this.pageNumber=1;
     this.search = "";
     this.getOrders();
   }
-  getQueryOrders(): void{
-    this.orderService.searchOrders(this.search)
-        .subscribe(
-          (data) => {
-            this.orders = data;
+  getQueryOrders(state?:OrderState): void{
+    this.activeOrderState = state;
+      this.orderService.searchOrders(this.search,this.pageNumber, this.pageSize,state)
+      .subscribe(
+        (data) => {
+          this.orders = data.products;
+          this.pageTotal = data.totalPages;
         }
       );
   }
@@ -60,13 +71,22 @@ export class OrdersComponent {
   }
   getOrders(state?:OrderState): void{
     this.activeOrderState = state;
-    this.orderService.getOrdersWithFullname()
+      this.orderService.getOrdersWithFullname(this.pageNumber, this.pageSize,state)
       .subscribe(
         (data) => {
-          this.orders = (state == null)? data : data.filter(i => i.orderState == state);
-          this.toggleWindow(this.buttonVisible)
+          this.orders = data.products;
+          this.pageTotal = data.totalPages;
       }
     );
+  }
+  filterByOrderState(state?:OrderState){
+    if(this.search.length == 0) this.getOrders(state);
+    else this.getQueryOrders(state);
+  }
+  getPageNumber(pageNumber:number){
+    this.pageNumber = pageNumber
+    if(this.search.length==0) this.getOrders(this.activeOrderState);
+    else this.getQueryOrders(this.activeOrderState);
   }
   getOrder(id:number): void{
     this.orderService.getOrderWithFullname(id)
@@ -87,6 +107,7 @@ export class OrdersComponent {
       );
   }
   updateOrder(order:Order):void{
+    this.buttonVisible=true;
     this.orderService.updateOrder(order)
     .subscribe((data) => {
       this.getOrders();

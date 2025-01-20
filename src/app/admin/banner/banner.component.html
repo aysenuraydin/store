@@ -133,11 +133,12 @@
             No banner available.
           </div>
         </div>
-        <pagination *ngIf="banners.length != 0"/>
           } @placeholder (minimum 1s) {
             <div class="pt-10 flex justify-center items-center">
               <i class="fa-solid fa-spinner text-5xl animate-spin text-gray-500 mr-5"></i> Loading..
             </div>
           }
-
+          <pagination (newPageNumber)="getPageNumber($event)"
+        [pageNumber]="pageNumber" [pageTotal]="pageTotal"
+        *ngIf="banners.length != 0"/>
       </div>

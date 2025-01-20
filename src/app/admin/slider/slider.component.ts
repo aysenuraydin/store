@@ -16,27 +16,35 @@ export class SliderComponent {
   activeSliders: Slider[] = [];
   buttonVisible:boolean = true;
   search:string = "";
+  pageNumber:number = 1;
+  pageSize:number = 3;
+  pageTotal:number = 1;
+
   constructor(private sliderService: SliderService) { }
 
   ngOnInit(): void {
     this.getSliders();
   }
   Search() {
+    this.pageNumber=1;
     this.getQuerySliders();
   }
   onInputChange(event: Event) {
+    this.pageNumber=1;
     this.search = (event.target as HTMLInputElement).value;
     this.getQuerySliders();
   }
   Clear() {
+    this.pageNumber=1;
     this.search = "";
     this.getSliders();
   }
   getQuerySliders(): void{
-      this.sliderService.searchSliders(this.search)
+      this.sliderService.searchSliders(this.search,this.pageNumber, this.pageSize)
           .subscribe(
             (data) => {
-              this.sliders = data;
+              this.sliders = data.products;
+              this.pageTotal = data.totalPages;
           }
         );
   }
@@ -46,14 +54,18 @@ export class SliderComponent {
   }
 
   getSliders(): void {
-    forkJoin({
-      active: this.sliderService.getActiveSliders(),
-      disabled: this.sliderService.getDisableSliders(),
-    }).subscribe(({ active, disabled }) => {
-      this.activeSliders = active;
-      this.disableSliders = disabled.reverse().slice(0, 9);
-      this.sliders = [...this.activeSliders, ...this.disableSliders];
-    });
+    this.sliderService.getSliders(this.pageNumber, this.pageSize)
+    .subscribe(
+      data => {
+        this.sliders=data.products;
+        this.pageTotal = data.totalPages;
+      }
+    )
+  }
+  getPageNumber(pageNumber:number){
+    this.pageNumber = pageNumber
+    if(this.search.length==0) this.getSliders();
+    else this.getQuerySliders();
   }
   getActiveSliders():  void {
     this.sliderService.getActiveSliders()

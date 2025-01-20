@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Category } from '../models/category';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, catchError, map, Observable, pipe, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, catchError, forkJoin, map, Observable, of, pipe, switchMap, tap } from 'rxjs';
 @Injectable({
 providedIn: 'root'
 })
@@ -19,7 +19,7 @@ export class CategoryService {
   }
 
   private loadCategories(): void {
-    this.getCategories().subscribe(
+    this.getAllCategories().subscribe(
       (categories) => {
         this.currentCategorySubject.next(categories);
       },
@@ -28,32 +28,43 @@ export class CategoryService {
       }
     );
   }
-
-  getCategories(pageNumber: number = 1, pageSize: number = 3): Observable<Category[]> {
-    const params = {
-      pageNumber: pageNumber.toString(),
-      pageSize: pageSize.toString(),
-    };
-
+  getAllCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(this.apiUrl).pipe(
-      catchError((error) => {
-        console.error('Kategori verisi alınırken hata oluştu:', error);
-        throw error;
-      })
+        catchError(error => {
+            console.error('Error fetching categories', error);
+            return of([]);
+        })
     );
-  }
+}
 
-  searchCategories(query: string): Observable<Category[]> {
-    return this.getCategories().pipe(
-      map((categories) =>
-        categories.filter((category) =>
-          [category.name, category.iconCssClass, category.color].some((field) =>
-            field?.toLowerCase().includes(query.toLowerCase())
-          )
-        )
-      )
-    );
-  }
+getCategories(pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Category[]; totalPages: number }> {
+  return this.getAllCategories().pipe(
+      map(products => {
+          const startIndex = (pageNumber - 1) * pageSize;
+          const paginatedProducts = pageSize > 0 ? products.reverse().slice(startIndex, startIndex + pageSize) : products;
+          const totalPages = Math.ceil(products.length / pageSize);
+
+          return { products: paginatedProducts, totalPages };
+      })
+  );
+}
+
+searchCategories(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Category[]; totalPages: number }> {
+  return this.getAllCategories().pipe(
+      map(response => {
+          const filteredProducts = response.filter(category =>
+              [category.name, category.iconCssClass, category.color]
+                  .some(field => field?.toLowerCase().includes(query.toLowerCase()))
+          );
+
+          const startIndex = (pageNumber - 1) * pageSize;
+          const paginatedProducts = pageSize > 0 ? filteredProducts.reverse().slice(startIndex, startIndex + pageSize) : filteredProducts;
+          const totalPages = Math.ceil(filteredProducts.length / pageSize);
+
+          return { products: paginatedProducts, totalPages };
+      })
+  );
+}
   getCategory(id: number): Observable<Category> {
     return this.http.get<Category>(`${this.apiUrl}/${id}`).pipe(
       catchError((error) => {

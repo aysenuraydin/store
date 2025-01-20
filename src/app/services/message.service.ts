@@ -11,14 +11,24 @@ export class MessageService {
 
   constructor(private http: HttpClient) {  }
 
-  searchContacts(query: string) :Observable<Message[]> {
-    return this.http.get<Message[]>(this.apiUrl).pipe(
-      map( role =>role.filter(p => [p.firstname, p.lastname, p.email, p.message, p.company]
-          .some(field => field?.toLowerCase().includes(query.toLowerCase()))
-      ) )
+  searchContacts(value: boolean ,query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Message[]; totalPages: number }> {
+    return this.getAllContacts(value).pipe(
+        map(response => {
+            const filteredProducts = response.filter(p =>
+              [p.firstname, p.lastname, p.email, p.message, p.company]
+                    .some(field => field?.toLowerCase().includes(query.toLowerCase()))
+            );
+
+            const startIndex = (pageNumber - 1) * pageSize;
+            const paginatedProducts = pageSize > 0 ? filteredProducts.reverse().slice(startIndex, startIndex + pageSize) : filteredProducts;
+            const totalPages = Math.ceil(filteredProducts.length / pageSize);
+
+            return { products: paginatedProducts, totalPages };
+        })
     );
   }
-  getAllContacts(): Observable<Message[]> {
+
+  getEveryContacts(): Observable<Message[]> {
     return this.http.get<Message[]>(this.apiUrl).pipe(
       map(messages =>
         messages
@@ -29,7 +39,7 @@ export class MessageService {
       )
     );
   }
-  getContacts(value: boolean): Observable<Message[]> {
+  getAllContacts(value: boolean): Observable<Message[]> {
     return this.http.get<Message[]>(this.apiUrl).pipe(
       map(messages =>
         messages
@@ -43,6 +53,17 @@ export class MessageService {
       )
     );
   }
+  getContacts(value: boolean ,pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Message[]; totalPages: number }> {
+    return this.getAllContacts(value).pipe(
+        map(products => {
+            const startIndex = (pageNumber - 1) * pageSize;
+            const paginatedProducts = pageSize > 0 ? products.reverse().slice(startIndex, startIndex + pageSize) : products;
+            const totalPages = Math.ceil(products.length / pageSize);
+
+            return { products: paginatedProducts, totalPages };
+        })
+    );
+  }
   getContact(id:number) :Observable<Message>{
     return this.http.get<Message>(this.apiUrl+'/'+id);
   }
@@ -50,7 +71,7 @@ export class MessageService {
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
-    return this.getAllContacts().pipe(
+    return this.getEveryContacts().pipe(
       map(messages => {
         const lastId = messages.length > 0 ? messages.at(-1)?.id ?? 0 : 0;
         message.id = lastId + 1;

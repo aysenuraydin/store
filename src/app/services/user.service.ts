@@ -19,10 +19,10 @@ export class UserService {
   ) {}
 
 
-  getUsersWithRoleName(): Observable<(User & { roleName: string; roleColor: string })[]> {
+  getAllUsersWithRoleName(): Observable<(User & { roleName: string; roleColor: string })[]> {
     return forkJoin({
       users: this.http.get<User[]>(this.apiUrl),
-      roles: this.roleService.getRoles()
+      roles: this.roleService.getAllRoles()
     }).pipe(
       map(({ users, roles }) =>
         users
@@ -38,13 +38,32 @@ export class UserService {
       )
     );
   }
-  searchUsers(query: string): Observable<(User & { roleName: string; roleColor: string })[]> {
-    return this.getUsersWithRoleName().pipe(
-      map(users =>
-        users.filter(p => [p.name, p.surname, p.email, p.roleName, p.roleColor]
-          .some(field => field.toLowerCase().includes(query.toLowerCase()))
-        ) )
-      );
+  getUsersWithRoleName(pageNumber: number = 1, pageSize: number = 3): Observable<{ products: (User & { roleName: string; roleColor: string })[]; totalPages: number }> {
+    return this.getAllUsersWithRoleName().pipe(
+        map(products => {
+            const startIndex = (pageNumber - 1) * pageSize;
+            const paginatedProducts = pageSize > 0 ? products.slice(startIndex, startIndex + pageSize) : products;
+            const totalPages = Math.ceil(products.length / pageSize);
+
+            return { products: paginatedProducts, totalPages };
+        })
+    );
+  }
+  searchUsers(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ products: (User & { roleName: string; roleColor: string })[]; totalPages: number }> {
+    return this.getAllUsersWithRoleName().pipe(
+        map(response => {
+            const filteredProducts = response.filter(p =>
+              [p.name, p.surname, p.email, p.roleName, p.roleColor]
+                    .some(field => field?.toLowerCase().includes(query.toLowerCase()))
+            );
+
+            const startIndex = (pageNumber - 1) * pageSize;
+            const paginatedProducts = pageSize > 0 ? filteredProducts.slice(startIndex, startIndex + pageSize) : filteredProducts;
+            const totalPages = Math.ceil(filteredProducts.length / pageSize);
+
+            return { products: paginatedProducts, totalPages };
+        })
+    );
   }
   getUserWithRoleName(id: number): Observable<User & { roleName: string; roleColor: string }> {
     return this.http.get<User>(`${this.apiUrl}/${id}`).pipe(

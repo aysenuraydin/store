@@ -15,6 +15,9 @@ export class ProductsComponent {
   categories: Category [] = [];
   buttonVisible:boolean = true;
   search:string = "";
+  pageNumber:number = 1;
+  pageSize:number = 6;
+  pageTotal:number = 1;
 
   constructor(
     private productService: ProductService,
@@ -23,26 +26,21 @@ export class ProductsComponent {
 
   ngOnInit(): void {
     this.getCategories();
-    this.getProductsWithCategoriesName();
+    this.getProducts();
   }
   Search() {
+    this.pageNumber=1;
     this.getQueryProducts();
   }
   onInputChange(event: Event) {
     this.search = (event.target as HTMLInputElement).value;
+    this.pageNumber=1;
     this.getQueryProducts();
   }
   Clear() {
     this.search = "";
-    this.getProductsWithCategoriesName();
-  }
-  getQueryProducts(): void{
-    this.categoryProductService.searchProducts(this.search)
-        .subscribe(
-          (data) => {
-            this.productsWithCategoriesName = data;
-        }
-      );
+    this.pageNumber=1;
+    this.getProducts();
   }
   toggleWindow(value:boolean) :void {
     this.buttonVisible = !value;
@@ -64,7 +62,6 @@ export class ProductsComponent {
         this.product.categoryColor = selectedCategory?.color;
       }
   }
-
   getCategories(): void{
     this.categoryProductService.getCategories()
         .subscribe(
@@ -76,13 +73,29 @@ export class ProductsComponent {
   getCategoryName(id: number): void {
     this.categoryProductService.getCategory(id).subscribe()
   }
-
-  getProductsWithCategoriesName(){
-    return this.categoryProductService.getProductsWithCategoryNames().subscribe(
+  getProducts(){
+    return this.categoryProductService
+    .getProductsWithCategoryNames(this.pageNumber,this.pageSize)
+    .subscribe(
       (data) => {
-        this.productsWithCategoriesName = data.reverse().slice(0,10);
+        this.productsWithCategoriesName = data.products;
+        this.pageTotal = data.totalPages;
       }
     );
+  }
+  getQueryProducts(): void{
+    this.categoryProductService.searchProducts(this.search,this.pageNumber,this.pageSize)
+        .subscribe(
+          (data) => {
+            this.productsWithCategoriesName = data.products;
+            this.pageTotal = data.totalPages;
+        }
+      );
+  }
+  getPageNumber(pageNumber:number){
+    this.pageNumber = pageNumber
+    if(this.search.length==0) this.getProducts();
+    else this.getQueryProducts();
   }
   editProduct(id:number):void{
     this.categoryProductService.getProductWithCategoryName(id)
@@ -102,23 +115,22 @@ export class ProductsComponent {
   createProduct(product: Product): void {
     this.productService.createProduct(product)
     .subscribe(() => {
-      this.getProductsWithCategoriesName();
+      this.getProducts();
     });
   }
   updateProduct(product:Product):void{
     this.productService.updateProduct(product)
     .subscribe(() => {
-      this.getProductsWithCategoriesName();
+      this.getProducts();
     });
   }
   deleteProduct(id:number):void{
     this.productService.deleteProduct(id)
     .subscribe(() => {
-      this.getProductsWithCategoriesName();
+      this.getProducts();
     });
     this.cancel();
   }
-
   cancel():void{
     this.product = new ExtendedProduct();
   }

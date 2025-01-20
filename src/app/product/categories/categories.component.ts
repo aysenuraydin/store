@@ -1,4 +1,4 @@
-import { Component, EventEmitter, output, Output } from '@angular/core';
+import { Component, EventEmitter, Input, output, Output } from '@angular/core';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,12 +10,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class CategoriesComponent {
   @Output() categoryId = new EventEmitter<number>();
+  @Input() params: string | undefined;
   categories: Category[] = [];
   activeId:number = 0;
 
   constructor(
     private categoryService: CategoryService,
-    private router: Router,
     private route: ActivatedRoute
   ) {  }
 
@@ -28,7 +28,7 @@ export class CategoriesComponent {
     this.categoryId.emit(id);
   }
   getCategories(): void{
-    this.categoryService.getCategories()
+    this.categoryService.getAllCategories()
         .subscribe(
           (data) => {
             this.categories = data;

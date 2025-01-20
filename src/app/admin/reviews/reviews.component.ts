@@ -19,6 +19,9 @@ export class ReviewsComponent {
     }
   );
   search:string = "";
+  pageNumber:number = 1;
+  pageSize:number = 4;
+  pageTotal:number = 1;
 
   constructor( private reviewService: ReviewService ) {}
 
@@ -27,21 +30,25 @@ export class ReviewsComponent {
   }
 
   Search() {
+    this.pageNumber=1;
     this.getQueryReviews();
   }
   onInputChange(event: Event) {
+    this.pageNumber=1;
     this.search = (event.target as HTMLInputElement).value;
     this.getQueryReviews();
   }
   Clear() {
+    this.pageNumber=1;
     this.search = "";
     this.getReviews();
   }
   getQueryReviews(): void{
-      this.reviewService.searchReviews(this.search)
+      this.reviewService.searchReviews(this.search,this.pageNumber, this.pageSize)
           .subscribe(
             (data) => {
-              this.reviews = data;
+              this.reviews = data.products;
+              this.pageTotal = data.totalPages;
           }
         );
   }
@@ -51,13 +58,19 @@ export class ReviewsComponent {
     this.cancel();
   }
   getReviews(): void{
-    this.reviewService.getReviewsWithUserAndProduct()
+    this.reviewService.getReviewsWithUserAndProduct(this.pageNumber, this.pageSize)
         .subscribe(
           (data) => {
             this.toggleWindow(false);
-            this.reviews = data.reverse().slice(0,10);
+            this.reviews = data.products
+            this.pageTotal = data.totalPages;
         }
       );
+  }
+  getPageNumber(pageNumber:number){
+    this.pageNumber = pageNumber
+    if(this.search.length==0) this.getReviews();
+    else this.getQueryReviews();
   }
   getReview(id:number):void{
     this.reviewService.getReviewWithUserAndProduct(id)

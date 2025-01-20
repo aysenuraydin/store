@@ -12,17 +12,35 @@ export class SubscribeService {
 
   constructor (private http: HttpClient) { }
 
-  searchSubscribes(query: string) :Observable<Subscribe[]> {
-    return this.http.get<Subscribe[]>(this.apiUrl).pipe(
-      map( role =>role.filter(
-        (r) =>
-          r.email?.toLowerCase().includes(query.toLowerCase())
-      ) )
+  searchSubscribes(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Subscribe[]; totalPages: number }> {
+    return this.getAllSubscribes().pipe(
+        map(response => {
+            const filteredProducts = response.filter(category =>  [category.email]
+                    .some(field => field?.toLowerCase().includes(query.toLowerCase()))
+            );
+
+            const startIndex = (pageNumber - 1) * pageSize;
+            const paginatedProducts = pageSize > 0 ? filteredProducts.reverse().slice(startIndex, startIndex + pageSize) : filteredProducts;
+            const totalPages = Math.ceil(filteredProducts.length / pageSize);
+
+            return { products: paginatedProducts, totalPages };
+        })
     );
   }
-  getSubscribes() :Observable<Subscribe[]> {
+  getAllSubscribes() :Observable<Subscribe[]> {
     return this.http.get<Subscribe[]>(this.apiUrl).pipe(
       map(categories => categories)
+    );
+  }
+  getSubscribes(pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Subscribe[]; totalPages: number }> {
+    return this.getAllSubscribes().pipe(
+        map(products => {
+            const startIndex = (pageNumber - 1) * pageSize;
+            const paginatedProducts = pageSize > 0 ? products.reverse().slice(startIndex, startIndex + pageSize) : products;
+            const totalPages = Math.ceil(products.length / pageSize);
+
+            return { products: paginatedProducts, totalPages };
+        })
     );
   }
   getSubscribe(id:number) : Observable<Subscribe>{
@@ -32,7 +50,7 @@ export class SubscribeService {
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
-    return this.getSubscribes().pipe(
+    return this.getAllSubscribes().pipe(
       map(subscribes => {
         const lastId = subscribes.length > 0 ? subscribes.at(-1)?.id ?? 0 : 0;
         subscribe.id = lastId + 1;

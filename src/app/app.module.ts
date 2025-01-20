@@ -28,6 +28,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { InMemoryDataService } from './services/in-memory-data.service';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { DecimalPipe } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { DecimalPipe } from '@angular/common';
     CartConfirmComponent,
   ],
   imports: [
+    RouterModule,
     CKEditorModule,
     BrowserModule,
     AppRoutingModule,

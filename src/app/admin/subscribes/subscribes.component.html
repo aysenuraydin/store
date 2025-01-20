@@ -113,7 +113,9 @@
     <i class="fa-solid fa-spinner text-5xl animate-spin text-gray-500 mr-5"></i> Loading..
   </div>
   }
-  <pagination *ngIf="subscribes.length != 0"/>
+  <pagination (newPageNumber)="getPageNumber($event)"
+  [pageNumber]="pageNumber" [pageTotal]="pageTotal"
+  *ngIf="subscribes.length != 0"/>
 </div>
 
 

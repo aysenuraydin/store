@@ -47,7 +47,7 @@ export class NavbarComponent {
   Search(): void{
     if(this.search.length==0)this.searchVisible = !this.searchVisible;
     else{
-      this.router.navigate(['product/product-list'], {
+      this.router.navigate(['product/product-list/0'], {
         queryParams: {
           query: this.search
         }

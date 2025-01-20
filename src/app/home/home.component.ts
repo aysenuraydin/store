@@ -2,42 +2,25 @@ import { Component } from '@angular/core';
 import { ProductService } from '../services/product.service';
 import { ProductList } from '../models/productList';
 import { FavService } from '../services/fav.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Category } from '../models/category';
 import { CategoryService } from '../services/category.service';
 
 @Component({
   selector: 'home',
   templateUrl: './home.component.html',
-  styles: [``]
+  styles: [``],
 })
 export class HomeComponent {
   products: ProductList[] = [];
-  categories: Category[] = [];
 
   constructor(
     private productService: ProductService,
-    private categoryService: CategoryService,
-    private favService: FavService,
-    private router: Router,
-    private route: ActivatedRoute,
   ) {  }
   ngOnInit(): void {
-    this.getCategories();
     this.getProducts();
   }
-  getCategories(): void{
-    this.categoryService.getCategories().subscribe(
-      d=> this.categories =d
-    )
-  }
-  loadProducts() {
-    this.router.navigate(['/products'], {
-      queryParams: {
-        page: 1
-      }
-    });
-  }
+
   getProducts(): void{
     this.productService.getProductItems()
         .subscribe(
@@ -46,7 +29,7 @@ export class HomeComponent {
         }
       );
   }
-
+}
     // this.route.queryParamMap.subscribe(params=> {
     //   console.log(params);
     // });
@@ -74,4 +57,4 @@ export class HomeComponent {
   // loadPages() {
   //   this.router.navigate(['/products']);
   // }
-}
+

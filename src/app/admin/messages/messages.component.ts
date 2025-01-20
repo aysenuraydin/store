@@ -15,6 +15,9 @@ export class MessagesComponent {
   showOrHide:boolean = true;
   buttonVisible:boolean = true;
   search:string = "";
+  pageNumber:number = 1;
+  pageSize:number = 7;
+  pageTotal:number = 1;
 
   constructor(private messageService: MessageService ) { }
 
@@ -23,21 +26,25 @@ export class MessagesComponent {
   }
 
   Search() {
+    this.pageNumber=1;
     this.getQueryMessages();
   }
   onInputChange(event: Event) {
+    this.pageNumber=1;
     this.search = (event.target as HTMLInputElement).value;
     this.getQueryMessages();
   }
   Clear() {
+    this.pageNumber=1;
     this.search = "";
     this.showMessages(this.showOrHide);
   }
   getQueryMessages(): void{
-      this.messageService.searchContacts(this.search)
+      this.messageService.searchContacts(this.showOrHide,this.search,this.pageNumber, this.pageSize)
           .subscribe(
             (data) => {
-              this.messages = data;
+              this.messages = data.products;
+              this.pageTotal = data.totalPages;
           }
         );
   }
@@ -49,13 +56,24 @@ export class MessagesComponent {
 
   showMessages(value:boolean): void {
     this.toggleWindow(false);
-    this.showOrHide = value;
-    this.messageService.getContacts(value)
+    if(this.showOrHide!=value){
+      this.pageNumber= 1;
+      this.showOrHide = value;
+    }
+    if(this.search.length==0){
+      this.messageService.getContacts(value,this.pageNumber, this.pageSize)
       .subscribe(
         (data) => {
-          this.messages = data.reverse().slice(0,9);
+          this.messages = data.products;
+          this.pageTotal = data.totalPages;
       }
     );
+    }else this.getQueryMessages();
+  }
+  getPageNumber(pageNumber:number){
+    this.pageNumber = pageNumber
+    if(this.search.length==0) this.showMessages(this.showOrHide);
+    else this.getQueryMessages();
   }
   viewMessage(id: number): void {
     this.messageService.getContact(id)

@@ -2,47 +2,15 @@
   <div>
     <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24 ">
-        <h1 class="text-4xl font-bold tracking-tight text-gray-900">New Arrivals</h1>
-
-        <div class="flex items-center">
-          <div class="relative inline-block text-left group">
-            <div>
-              <button type="button" class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900" id="menu-button" aria-expanded="false" aria-haspopup="true">
-                Sort
-                <svg class="-mr-1 ml-1 size-5 shrink-0 text-gray-400 group-hover:text-gray-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon">
-                  <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
-                </svg>
-              </button>
-            </div>
-
-            <div class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black/5 focus:outline-none group-hover:block hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-              <div class="py-1" role="none">
-                <!--
-                  Active: "bg-gray-100 outline-none", Not Active: ""
-
-                  Selected: "font-medium text-gray-900", Not Selected: "text-gray-500"
-                -->
-                <a href="#" class="block px-4 py-2 text-sm font-medium text-gray-900" role="menuitem" tabindex="-1" id="menu-item-0">Most Popular</a>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-500 hover:bg-gray-200" role="menuitem" tabindex="-1" id="menu-item-1">Best Rating</a>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-500" role="menuitem" tabindex="-1" id="menu-item-2">Newest</a>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-500" role="menuitem" tabindex="-1" id="menu-item-3">Price: Low to High</a>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-500" role="menuitem" tabindex="-1" id="menu-item-4">Price: High to Low</a>
-              </div>
-            </div>
+        <div class="w-full flex flex-row gap-10 items-end">
+          <h1 class="text-4xl font-bold tracking-tight text-gray-900 min-w-96">
+            <span>Product List</span>
+          </h1>
+          <div class="text-xl pl-20 w-full flex justify-between items-center">
+            <p *ngIf="query.length>0 && products.length!=0">Products are being listed for the “<span class="font-bold">{{query}}</span>” search.</p>
+          <p *ngIf="query.length>0 && products.length==0">No results found for the “<span class="font-bold">{{query}}</span>” search.</p>
+          <span *ngIf="query.length>0" routerLink="/product/product-list/0" class="border p-3 px-5 cursor-pointer text-sm rounded-lg ml-10">Clear Query</span>
           </div>
-
-          <button type="button" class="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7">
-            <span class="sr-only">View grid</span>
-            <svg class="size-5" aria-hidden="true" viewBox="0 0 20 20" fill="currentColor" data-slot="icon">
-              <path fill-rule="evenodd" d="M4.25 2A2.25 2.25 0 0 0 2 4.25v2.5A2.25 2.25 0 0 0 4.25 9h2.5A2.25 2.25 0 0 0 9 6.75v-2.5A2.25 2.25 0 0 0 6.75 2h-2.5Zm0 9A2.25 2.25 0 0 0 2 13.25v2.5A2.25 2.25 0 0 0 4.25 18h2.5A2.25 2.25 0 0 0 9 15.75v-2.5A2.25 2.25 0 0 0 6.75 11h-2.5Zm9-9A2.25 2.25 0 0 0 11 4.25v2.5A2.25 2.25 0 0 0 13.25 9h2.5A2.25 2.25 0 0 0 18 6.75v-2.5A2.25 2.25 0 0 0 15.75 2h-2.5Zm0 9A2.25 2.25 0 0 0 11 13.25v2.5A2.25 2.25 0 0 0 13.25 18h2.5A2.25 2.25 0 0 0 18 15.75v-2.5A2.25 2.25 0 0 0 15.75 11h-2.5Z" clip-rule="evenodd" />
-            </svg>
-          </button>
-          <button type="button" class="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden">
-            <span class="sr-only">Filters</span>
-            <svg class="size-5" aria-hidden="true" viewBox="0 0 20 20" fill="currentColor" data-slot="icon">
-              <path fill-rule="evenodd" d="M2.628 1.601C5.028 1.206 7.49 1 10 1s4.973.206 7.372.601a.75.75 0 0 1 .628.74v2.288a2.25 2.25 0 0 1-.659 1.59l-4.682 4.683a2.25 2.25 0 0 0-.659 1.59v3.037c0 .684-.31 1.33-.844 1.757l-1.937 1.55A.75.75 0 0 1 8 18.25v-5.757a2.25 2.25 0 0 0-.659-1.591L2.659 6.22A2.25 2.25 0 0 1 2 4.629V2.34a.75.75 0 0 1 .628-.74Z" clip-rule="evenodd" />
-            </svg>
-          </button>
         </div>
       </div>
       <section aria-labelledby="products-heading" class="pb-24 pt-6">
@@ -51,18 +19,18 @@
           <div>
           <div class="lg:hidden mt-6
           md:max-h-full max-h-96 pb-6 px-6" *ngIf="toggleValue">
-            <a routerLink="/product/product-list/0">
-              <div class="flex justify-between p-3 rounded-lg shadow-md border" (click)="showOrHide(toggleValue)" >Close Tab
+            <a>
+              <div class="flex justify-between p-3 rounded-lg shadow-md border min-w-[23rem]" (click)="showOrHide(toggleValue)" >Close Tab
                 <i class="fa-solid fa-xmark mr-2 text-xl"></i> </div>
             </a>
           </div>
           @defer ()  {
           <div class="px-4 py-2 mt-1 lg:hidden
           md:max-h-full max-h-96  overflow-scroll"  *ngIf="toggleValue">
-            <categories (categoryId)="getrouterId($event)"/>
+            <categories (categoryId)="getrouterId($event)" [params]="query"/>
           </div>
           <div class="hidden lg:block">
-            <categories (categoryId)="getrouterId($event)"/>
+            <categories (categoryId)="getrouterId($event)" [params]="query"/>
           </div>
           } @placeholder (minimum 1s) {
             <div class="pt-10 flex justify-center items-center">
@@ -70,7 +38,8 @@
             </div>
           }
         </div>
-          <div class="w-full mt-20 md:mt-5">
+        <div class="w-full">
+          <div class="w-full mt-20 md:mt-5 min-h-[68vh] lg:pl-10">
             <!-- Your content -->
             @defer ()  {
               <div class="grid gap-x-6 gap-y-10 grid-cols-2 md:grid-cols-3 xl:gap-x-8">
@@ -88,6 +57,13 @@
               </div>
             }
           </div>
+
+          <div class="pl-10">
+            <pagination (newPageNumber)="getPageNumber($event)"
+            [pageNumber]="pageNumber" [pageTotal]="pageTotal"
+            *ngIf="products.length != 0"/>
+          </div>
+        </div>
         </div>
       </section>
     </main>

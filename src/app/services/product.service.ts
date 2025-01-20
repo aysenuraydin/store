@@ -34,7 +34,7 @@ export class ProductService {
       })
     );
   }
-  getProductItemsByCategoryId(id:number): Observable<ProductList[]> {
+  getAllProductItemsByCategoryId(id:number): Observable<ProductList[]> {
     return this.http.get<Product[]>(this.apiUrl).pipe(
       map((products: Product[]) =>
           id == 0
@@ -54,6 +54,46 @@ export class ProductService {
       })
     );
   }
+  searchProducts(
+    query: string,
+    categoryId: number,
+    pageNumber: number = 1,
+    pageSize: number = 3
+  ): Observable<{ products: Product[]; totalPages: number }> {
+    return this.getProductsByCategoryId(categoryId).pipe(
+      map(response => {
+        const filteredProducts = response.filter(product =>
+          [product.name, product.description, product.details]
+            .some(field => field?.toLowerCase().includes(query.toLowerCase()))
+        );
+
+        const categoryFilteredProducts = categoryId > 0
+          ? filteredProducts.filter(product => product.categoryId === categoryId)
+          : filteredProducts;
+
+        const startIndex = (pageNumber - 1) * pageSize;
+        const paginatedProducts = pageSize > 0
+          ? categoryFilteredProducts.reverse().slice(startIndex, startIndex + pageSize)
+          : categoryFilteredProducts;
+
+        const totalPages = Math.ceil(categoryFilteredProducts.length / pageSize);
+
+        return { products: paginatedProducts, totalPages };
+      })
+    );
+  }
+
+  getProductItemsByCategoryId(id:number, pageNumber: number = 1, pageSize: number = 3): Observable<{ products: ProductList[]; totalPages: number }> {
+    return this.getAllProductItemsByCategoryId(id).pipe(
+        map(products => {
+            const startIndex = (pageNumber - 1) * pageSize;
+            const paginatedProducts = pageSize > 0 ? products.reverse().slice(startIndex, startIndex + pageSize) : products;
+            const totalPages = Math.ceil(products.length / pageSize);
+
+            return { products: paginatedProducts, totalPages };
+        })
+    );
+  }
   getProductItems(): Observable<ProductList[]> {
     return this.http.get<Product[]>(this.apiUrl).pipe(
       map((products: Product[]) =>
@@ -68,7 +108,7 @@ export class ProductService {
             }))
           )
         );
-        return forkJoin(productsWithFavStatus$);
+        return forkJoin(productsWithFavStatus$.reverse().slice(0,12));
       })
     );
   }

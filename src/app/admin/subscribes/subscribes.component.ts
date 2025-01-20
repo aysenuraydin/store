@@ -13,7 +13,9 @@ export class SubscribesComponent {
   subscribes: Subscribe[] = [];
   buttonVisible:boolean = false;
   search:string = "";
-
+  pageNumber:number = 1;
+  pageSize:number = 8;
+  pageTotal:number = 1;
   constructor(private subscribeService: SubscribeService) { }
 
   ngOnInit(): void {
@@ -26,33 +28,42 @@ export class SubscribesComponent {
   }
 
   Search() {
+    this.pageNumber=1;
     this.getQuerySubscribes();
   }
   onInputChange(event: Event) {
+    this.pageNumber=1;
     this.search = (event.target as HTMLInputElement).value;
     this.getQuerySubscribes();
   }
   Clear() {
+    this.pageNumber=1;
     this.search = "";
     this.getSubscribes();
   }
   getQuerySubscribes(): void{
-      this.subscribeService.searchSubscribes(this.search)
+      this.subscribeService.searchSubscribes(this.search,this.pageNumber, this.pageSize)
           .subscribe(
             (data) => {
-              this.subscribes = data;
+              this.subscribes = data.products;
+              this.pageTotal = data.totalPages;
           }
         );
   }
-
   getSubscribes(): void {
-      this.subscribeService.getSubscribes()
+      this.subscribeService.getSubscribes(this.pageNumber, this.pageSize)
         .subscribe(
           (data) => {
-            this.subscribes = data.reverse().slice(0,9);
+            this.subscribes = data.products;
+            this.pageTotal = data.totalPages;
             this.toggleWindow(true);
         }
       );
+  }
+  getPageNumber(pageNumber:number){
+    this.pageNumber = pageNumber
+    if(this.search.length==0) this.getSubscribes();
+    else this.getQuerySubscribes();
   }
   editSubscribe(id: number): void {
     this.subscribeService.getSubscribe(id)

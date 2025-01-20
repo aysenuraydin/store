@@ -22,7 +22,7 @@ export class ReviewService {
       map(reviews => reviews)
     );
   }
-  getReviewsWithUserAndProduct(): Observable<(Review & { username: string; productName: string; productUrl: string })[]> {
+  getAllReviewsWithUserAndProduct(): Observable<(Review & { username: string; productName: string; productUrl: string })[]> {
     return this.http.get<Review[]>(this.apiUrl).pipe(
       switchMap(reviews => {
         const reviewsWithUserAndProduct$ = reviews.map(review =>
@@ -46,6 +46,17 @@ export class ReviewService {
         );
         return forkJoin(reviewsWithUserAndProduct$); // Tüm yorumları birleştir
       })
+    );
+  }
+  getReviewsWithUserAndProduct(pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Review[]; totalPages: number }> {
+    return this.getAllReviewsWithUserAndProduct().pipe(
+        map(products => {
+            const startIndex = (pageNumber - 1) * pageSize;
+            const paginatedProducts = pageSize > 0 ? products.reverse().slice(startIndex, startIndex + pageSize) : products;
+            const totalPages = Math.ceil(products.length / pageSize);
+
+            return { products: paginatedProducts, totalPages };
+        })
     );
   }
   getReviewWithUserAndProduct(id: number): Observable<Review & { username: string; productName: string; productUrl: string }> {
@@ -76,13 +87,19 @@ export class ReviewService {
   }
 
 
-  searchReviews(query: string): Observable<(Review & { username: string; productName: string; productUrl: string })[]> {
-    return this.getReviewsWithUserAndProduct().pipe(
-      map(reviews =>
-        reviews.filter(p => [p.username, p.productName, p.text]
-          .some(field => field.toLowerCase().includes(query.toLowerCase()))
-        )
-      )
+  searchReviews(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Review[]; totalPages: number }> {
+    return this.getAllReviewsWithUserAndProduct().pipe(
+        map(response => {
+            const filteredProducts = response.filter(p => [p.username, p.productName, p.text]
+                    .some(field => field?.toLowerCase().includes(query.toLowerCase()))
+            );
+
+            const startIndex = (pageNumber - 1) * pageSize;
+            const paginatedProducts = pageSize > 0 ? filteredProducts.reverse().slice(startIndex, startIndex + pageSize) : filteredProducts;
+            const totalPages = Math.ceil(filteredProducts.length / pageSize);
+
+            return { products: paginatedProducts, totalPages };
+        })
     );
   }
 

@@ -13,6 +13,9 @@ export class CategoriesComponent {
   categories: Category[] = [];
   buttonVisible:boolean = true;
   search:string = "";
+  pageNumber:number = 1;
+  pageSize:number = 9;
+  pageTotal:number = 1;
   constructor(
     private categoryService: CategoryService,
     private categoryProductService: CategoryProductService
@@ -23,21 +26,25 @@ export class CategoriesComponent {
   }
 
   Search() {
+    this.pageNumber=1;
     this.getQueryCategories();
   }
   onInputChange(event: Event) {
     this.search = (event.target as HTMLInputElement).value;
+    this.pageNumber=1;
     this.getQueryCategories();
   }
   Clear() {
     this.search = "";
+    this.pageNumber=1;
     this.getCategories();
   }
   getQueryCategories(): void{
-    this.categoryService.searchCategories(this.search)
+    this.categoryService.searchCategories(this.search,this.pageNumber, this.pageSize)
         .subscribe(
           (data) => {
-            this.categories = data;
+            this.categories = data.products;
+            this.pageTotal = data.totalPages;
         }
       );
   }
@@ -47,12 +54,18 @@ export class CategoriesComponent {
     this.cancel();
   }
   getCategories(): void{
-    this.categoryService.getCategories()
+    this.categoryService.getCategories(this.pageNumber, this.pageSize)
         .subscribe(
           (data) => {
-            this.categories = data.reverse().slice(0,10);
+            this.categories = data.products
+            this.pageTotal = data.totalPages;
         }
       );
+  }
+  getPageNumber(pageNumber:number){
+    this.pageNumber = pageNumber
+    if(this.search.length==0) this.getCategories();
+    else this.getQueryCategories();
   }
   editCategory(id:number):void{
     this.categoryService.getCategory(id)
