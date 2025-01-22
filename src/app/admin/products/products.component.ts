@@ -3,6 +3,7 @@ import { ExtendedProduct, Product } from '../../models/product';
 import { ProductService } from '../../services/product.service';
 import { Category } from '../../models/category';
 import { CategoryProductService } from '../../services/category-product.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'products',
@@ -10,7 +11,6 @@ import { CategoryProductService } from '../../services/category-product.service'
   styles: [``]
 })
 export class ProductsComponent {
-  product: ExtendedProduct = new ExtendedProduct();
   productsWithCategoriesName: ExtendedProduct [] = [];
   categories: Category [] = [];
   buttonVisible:boolean = true;
@@ -18,6 +18,26 @@ export class ProductsComponent {
   pageNumber:number = 1;
   pageSize:number = 6;
   pageTotal:number = 1;
+
+  isSubmitted = false;
+
+  productForm = new FormGroup({
+    id: new FormControl(0),
+    name: new FormControl('', [Validators.required, Validators.minLength(5)]),
+    price: new FormControl(0,[Validators.required]),
+    stockAmount: new FormControl(0,[Validators.required]),
+    categoryId: new FormControl(0,[Validators.required]),
+    isConfirmed: new FormControl(false),
+    description: new FormControl(''),
+    details: new FormControl(''),
+    imgUrl: new FormControl('', [Validators.required, Validators.minLength(5)]),
+    createdAt: new FormControl(new Date()),
+    categoryName: new FormControl(''),
+    categoryColor: new FormControl(''),
+    categoryStyle: new FormControl(''),
+    viewCount: new FormControl(0),
+    action: new FormControl(''),
+  });
 
   constructor(
     private productService: ProductService,
@@ -47,10 +67,10 @@ export class ProductsComponent {
     this.cancel();
   }
   onDescriptionChange(updatedDescription: string): void {
-    this.product.description = updatedDescription;
+    this.description?.setValue(updatedDescription);
   }
   onDetailsChange(updatedDetails: string): void {
-    this.product.details = updatedDetails;
+    this.details?.setValue(updatedDetails);
   }
   colorOpacity(color?: string) {
     return color ? `${color}33` : 'transparent';
@@ -58,9 +78,10 @@ export class ProductsComponent {
   onCategoryChange(event: Event): void {
     const selectedCategoryId = +(event.target as HTMLSelectElement).value;
     const selectedCategory = this.categories.find(c => c.id === selectedCategoryId);
-      if (this.product && selectedCategory?.color) {
-        this.product.categoryColor = selectedCategory?.color;
-      }
+    if(selectedCategory){
+      this.categoryColor?.setValue(selectedCategory?.color);
+    }
+
   }
   getCategories(): void{
     this.categoryProductService.getCategories()
@@ -97,43 +118,145 @@ export class ProductsComponent {
     if(this.search.length==0) this.getProducts();
     else this.getQueryProducts();
   }
-  editProduct(id:number):void{
+  editProduct(id: number): void {
     this.categoryProductService.getProductWithCategoryName(id)
     .subscribe(
       (data) => {
-        this.toggleWindow(true);
-        this.product = data;
+        console.log("img:::",data.imgUrl)
+        this.productForm.patchValue({
+          id:data.id,
+          name:data.name,
+          price:data.price,
+          stockAmount:data.stockAmount,
+          categoryId:data.categoryId,
+          isConfirmed:data.isConfirmed,
+          description:data.description,
+          details:data.details,
+          imgUrl:data.imgUrl?? 'https://dummyimage.com/600x500/ccc/aaa',
+          createdAt:data.createdAt,
+          categoryName: data.categoryName,
+          categoryColor: data.categoryColor,
+          categoryStyle: data.categoryStyle,
+          viewCount: data.viewCount
+        });
       }
     );
+    this.toggleWindow(true);
   }
-  saveProduct(product:Product):void{
-    product.id
-      ? this.updateProduct(product)
-      : this.createProduct(product);
+  saveProduct():void{
+    if (this.productForm.invalid) {
+      this.isSubmitted = true;
+      return;
+    }
+    switch(this.action){
+      case 'add':
+          this.createProduct()
+          break;
+      case 'edit':
+        this.updateProduct()
+            break;
+      case 'delete':
+          this.deleteProduct();
+            break;
+      default:
+          break;
+    }
+  }
+  createProduct(): void {
+    this.productService.createProduct(this.productForm.value as Product)
+    .subscribe(() => {
+      this.getProducts();
       this.cancel();
-  }
-  createProduct(product: Product): void {
-    this.productService.createProduct(product)
-    .subscribe(() => {
-      this.getProducts();
     });
   }
-  updateProduct(product:Product):void{
-    this.productService.updateProduct(product)
+  updateProduct():void{
+    this.productService.updateProduct(this.productForm.value as Product)
     .subscribe(() => {
       this.getProducts();
+      this.cancel();
     });
   }
-  deleteProduct(id:number):void{
-    this.productService.deleteProduct(id)
+  deleteProduct():void{
+    this.productService.deleteProduct(this.productForm.value.id??0)
     .subscribe(() => {
       this.getProducts();
+      this.cancel();
     });
-    this.cancel();
   }
   cancel():void{
-    this.product = new ExtendedProduct();
+    this.isSubmitted = false;
+    this.productForm.reset({
+      id: 0,
+      name:'',
+      price:0,
+      stockAmount:0,
+      categoryId:0,
+      isConfirmed:false,
+      description:'',
+      details:'',
+      imgUrl:'https://dummyimage.com/600x500/ccc/aaa',
+      createdAt: new Date(),
+      action: '',
+      categoryName:'',
+      categoryColor: '',
+      categoryStyle:''
+    });
+  }
+  setAction(action: string) {
+    this.productForm.get('action')?.setValue(action);
+  }
+  get action() {
+    return this.productForm.get('action')?.value;
+  }
+  get hasValidId() {
+    const id = this.productForm.get('id')?.value;
+    return Number(id) > 0;
+  }
+  get validImg() {
+    const img = this.productForm.get('imgUrl')?.value;
+    return (img?.length?? 0 > 0 )? img :'https://dummyimage.com/600x500/ccc/aaa' ;
+  }
+  get id() {
+    return this.productForm.get('id');
+  }
+  get name() {
+    return this.productForm.get('name');
+  }
+  get imgUrl() {
+    return this.productForm.get('imgUrl');
+  }
+  get price() {
+    return this.productForm.get('price');
+  }
+  get stockAmount() {
+    return this.productForm.get('stockAmount');
+  }
+  get categoryId() {
+    return this.productForm.get('categoryId');
+  }
+  get isConfirmed() {
+    return this.productForm.get('isConfirmed');
+  }
+  get description() {
+    return this.productForm.get('description');
+  }
+  get details() {
+    return this.productForm.get('details');
+  }
+  get descriptionValue(): string {
+    return this.description?.value ?? '';
+  }
+  get detailsValue(): string {
+    return this.details?.value ?? '';
+  }
+  get categoryName() {
+    return this.productForm.get('categoryName');
+  }
+  get categoryColor() {
+    return this.productForm.get('categoryColor');
+  }
+  get categoryStyle() {
+    return this.productForm.get('categoryStyle');
   }
 }
-
 

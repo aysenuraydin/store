@@ -74,17 +74,26 @@ searchCategories(query: string, pageNumber: number = 1, pageSize: number = 3): O
     );
   }
   createCategory(category: Category): Observable<Category> {
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-    };
-    return this.http.post<Category>(this.apiUrl, category, httpOptions).pipe(
-      tap(() => this.loadCategories()),
-      catchError((error) => {
-        console.error('Kategori oluşturulurken hata oluştu:', error);
-        throw error;
-      })
-    );
-  }
+      const httpOptions = {
+        headers: new HttpHeaders({'Content-Type': 'application/json'})
+      };
+      return this.getAllCategories().pipe(
+        map(c => {
+          const lastId = c.length > 0 ? c.at(-1)?.id ?? 0 : 0;
+          category.id = lastId + 1;
+          return category;
+        }),
+        switchMap((c) => {
+          return this.http.post<Category>(this.apiUrl, c, httpOptions).pipe(
+            tap(() => this.loadCategories()),
+            catchError((error) => {
+              console.error('Kategori oluşturulurken hata oluştu:', error);
+              throw error;
+            })
+          );
+        })
+      );
+    }
 
   updateCategory(category: Category): Observable<Category> {
     const httpOptions = {

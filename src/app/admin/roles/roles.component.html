@@ -30,100 +30,123 @@
     <div
     id="accordion2"
     class="relative transition-all  duration-700 px-20" *ngIf="!buttonVisible">
-      <div class="w-full mb-20 mt-8">
+      <form  [formGroup]="roleForm" (ngSubmit)="saveRole()"
+        class="w-full mb-20 mt-8">
         <div class="w-3/5 mt-8 mx-auto bg-white p-10 rounded-2xl shadow-lg" *ngIf="!buttonVisible">
-
-          <input #id type="text" class="hidden" [(ngModel)]="role.id">
-          <input #createdAt type="createdAt" class="hidden" [(ngModel)]="role.createdAt">
-          <div class="mb-3 flex">
-            <label for="name" class="min-w-24 mt-3">Name</label>
-            <input #name type="text" class="mt-1 p-2 w-full border  rounded-lg text-gray-800 outline-none" [(ngModel)]="role.name">
+          <input type="text" class="hidden" formControlName="id">
+          <input type="hidden" formControlName="action" />
+          <input type="createdAt" class="hidden" formControlName="createdAt">
+          <div class="mb-5">
+            <div class="flex">
+              <label for="name" class="min-w-24 mt-3">Name</label>
+            <input id="name" type="text" class="mt-1 p-2 w-full border  rounded-lg text-gray-800 outline-none" formControlName="name">
+            </div>
+            <div>
+              <span class="text-red-500 absolute text-sm pl-28"
+               *ngIf="(name?.invalid && (name?.touched || isSubmitted))">
+                <small *ngIf="name?.hasError('required')">Message is required. </small>
+                <small *ngIf="name?.hasError('minlength')">Message must be at least 5 characters long.</small>
+              </span>
+            </div>
           </div>
-          <div class="mb-3 flex">
-            <label for="color" class="min-w-24 mt-3">Color</label>
-            <input #color type="text" class="mt-1 p-2 w-full border  rounded-lg text-gray-800 outline-none" [(ngModel)]="role.color">
+          <div class="mb-5">
+            <div class="flex">
+              <label for="color" class="min-w-24 mt-3">Color</label>
+            <input id="color" type="text" class="mt-1 p-2 w-full border  rounded-lg text-gray-800 outline-none" formControlName="color">
+            </div>
+            <div>
+              <span class="text-red-500 absolute text-sm pl-28"
+               *ngIf="(color?.invalid && (color?.touched || isSubmitted))">
+                <small *ngIf="color?.hasError('required')">Color is required. </small>
+                <small *ngIf="color?.hasError('isValid')">Color must start with # and be a valid hex code.</small>
+              </span>
+            </div>
           </div>
-          <div class="pl-[6rem]">
+          <div class="pl-[6rem] mt-6">
               <div class="w-full flex">
-                <button class="block w-full px-4 py-2 mr-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="saveRole(role)">
-                  <ng-container *ngIf="role.id; else addButton">
-                    Edit <i class="fa-solid fa-pen-to-square"></i>
-                  </ng-container>
-                  <ng-template #addButton>
-                    Add <i class="fa-solid fa-add"></i>
-                  </ng-template>
+                <button (click)="setAction('edit')" type="submit" *ngIf="hasValidId" class="block w-full px-4 py-2 mr-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center">
+                  <span> Edit <i class="fa-solid fa-pen-to-square"></i></span>
                 </button>
-                <button *ngIf="role.id" class="block w-full px-4 py-2 mr-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="deleteRole(role.id)"> Delete <i class="fa-solid fa-trash"></i> </button>
-              <button class="block w-full px-4 py-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="cancel()"> Clear <i class="fa-solid fa-cancel"></i> </button>
+                <button (click)="setAction('add')" type="submit" *ngIf="!hasValidId" class="block w-full px-4 py-2 mr-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center">
+                  <span> Add <i class="fa-solid fa-add"></i></span>
+                </button>
+                <button *ngIf="hasValidId" (click)="setAction('delete')" type="submit" class="block w-full px-4 py-2 mr-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center"> Delete <i class="fa-solid fa-trash"></i> </button>
+              <button (click)="cancel()"  *ngIf="hasValidId || roleForm.dirty" class="block w-full px-4 py-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center"> Clear <i class="fa-solid fa-cancel"></i> </button>
           </div>
           </div>
           </div>
-      </div>
+      </form>
   </div>
   </div>
-        <div class="flex items-center px-5 pb-2 border-b mb-5 mt-16">
-          <span class="w-1/12 text-center">
-            <input type="checkbox"/>
-          </span>
-          <span class="w-1/6 text-center">
-            <span class="text-xs uppercase text-gray-600 font-bold">Number</span>
-          </span>
-          <span class="w-1/3 pl-14">
-            <span class="text-xs uppercase text-gray-600 font-bold">Name</span>
-          </span>
-          <span class="w-1/3">
-            <span class="text-xs uppercase text-gray-600 font-bold">CreatedAt</span>
-          </span>
-          <span class="w-1/6"></span>
-        </div>
+    <div class="flex items-center px-5 pb-2 border-b mb-5 mt-16">
+      <span class="w-1/12 text-center">
+        <input type="checkbox"/>
+      </span>
+      <span class="w-1/6 text-center">
+        <span class="text-xs uppercase text-gray-600 font-bold">Number</span>
+      </span>
+      <span class="w-1/4 pl-20">
+        <span class="text-xs uppercase text-gray-600 font-bold">Name</span>
+      </span>
+      <span class="w-1/12 text-center">
+        <span class="text-xs uppercase text-gray-600 font-bold">Users</span>
+      </span>
+      <span class="w-1/3 text-center">
+        <span class="text-xs uppercase text-gray-600 font-bold">CreatedAt</span>
+      </span>
+      <span class="w-1/6"></span>
+    </div>
 
-        <div id="roles" class="space-y-5 px-5 h-[68vh] overflow-scroll">
-          @defer ()  {
-          <div class="flex items-center p-4 rounded-md shadow border bg-white" *ngFor="let r of roles let i = index">
-            <span class="w-1/12 text-center">
-              <input type="checkbox" class="contact-checkbox mr-4">
-            </span>
-            <span class="w-1/6 text-center">
-              {{i+1}}
-            </span>
-            <span class="w-1/3">
-              <span class="inline-block text-xs uppercase rounded-lg p-4 min-w-52 text-center"
-              [ngStyle]="{
-                'background-color': colorOpacity(r.color),
-                'color': r.color,
-                'border-color': r.color,
-                'border-width': '1px',
-                'border-style': 'solid',
-              }">
-              {{r.name}}
-              </span>
-            </span>
-            <span class="w-1/3">
-              <span class="text-xs uppercase text-gray-600 font-bold">
-                {{ r.createdAt | date: 'dd-mm-yyyy' }}
-                {{ r.createdAt | date: 'h:mm:ss' }}
-              </span>
-            </span>
-            <span class="w-1/6 flex items-center justify-center">
-              <button class="block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14"(click)="getRole(r.id)">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </button>
-            </span>
-          </div>
-          <div *ngIf="roles.length == 0" class="bg-white p-8  text-center mt-4 rounded-md shadow border">
-            <i class="fa-solid fa-xmark"></i>
-            No role available.
-          </div>
-
-        } @placeholder (minimum 1s) {
-          <div class="pt-10 flex justify-center items-center">
-            <i class="fa-solid fa-spinner text-5xl animate-spin text-gray-500 mr-5"></i> Loading..
-          </div>
-        }
+    <div id="roles" class="space-y-5 px-5 h-[68vh] overflow-scroll">
+      @defer ()  {
+      <div class="flex items-center p-4 rounded-md shadow border bg-white" *ngFor="let r of roles let i = index">
+        <span class="w-1/12 text-center">
+          <input type="checkbox" class="contact-checkbox mr-4">
+        </span>
+        <span class="w-1/6 text-center">
+          {{i+1}}
+        </span>
+        <span class="w-1/3">
+          <span class="inline-block text-xs uppercase rounded-lg p-4 min-w-52 text-center"
+          [ngStyle]="{
+            'background-color': colorOpacity(r.color),
+            'color': r.color,
+            'border-color': r.color,
+            'border-width': '1px',
+            'border-style': 'solid',
+          }">
+          {{r.name}}
+          </span>
+        </span>
+        <span class="w-1/12">
+          {{r.usersLength}}
+        </span>
+        <span class="w-1/3 text-center">
+          <span class="text-xs uppercase text-gray-600 font-bold">
+            {{ r.createdAt | date: 'dd-mm-yyyy' }}
+            {{ r.createdAt | date: 'h:mm:ss' }}
+          </span>
+        </span>
+        <span class="w-1/6 flex items-center justify-center">
+          <button class="block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14"(click)="getRole(r.id)">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+        </span>
       </div>
-      <pagination (newPageNumber)="getPageNumber($event)"
-      [pageNumber]="pageNumber" [pageTotal]="pageTotal"
-      *ngIf="roles.length != 0"/>
+      <div *ngIf="roles.length == 0" class="bg-white p-8  text-center mt-4 rounded-md shadow border">
+        <i class="fa-solid fa-xmark"></i>
+        No role available.
+      </div>
+
+    } @placeholder (minimum 1s) {
+      <div class="pt-10 flex justify-center items-center">
+        <i class="fa-solid fa-spinner text-5xl animate-spin text-gray-500 mr-5"></i> Loading..
+      </div>
+    }
+  </div>
+  <pagination (newPageNumber)="getPageNumber($event)"
+  [pageNumber]="pageNumber" [pageTotal]="pageTotal"
+  *ngIf="roles.length != 0 && pageTotal>1"/>
 </div>
 
 

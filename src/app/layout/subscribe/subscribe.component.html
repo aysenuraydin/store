@@ -14,13 +14,19 @@
       <div class="text-gray-900 text-2xl font-semibold">
         Want product news and updates? Sign up for our newsletter.
       </div>
-      <div class="max-w-xl lg:max-w-lg">
+      <form [formGroup]="subscribeForm" (ngSubmit)="saveSubscribe()" class="max-w-xl lg:max-w-lg">
         <div class="mt-6 flex max-w-md gap-x-4">
           <label for="email-address" class="sr-only">Email address</label>
-          <input #email type="text" class="min-w-0 flex-auto rounded-md bg-white/5 px-3.5 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-500 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-500 sm:text-sm/6" placeholder="Enter your email" [(ngModel)]="subscribe.email">
-          <button class="flex-none rounded-full bg-gray-800 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900" (click)="saveSubscribe(subscribe)"> Subscribe →</button>
+          <input formControlName="email" type="email" class="min-w-0 flex-auto rounded-md bg-white/5 px-3.5 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-500 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-500 sm:text-sm/6" placeholder="Enter your email" [(ngModel)]="subscribe.email">
+          <button type="submit" [ngClass]="{'bg-gray-300 border':subscribeForm.invalid}"
+          class="flex-none rounded-full bg-gray-800 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"> Subscribe →</button>
         </div>
-      </div>
+        <span class="text-red-500 absolute" *ngIf="(email?.invalid && (email?.touched || isSubmitted))">
+          <small *ngIf="email?.hasError('required')">Email is required.</small>
+          <small *ngIf="email?.hasError('email')">Email is not valid.</small>
+          <small *ngIf="email?.hasError('minlength')">Email must be at least 5 characters long.</small>
+        </span>
+      </form>
     </div>
   </div>
 </div>

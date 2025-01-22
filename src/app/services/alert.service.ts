@@ -37,7 +37,7 @@ export class AlertService {
     alert.id = lastId + 1;
 
     setTimeout(() => {
-      this.removeAlert(alert.id);
+      this.removeAlert(alert?.id??0);
     }, 5000);
 
     this.alerts.push(alert);

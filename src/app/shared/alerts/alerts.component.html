@@ -1,8 +1,9 @@
 <div class="md:fixed md:top-40 md:right-10 pt-28 md:pt-0  w-full md:w-[30rem] z-50">
-  <div *ngFor="let alert of alerts" (click)="close(alert.id)"
+  <div *ngFor="let alert of alerts" (click)="close(alert.id??0)"
   [ngStyle]="{'background-color': lightenHexColor(alert.color! ,85)}"
   class="p-5 w-full rounded-lg mb-4 alert block border shadow-md">
     <div class="flex space-x-3">
+      {{alert.id}}- {{alert.userId}}
         <i class="fa-solid flex-none fill-current h-4 w-4"
         [ngClass]="alert.className" [ngStyle]="{'color': alert.color}"></i>
         <div class="flex-1 leading-tight text-sm" [ngStyle]="{'color': lightenHexColor(alert.color! ,45)}">{{alert.message}}</div>

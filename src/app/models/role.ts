@@ -3,7 +3,7 @@ import { User } from "./user";
 export class Role {
   id:number;
   name:string;
-  color?:string;
+  color:string;
   createdAt: Date;
   users?: User[];
 

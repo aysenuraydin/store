@@ -14,7 +14,7 @@ export class UsersComponent implements OnInit {
   buttonVisible:boolean = true;
   search:string = "";
   pageNumber:number = 1;
-  pageSize:number = 9;
+  pageSize:number = 7;
   pageTotal:number = 1;
 
   user:any;

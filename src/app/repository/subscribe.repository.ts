@@ -7,43 +7,43 @@ export class SubscribeRepository {
       this.subscribe = new Array<Subscribe>(
           {
             id:1,
-            email: 'ays1@ayd.com',
+            email: 'john.doe@example.com',
             createdAt: new Date(),
             isActive: true
           },
           {
             id:2,
-            email: 'ays2@ayd.com',
+            email: 'jane.smith@example.com',
             createdAt: new Date(),
             isActive: false
           },
           {
             id:3,
-            email: 'ays3@ayd.com',
+            email: 'mark.jones@example.com',
             createdAt: new Date(),
             isActive: true
           },
           {
             id:4,
-            email: 'ays4@ayd.com',
+            email: 'lucy.brown@example.com',
             createdAt: new Date(),
             isActive: true
           },
           {
             id:5,
-            email: 'ays5@ayd.com',
+            email: 'chris.green@example.com',
             createdAt: new Date(),
             isActive: false
           },
           {
             id:6,
-            email: 'ays6@ayd.com',
+            email: 'patricia.white@example.com',
             createdAt: new Date(),
             isActive: true
           },
           {
             id:7,
-            email: 'ays7@ayd.com',
+            email: 'david.black@example.com',
             createdAt: new Date(),
             isActive: true
           },
@@ -53,5 +53,3 @@ export class SubscribeRepository {
     return this.subscribe;
   }
 }
-
-

@@ -8,7 +8,6 @@ import { StatsComponent } from './home/stats/stats.component';
 import { ContactComponent } from './contact/contact.component';
 import { FAQsComponent } from './faqs/faqs.component';
 import { CartComponent } from './cart/cart.component';
-import { DenemeComponent } from './contact/deneme/deneme.component';
 import { AboutComponent } from './about/about.component';
 import { ProductModule } from './product/product.module';
 import { CollectionsComponent } from './home/collections/collections.component';
@@ -22,7 +21,7 @@ import { FavoriteComponent } from './favorite/favorite.component';
 import { OrderModule } from './order/order.module';
 import { CartConfirmComponent } from './cart/cart-confirm/cart-confirm.component';
 import { CartModule } from './cart/cart.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientInMemoryWebApiModule} from 'angular-in-memory-web-api';
 import { HttpClientModule } from '@angular/common/http';
 import { InMemoryDataService } from './services/in-memory-data.service';
@@ -39,7 +38,6 @@ import { RouterModule } from '@angular/router';
     ContactComponent,
     FAQsComponent,
     CartComponent,
-    DenemeComponent,
     AboutComponent,
     CollectionsComponent,
     MostPopularComponent,
@@ -60,6 +58,7 @@ import { RouterModule } from '@angular/router';
     OrderModule,
     CartModule,
     LayoutModule,
+    ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false })

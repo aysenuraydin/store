@@ -6,30 +6,30 @@ export class SliderRepository {
   constructor() {
       this.slider = new Array<Slider>(
           {
-            id:1,
-            name: 'Earthen Bottle 1',
-            imgUrl:'https://cache.manuka.com.tr/elfinder/files/Home2024/Bohomania/lp/desktop/kapak.webp',
+            id: 1,
+            name: 'Slider 1',
+            imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
             createdAt: new Date(),
             isActive: true
           },
           {
-            id:2,
-            name: 'Earthen Bottle 2',
-            imgUrl:'https://cache.manuka.com.tr/elfinder/files/Home2024/Bohomania/home/desktop/tr/slider1_1.webp',
+            id: 2,
+            name: 'Slider 2',
+            imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
             createdAt: new Date(),
             isActive: true
           },
           {
-            id:3,
-            name: 'Earthen Bottle 2',
-            imgUrl:'https://dummyimage.com/600x500/ccc/aaa',
+            id: 3,
+            name: 'Slider 3',
+            imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
             createdAt: new Date(),
             isActive: false
           },
           {
-            id:4,
-            name: 'Earthen Bottle 2',
-            imgUrl:'https://dummyimage.com/600x500/ccc/aaa',
+            id: 4,
+            name: 'Slider 4',
+            imgUrl: 'https://dummyimage.com/600x500/ccc/aaa',
             createdAt: new Date(),
             isActive: false
           }
@@ -39,5 +39,3 @@ export class SliderRepository {
     return this.slider;
   }
 }
-
-

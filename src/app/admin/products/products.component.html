@@ -17,9 +17,9 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
               </button>
           </div>
-            <div class="min-w-32 border block px-5 py-3 text-sm hover:text-white hover:bg-gray-700 rounded-md text-center bg-white" (click)="toggleWindow(buttonVisible)">
+            <div class="min-w-40 border block px-5 py-3 text-sm hover:text-white hover:bg-gray-700 rounded-md text-center bg-white" (click)="toggleWindow(buttonVisible)">
               <div *ngIf="buttonVisible">
-                Add Banner<i class="fa-solid fa-plus pl-1"></i>
+                Add Product<i class="fa-solid fa-plus pl-1"></i>
               </div>
               <div *ngIf="!buttonVisible" class="text-red-500">
                 Close <i class="fa-solid fa-cancel pl-1"></i>
@@ -31,98 +31,134 @@
     <div
     id="accordion2"
     class="relative transition-all duration-700 p-10 pb-0" *ngIf="!buttonVisible">
-    <div class="flex bg-white p-10 rounded-2xl shadow-lg">
+    <form [formGroup]="productForm" (ngSubmit)="saveProduct()"
+    class="flex bg-white p-10 rounded-2xl shadow-lg">
       <div class="w-2/5 mt-8">
         <div class="p-4">
-          <img [src]="product.imgUrl" [alt]="product.name" class="object-cover w-full pt-4">
+          <img [src]="validImg" [alt]="name?.value" class="object-cover w-full pt-4">
           <div class="flex">
-            <img [src]="product.imgUrl " [alt]="product.name" class="object-cover w-20 pt-2 pr-2">
-            <img [src]="product.imgUrl " [alt]="product.name" class="object-cover w-20 pt-2 pr-2">
-            <img [src]="product.imgUrl " [alt]="product.name" class="object-cover w-20 pt-2 pr-2">
+            <img [src]="validImg" [alt]="name?.value" class="object-cover w-20 pt-2 pr-2">
+            <img [src]="validImg" [alt]="name?.value" class="object-cover w-20 pt-2 pr-2">
+            <img [src]="validImg" [alt]="name?.value" class="object-cover w-20 pt-2 pr-2">
             <div class="object-cover w-20 mt-2 pr-2 border p-6 rounded-lg cursor-pointer">
               <i class="fa-solid fa-add text-3xl text-gray-400"> </i>
             </div>
           </div>
         </div>
         <div class="mb-3 flex p-4">
-          <input #imgUrl type="file" class="mt-1 p-2 w-full  rounded-lg text-gray-800 outline-none" [(ngModel)]="product.imgUrl">
-        </div> <!-- [ngModel]="slider.imgUrl" -->
+          <input type="file" class="mt-1 p-2 w-full  rounded-lg text-gray-800 outline-none">
+        </div>
         <div class="mb-3 flex">
-          <input #imgUrl type="text" class="mt-1 p-2 w-full border rounded-lg text-gray-800 outline-none" [(ngModel)]="product.imgUrl">
+          <input type="text" class="mt-1 p-2 w-full border rounded-lg text-gray-800 outline-none" formControlName="imgUrl">
         </div>
       </div>
       <div class="w-3/5 mt-8 p-4">
-        <input #id type="text" class="hidden" [(ngModel)]="product.id">
-        <input #createdAt type="text" class="hidden" [(ngModel)]="product.createdAt">
+        <input type="text" class="hidden" formControlName="id">
+        <input type="hidden" formControlName="action" />
+        <input type="text" class="hidden" formControlName="createdAt">
 
-      <div class="mb-3 flex">
-        <label for="name" class="w-1/6 mt-3">Name</label>
-        <input #price type="text" class="mt-1 p-2 w-5/6 border rounded-lg text-gray-800 outline-none" [(ngModel)]="product.name">
-      </div>
-      <div class="flex justify-between">
-      <div class="mb-3 flex w-1/2 mr-2">
-        <label for="price" class="w-1/3 mt-3">Price</label>
-        <input #price type="text" class="mt-1 p-2 w-2/3 border rounded-lg text-gray-800 outline-none" [(ngModel)]="product.price">
-      </div>
-      <div class="mb-3 flex w-1/2 ml-2">
-        <label for="stockAmount" class="w-1/3 mt-3">Stock Amount</label>
-        <input #stockAmount type="text" class="mt-1 p-2 border  rounded-lg text-gray-800 outline-none w-2/3" [(ngModel)]="product.stockAmount">
-      </div>
-      </div>
-      <div class="flex justify-between">
-        <div class="mb-4 flex w-1/2 mr-2">
-          <label for="categoryId" class="w-1/3 mt-3">Category</label>
-
-        <select
-        [(ngModel)]="product.categoryId"
-        for="categoryId"
-        class="mt-1 p-2 w-2/3 border  rounded-lg text-gray-800 outline-none"
-        (change)="onCategoryChange($event)"
-        [ngStyle]="{
-          'background-color': colorOpacity(product.categoryColor),
-          'color': product.categoryColor || 'inherit',
-          'border-color': product.categoryColor || '#ccc',
-          'border-width': '1px',
-          'border-style': 'solid'
-        }" >
-        <option *ngFor="let category of categories" value="{{ category.id }}">{{ category.name }}</option>
-      </select>
-          </div>
-          <div class="mb-3 flex w-1/2 ml-2">
-            <label for="isConfirmed" class="w-1/3 mt-3">isConfirmed</label>
-            <input #isConfirmed type="checkbox" class="mt-1 p-2 border  rounded-lg text-gray-800 outline-none w-8" [(ngModel)]="product.isConfirmed">
-          </div>
-      </div>
-      <div class="mb-3 flex">
-        <label for="description" class="w-1/6 mt-5">Description</label>
-        <div class="w-5/6">
-          <cktext [(content)]="product.description" (contentChange)="onDescriptionChange($event)"/>
-        </div>
-      </div>
-      <div class="mb-3 flex">
-        <label for="details" class="w-1/6 mt-3">Details</label>
-        <div class="w-5/6">
-          <cktext [(content)]="product.details" (contentChange)="onDetailsChange($event)"/>
-        </div>
-      </div>
+      <div class="mb-4 mt-3">
         <div class="flex">
-          <div class="w-1/6"></div>
-          <div class="w-5/6 flex">
-            <button class="block w-full px-4 py-2 mr-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="saveProduct(product)">
-              <ng-container *ngIf="product.id; else addButton">
-                Edit <i class="fa-solid fa-pen-to-square"></i>
-              </ng-container>
-              <ng-template #addButton>
-                Add <i class="fa-solid fa-add"></i>
-              </ng-template>
+          <label for="name" class="w-1/6 mt-3">Name</label>
+        <input id="name" type="text" class="mt-1 p-2 w-5/6 border rounded-lg text-gray-800 outline-none" formControlName="name">
+        </div>
+        <div>
+          <span class="text-red-500 absolute text-sm pl-24"
+           *ngIf="(name?.invalid && (name?.touched || isSubmitted))">
+            <small *ngIf="name?.hasError('required')">Name is required. </small>
+            <small *ngIf="name?.hasError('minlength')">Name must be at least 5 characters long.</small>
+          </span>
+        </div>
+      </div>
+      <div class="mb-4">
+        <div class="flex justify-between">
+          <div class="w-1/2 mr-2">
+            <div class="flex">
+              <label for="price" class="w-1/3 mt-3">Price</label>
+            <input id="price" type="text" class="mt-1 p-2 w-2/3 border rounded-lg text-gray-800 outline-none" formControlName="price">
+            </div>
+            <div>
+              <span class="text-red-500 absolute text-sm pl-24"
+               *ngIf="(price?.invalid && (price?.touched || isSubmitted))">
+                <small *ngIf="price?.hasError('required')">Price is required. </small>
+              </span>
+            </div>
+          </div>
+          <div class="w-1/2 ml-2">
+           <div class="flex">
+            <label for="stockAmount" class="w-1/3 mt-3">Stock</label>
+            <input id="stockAmount" type="text" class="mt-1 p-2 border  rounded-lg text-gray-800 outline-none w-2/3" formControlName="stockAmount">
+           </div>
+            <div>
+              <span class="text-red-500 absolute text-sm pl-24"
+               *ngIf="(stockAmount?.invalid && (stockAmount?.touched || isSubmitted))">
+                <small *ngIf="stockAmount?.hasError('required')">StockAmount is required. </small>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mb-4">
+          <div class="flex justify-between">
+            <div class="flex w-1/2 mr-2">
+              <label for="categoryId" class="w-1/3 mt-3">Category</label>
+            <select
+            formControlName="categoryId"
+            id="categoryId"
+            class="mt-1 p-2 w-2/3 border rounded-lg text-gray-800 outline-none"
+            (change)="onCategoryChange($event)"
+            [ngStyle]="{
+              'background-color': colorOpacity(categoryColor?.value??''),
+              'color': categoryColor?.value??'' || 'inherit',
+              'border-color': categoryColor?.value??'' || '#ccc',
+              'border-width': '1px',
+              'border-style': 'solid'
+            }" >
+            <option *ngFor="let category of categories" value="{{ category.id }}">{{ category.name }}</option>
+          </select>
+              </div>
+              <div class="flex w-1/2 ml-2">
+                <label for="isConfirmed" class="w-1/3 mt-3">Confirmed?</label>
+                <input id="isConfirmed"  type="checkbox" class="mt-1 p-2 border  rounded-lg text-gray-800 outline-none w-8" formControlName="isConfirmed">
+              </div>
+          </div>
+      </div>
+      <div class="mb-3">
+        <div class="flex">
+          <label for="description" class="w-1/6">Description</label>
+        <div class="w-5/6">
+          <cktext [(content)]="descriptionValue" (contentChange)="onDescriptionChange($event)"/>
+          <!-- <textarea class="border rounded-lg w-full p-4" formControlName="description" id="description" rows="4"></textarea> -->
+        </div>
+        </div>
+      </div>
+      <div class="mb-4">
+        <div class="flex">
+          <label for="details" class="w-1/6">Details</label>
+        <div class="w-5/6">
+          <cktext [(content)]="detailsValue" (contentChange)="onDetailsChange($event)"/>
+          <!-- <textarea class="border rounded-lg w-full p-4" formControlName="details" id="details" rows="4"></textarea> -->
+        </div>
+        </div>
+      </div>
+        <div class="flex pl-20">
+          <div class="w-full flex">
+            <button (click)="setAction('edit')" type="submit" *ngIf="hasValidId" class="block w-full px-4 py-2 mr-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center">
+              <span> Edit <i class="fa-solid fa-pen-to-square"></i></span>
             </button>
-            <button *ngIf="product.id" class="block w-full px-4 py-2 mr-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="deleteProduct(product.id)"> Delete <i class="fa-solid fa-trash"></i> </button>
-          <button class="block w-full px-4 py-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="cancel()"> Clear <i class="fa-solid fa-cancel"></i>
-      </button>
+            <button (click)="setAction('add')" type="submit" *ngIf="!hasValidId" class="block w-full px-4 py-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center">
+              <span> Add <i class="fa-solid fa-add"></i></span>
+            </button>
+            <button (click)="setAction('delete')" type="submit" *ngIf="hasValidId"
+            class="block w-full px-4 py-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center ml-2"> Delete <i class="fa-solid fa-trash"></i> </button>
+            <button type="submit"
+            (click)="cancel()" *ngIf="hasValidId || productForm.dirty"
+            class="block w-full ml-2 px-4 py-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center"> Clear <i class="fa-solid fa-cancel"></i>
+            </button>
+        </div>
       </div>
       </div>
-      </div>
-    </div>
+    </form>
   </div>
   </div>
 
@@ -151,18 +187,16 @@
           <span class="w-1/12 text-center">
             <span class="text-xs uppercase text-gray-600 font-bold">Created At</span>
           </span>
-          <div class="w-1/6 text-center">
-            <a routerLink="/" class="inline-block px-4 py-2 text-sm text-white bg-gray-700 rounded-md text-center uppercase min-w-15"><i class="fa-solid fa-trash"></i> Selected </a>
-          </div>
+          <div class="w-1/6 text-center"> </div>
         </div>
         @defer ()  {
         <div id="products" class="space-y-5 h-[67vh] overflow-scroll">
-          <div class="flex items-center px-4 rounded-md shadow border bg-white" *ngFor="let prd of productsWithCategoriesName let i = index" [ngClass]="{'border-[#5f5f5f7c] shadow-xl': prd.id === product.id || '' }">
+          <div class="flex items-center px-4 rounded-md shadow border bg-white" *ngFor="let prd of productsWithCategoriesName let i = index" [ngClass]="{'border-[#5f5f5f7c] shadow-xl': prd.id === id?.value }">
             <span class="w-1/12 text-center">
               <input type="checkbox" class="contact-checkbox mr-4">
             </span>
             <span class="w-1/12 text-center">
-              {{ i + 1 }}-{{ prd.id}}
+              {{ i + 1 }}-{{ prd.id}}-{{ prd.viewCount}}
             </span>
             <span class="w-1/3">
               <div class="flex items-center">
@@ -208,7 +242,7 @@
       </div>
       <pagination (newPageNumber)="getPageNumber($event)"
       [pageNumber]="pageNumber" [pageTotal]="pageTotal"
-      *ngIf="productsWithCategoriesName.length != 0"/>
+      *ngIf="productsWithCategoriesName.length != 0 && pageTotal>1"/>
 
       } @placeholder (minimum 1s) {
         <div class="pt-10 flex justify-center items-center">

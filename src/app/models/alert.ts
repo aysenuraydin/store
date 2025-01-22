@@ -1,7 +1,7 @@
 
 export class Alert {
-  id: number;
-  userId: number;
+  id?: number;
+  userId?: number;
   message: string;
   className: ClassName;
   color?: Color;
