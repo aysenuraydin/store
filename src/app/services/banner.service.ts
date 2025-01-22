@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Banner } from '../models/banner';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, catchError, forkJoin, map, Observable, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, catchError, forkJoin, map, Observable, switchMap, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -146,12 +146,25 @@ export class BannerService {
       })
     );
   }
-  deleteBanner(id: number): Observable<Banner>  {
-    return this.http.delete<Banner>(this.apiUrl+'/'+id).pipe(
-      tap(() => this.loadBanners()),
+  deleteBanner(id: number): Observable<Banner> {
+    return this.getAllBanners().pipe(
+      map((data) => {
+        const active = data.find((i) => i.isActive);
+        if (active && id === active.id) {
+          throw new Error('Aktif bir banner silinemez.');
+        }
+        return id;
+      }),
+      switchMap((bannerId) =>
+        this.http.delete<Banner>(`${this.apiUrl}/${bannerId}`).pipe(
+          tap(() => this.loadBanners()),
+          catchError((error) => {
+            throw error;
+          })
+        )
+      ),
       catchError((error) => {
-        console.error('Kategori oluşturulurken hata oluştu:', error);
-        throw error;
+        return throwError(() => error);
       })
     );
   }

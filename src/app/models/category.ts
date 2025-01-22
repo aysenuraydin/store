@@ -8,6 +8,7 @@ export class Category {
     constructor() {
       this.name = "";
       this.color = "";
+      this.iconCssClass = "";
       this.createdAt = new Date();
   }
 }

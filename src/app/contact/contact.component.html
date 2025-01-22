@@ -8,63 +8,92 @@
       Email: {{info.email}} - Phone Number: {{info.phoneNumber}} - Adress: {{info.adress}}
     </div>
   </div>
-  <div class="mx-auto mt-16 max-w-xl sm:mt-20">
+  <form [formGroup]="contactForm" (ngSubmit)="saveContact()" class="mx-auto mt-16 max-w-xl sm:mt-20">
     <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
       <div>
-        <label for="first-name" class="block text-sm/6 font-semibold text-gray-900">First name</label>
+        <label for="first-name" class="block text-sm/6 font-semibold text-gray-900">First name *
+        </label>
         <div class="mt-2.5">
-          <!-- <input type="text" class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600" [(ngModel)]="contact.firstname" #firstname > -->
-          <input #firstname type="text" class="mt-1 p-2 w-full border  rounded-lg text-gray-800 outline-none" [(ngModel)]="contact.firstname">
+          <input  formControlName="firstname" type="text" class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600">
         </div>
+        <span class="text-red-500 absolute" *ngIf="(firstname?.invalid && (firstname?.touched || isSubmitted))">
+          <small *ngIf="firstname?.hasError('required')">First name is required.</small>
+          <small *ngIf="firstname?.hasError('minlength')">First name must be at least 5 characters long.</small>
+        </span>
       </div>
+
       <div>
-        <label for="last-name" class="block text-sm/6 font-semibold text-gray-900">Last name</label>
+        <label for="last-name" class="block text-sm/6 font-semibold text-gray-900">Last name *
+        </label>
         <div class="mt-2.5">
-          <input type="text" class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600" [(ngModel)]="contact.lastname" #lastname >
+          <input formControlName="lastname" type="text" class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600" />
         </div>
+        <span class="text-red-500 absolute" *ngIf="(lastname?.invalid && (lastname?.touched || isSubmitted))">
+          <small *ngIf="lastname?.hasError('required')">Last name is required.</small>
+          <small *ngIf="lastname?.hasError('minlength')">Last name must be at least 5 characters long.</small>
+        </span>
       </div>
       <div class="sm:col-span-2">
         <label for="company" class="block text-sm/6 font-semibold text-gray-900">Company</label>
         <div class="mt-2.5">
-          <input type="text" class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600" [(ngModel)]="contact.company" #company >
+          <input  formControlName="company" type="text" class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600">
         </div>
       </div>
       <div class="sm:col-span-2">
-        <label for="email" class="block text-sm/6 font-semibold text-gray-900">Email</label>
+        <label for="email" class="block text-sm/6 font-semibold text-gray-900">Email *
+        </label>
         <div class="mt-2.5">
-          <input type="email" class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600" [(ngModel)]="contact.email" #email >
+          <input  formControlName="email" type="email" class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600" >
         </div>
+        <span class="text-red-500 absolute" *ngIf="(email?.invalid && (email?.touched || isSubmitted))">
+          <small *ngIf="email?.hasError('required')">Email is required.</small>
+          <small *ngIf="email?.hasError('email')">Email is not valid.</small>
+          <small *ngIf="email?.hasError('minlength')">Email must be at least 5 characters long.</small>
+        </span>
       </div>
       <div class="sm:col-span-2">
-        <label for="phone-number" class="block text-sm/6 font-semibold text-gray-900">Phone number</label>
+        <label for="phone-number" class="block text-sm/6 font-semibold text-gray-900">Phone number *
+        </label>
         <div class="mt-2.5">
           <div class="flex rounded-md bg-white outline outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-gray-600">
-            <input type="text" class="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6" placeholder="123-456-7890"
-            [(ngModel)]="contact.phoneNumber" #phoneNumber >
+            <input  formControlName="phoneNumber" type="text" class="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6" placeholder="123-456-7890" >
           </div>
+          <span class="text-red-500 absolute" *ngIf="(phoneNumber?.invalid && (phoneNumber?.touched || isSubmitted))">
+            <small *ngIf="phoneNumber?.hasError('required')">Phone number is required.</small>
+            <small *ngIf="phoneNumber?.hasError('minlength')">Phone number must be at least 5 characters long.</small>
+          </span>
         </div>
       </div>
       <div class="sm:col-span-2">
-        <label for="message" class="block text-sm/6 font-semibold text-gray-900">Message</label>
+        <label for="message" class="block text-sm/6 font-semibold text-gray-900">Message *
+        </label>
         <div class="mt-2.5">
-          <textarea rows="4" class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600"
-          [(ngModel)]="contact.message" #message ></textarea>
+          <textarea formControlName="message" rows="4" class="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600"
+          ></textarea>
         </div>
+        <span class="text-red-500 absolute" *ngIf="(message?.invalid && (message?.touched || isSubmitted))">
+          <small *ngIf="message?.hasError('required')">Phone number is required.</small>
+          <small *ngIf="message?.hasError('minlength')">Phone number must be at least 5 characters long.</small>
+        </span>
       </div>
       <div class="flex gap-x-4 sm:col-span-2">
         <div class="flex h-6 items-center">
-          <input type="checkbox" class="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6" placeholder="123-456-7890"
-        [(ngModel)]="contact.isAccept" #isAccept >
+          <input  formControlName="isAccept" type="checkbox" class="block min-w-0 grow py-1.5 pl-1 pr-3 text-base text-gray-900 placeholder:text-gray-400 focus:outline focus:outline-0 sm:text-sm/6" placeholder="123-456-7890" >
         </div>
         <label class="text-sm/6 text-gray-600" id="switch-1-label">
-          By selecting this, you agree to our
-          <a href="#" class="font-semibold text-gray-600">privacy&nbsp;policy</a>.
+          <div>By selecting this, you agree to our
+          <a href="#" class="font-semibold text-gray-600">privacy&nbsp;policy.</a></div>
+          <span class="text-red-500 absolute" *ngIf="(isAccept?.invalid && (isAccept?.touched || isSubmitted))">
+            <small *ngIf="isAccept?.hasError('required')">isAccept is required.</small>
+            <small *ngIf="isAccept?.hasError('minlength')">isAccept must be at least 5 characters long.</small>
+          </span>
         </label>
       </div>
     </div>
     <div class="mt-10">
-      <button class="block w-full rounded-md bg-gray-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600" (click)="saveContact(contact)">Let's talk</button>
+      <button type="submit"
+      [ngClass]="{'bg-gray-300 border':contactForm.invalid}"
+      class="block w-full rounded-md bg-gray-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600 cursor-pointer" >Let's talk</button>
     </div>
-  </div>
+  </form>
 </div>
-<deneme></deneme>

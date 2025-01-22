@@ -10,7 +10,7 @@ import { AlertsComponent } from './alerts/alerts.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { CktextComponent } from './cktext/cktext.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
@@ -29,6 +29,7 @@ import { BrowserModule } from '@angular/platform-browser';
     AppRoutingModule,
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     CKEditorModule,
     // FavoriteComponent
   ],

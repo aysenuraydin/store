@@ -1,38 +1,73 @@
 
   <div class="flex h-full items-center justify-center">
-    <div class="bg-white p-8 w-full my-16 max-w-2xl border">
+    <div class="bg-white p-8 w-full my-16 max-w-2xl border rounded-3xl shadow-lg">
       <h2 class="text-2xl font-semibold text-gray-600 mb-6 text-center">Create an Account</h2>
-      <div>
-
-        <div class="mb-4">
-          <input #name type="text" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" [(ngModel)]="user.name" placeholder="Name">
+      <form [formGroup]="registerForm" (ngSubmit)="createUser()">
+        <div class="mb-5">
+          <input type="text" class="mt-1 p-4 w-full border rounded-xl text-gray-800 outline-none" formControlName="name" placeholder="Name">
+          <div>
+            <span class="text-red-500 absolute ml-5" *ngIf="(name?.invalid && (name?.touched || isSubmitted))">
+              <small *ngIf="name?.hasError('required')">Name is required.</small>
+              <small *ngIf="name?.hasError('minlength')">Name must be at least 5 characters long.</small>
+              <small *ngIf="name?.hasError('maxlength')">Name must be at most 15 characters.</small>
+            </span>
+          </div>
         </div>
-        <div class="mb-4">
-          <input #surname type="text" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" [(ngModel)]="user.surname" placeholder="Surname">
+        <div class="mb-5">
+          <input type="text" class="mt-1 p-4 w-full border rounded-xl text-gray-800 outline-none" formControlName="surname" placeholder="Surname">
+          <div>
+            <span class="text-red-500 absolute ml-5" *ngIf="(surname?.invalid && (surname?.touched || isSubmitted))">
+              <small *ngIf="surname?.hasError('required')">Surname is required.</small>
+              <small *ngIf="surname?.hasError('minlength')">Surname must be at least 5 characters long.</small>
+              <small *ngIf="surname?.hasError('maxlength')">Surname must be at most 15 characters.</small>
+            </span>
+          </div>
         </div>
-        <div class="mb-4">
-          <input #phone type="text" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" [(ngModel)]="user.phone" placeholder="Phone">
+        <div class="mb-5">
+          <input type="text" class="mt-1 p-4 w-full border rounded-xl text-gray-800 outline-none" formControlName="phone" placeholder="Phone">
+          <div>
+            <span class="text-red-500 absolute ml-5" *ngIf="(phone?.invalid && (phone?.touched || isSubmitted))">
+              <small *ngIf="phone?.hasError('required')">First name is required.</small>
+              <small *ngIf="phone?.hasError('email')">No true email format</small>
+            </span>
+          </div>
         </div>
-        <div class="mb-4">
-          <input #email type="text" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" [(ngModel)]="user.email" placeholder="Email">
+        <div class="mb-5">
+          <input type="text" class="mt-1 p-4 w-full border rounded-xl text-gray-800 outline-none" formControlName="email" placeholder="Email">
+          <div>
+            <span class="text-red-500 absolute ml-5" *ngIf="(email?.invalid && (email?.touched || isSubmitted))">
+              <small *ngIf="email?.hasError('required')">Email is required.</small>
+              <small *ngIf="email?.hasError('email')">No true email format</small>
+            </span>
+          </div>
         </div>
-        <div class="mb-4">
-          <input #password type="text" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" [(ngModel)]="user.password" placeholder="Password">
+        <div class="mb-5">
+          <input type="text" class="mt-1 p-4 w-full border rounded-xl text-gray-800 outline-none" formControlName="password" placeholder="Password">
+          <div>
+            <span class="text-red-500 absolute ml-5" *ngIf="(password?.invalid && (password?.touched || isSubmitted))">
+              <small *ngIf="email?.hasError('required')">Password is required.</small>
+            </span>
+          </div>
         </div>
-        <div class="mb-4">
-          <input #password type="text" class="mt-1 p-4 w-full border rounded-sm text-gray-800 outline-none" [(ngModel)]="user.confirmPassword" placeholder="Confirm Password">
+        <div class="mb-5">
+          <input type="text" class="mt-1 p-4 w-full border rounded-xl text-gray-800 outline-none" formControlName="confirmPassword" placeholder="Confirm Password">
+          <div>
+            <span class="text-red-500 absolute ml-5" *ngIf="(confirmPassword?.invalid && (confirmPassword?.touched || isSubmitted))">
+              <small *ngIf="confirmPassword?.hasError('required')">Confirm Password is required.</small>
+            </span>
+          </div>
         </div>
-        <a (click)="createUser()" class="w-full block text-center p-4 bg-gray-800 text-white rounded-md mb-10 cursor-pointer">
+        <button type="submit" class="w-full block text-center p-4 bg-gray-800 text-white mb-5 mt-10 cursor-pointer rounded-full">
           Sign Up
           <i class="fa-solid fa-user-plus"></i>
-        </a>
-      </div>
-        <div class="pt-8 p-2 text-center flex">
+        </button>
+      </form>
+        <div class="p-2 text-center flex mt-10">
           <div class="flex-grow my-auto border-t"></div>
           <div  class="px-4 text-gray-500">Already have an account? Log in!</div>
           <div class="flex-grow my-auto border-t"></div>
         </div>
-        <a routerLink="/account/login" class="w-full block text-center p-4 bg-gray-200 text-gray-600 rounded-md mb-10 cursor-pointer">
+        <a routerLink="/account/login" class="w-full block text-center p-4 bg-gray-200 text-gray-600 rounded-full mb-5 cursor-pointer">
           Sign In
           <i class="fa-solid fa-right-to-bracket"></i>
         </a>

@@ -1,9 +1,9 @@
 export class Slider {
-    id?:number;
+    id:number;
     name: string;
     imgUrl?: string;
     createdAt?: Date;
-    isActive: Boolean;
+    isActive: boolean;
 
     constructor() {
       this.id = 0;

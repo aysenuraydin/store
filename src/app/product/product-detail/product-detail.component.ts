@@ -39,8 +39,8 @@ export class ProductDetailComponent {
     this.getProduct(id);
 
     let alert:Alert =  {
-      id:1,
-      userId:1,
+      // id:1,
+      // userId:1,
       className: ClassName.error,
       message:"Lorem ing elit.1",
       color: Color.red

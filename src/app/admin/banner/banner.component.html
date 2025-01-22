@@ -1,5 +1,5 @@
 
-<div class="md:max-w-6xl py-8 mt-12 md:mt-36 mx-auto h-[100vh]">
+<div class="md:max-w-6xl py-8 mt-12 md:mt-36 mx-auto md:h-[100vh]">
   <div class=" shadow-md"><banners/></div>
   <div class="mt-10">
     <div class="accordion-button p-0 border-b">
@@ -32,113 +32,132 @@
     id="accordion2"
     class="relative transition-all duration-700">
       <div class="w-full mt-8 flex" *ngIf="!buttonVisible">
-      <div class="w-2/3 pt-6 mx-auto bg-white p-10 rounded-2xl shadow-lg">
-      <input #id type="text" class="hidden" [(ngModel)]="banner.id">
-      <input #createdAt type="createdAt" class="hidden" [(ngModel)]="banner.createdAt">
-      <div class="mb-3 flex">
-        <label for="imgUrl" class="min-w-24 mt-2">Message</label>
-        <textarea #imgUrl type="text" class="mt-1 p-2 w-full border rounded-lg text-gray-800 outline-none h-20" [(ngModel)]="banner.message"></textarea>
+      <form [formGroup]="bannerForm" (ngSubmit)="saveBanner()"
+        class="w-2/3 pt-6 mx-auto bg-white p-10 rounded-2xl shadow-lg">
+      <input type="hidden" type="hidden" formControlName="id">
+      <input type="hidden" formControlName="action" />
+      <input type="hidden" type="hidden" formControlName="createdAt">
+      <div class="mb-5">
+        <div class="flex">
+          <label for="message" class="min-w-24 mt-2">Message</label>
+        <textarea id="message" type="text" class="mt-1 p-2 w-full border rounded-lg text-gray-800 outline-none h-20" formControlName="message"></textarea>
+        </div>
+        <div>
+          <span class="text-red-500 absolute text-sm pl-28"
+           *ngIf="(message?.invalid && (message?.touched || isSubmitted))">
+            <small *ngIf="message?.hasError('required')">Message is required. </small>
+            <small *ngIf="message?.hasError('minlength')">Message must be at least 5 characters long.</small>
+          </span>
+        </div>
       </div>
       <div class="flex">
-      <div class="mb-3 flex w-full">
-        <label for="name" class="min-w-24 mt-2">Button</label>
-        <input #name type="text" class="mt-1 p-2 w-full border rounded-lg text-gray-800 outline-none mr-10" [(ngModel)]="banner.button">
+      <div class="mb-5 w-full">
+        <div class="flex">
+          <label for="button" class="min-w-24 mt-2">Button</label>
+        <input id="button" type="text" class="mt-1 p-2 w-full border rounded-lg text-gray-800 outline-none mr-10" formControlName="button">
+        </div>
+        <div>
+          <span class="text-red-500 absolute text-sm pl-28"
+          *ngIf="(button?.invalid && (button?.touched || isSubmitted))">
+            <small *ngIf="button?.hasError('required')">Button is required. </small>
+            <small *ngIf="button?.hasError('minlength')">Button must be at least 2 characters long.  </small>
+            <small *ngIf="button?.hasError('maxlength')">Button must be at most 15 characters.</small>
+          </span>
+        </div>
       </div>
-      <div class="mb-3 flex">
-        <label for="name" class="min-w-24 mt-2">Is Active</label>
-          <input type="checkbox" class="contact-checkbox mr-4 w-9" [(ngModel)]="banner.isActive" (click)="activedBanner($event, banner)">
-      </div>
-      </div>
-
-      <div class="w-full flex mt-6">
-            <button class="block w-full px-4 py-2 mr-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="saveBanner(banner)">
-              <ng-container *ngIf="banner.id; else addButton">
-                Edit <i class="fa-solid fa-pen-to-square"></i>
-              </ng-container>
-              <ng-template #addButton>
-                Add <i class="fa-solid fa-add"></i>
-              </ng-template>
-            </button>
-            <button *ngIf="banner.id" class="block w-full px-4 py-2 mr-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="deleteBanner(banner.id)" [disabled]="banner.isActive"> Delete <i class="fa-solid fa-trash"></i> </button>
-          <button class="block w-full px-4 py-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center" (click)="cancel()"> Clear <i class="fa-solid fa-cancel"></i>
-      </button>
+      <div class="mb-5 flex">
+        <label for="isActive" class="min-w-24 mt-2">Is Active</label>
+          <input id="isActive" type="checkbox" class="contact-checkbox mr-4 w-9" formControlName="isActive" (click)="activedBanner($event)">
       </div>
       </div>
+      <div class="w-full flex mt-6 pl-32">
+          <button (click)="setAction('edit')" type="submit" *ngIf="hasValidId" class="block w-full px-4 py-2 mr-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center">
+            <span> Edit <i class="fa-solid fa-pen-to-square"></i></span>
+          </button>
+          <button (click)="setAction('add')" type="submit" *ngIf="!hasValidId" class="block w-full px-4 py-2 mr-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center">
+            <span> Add <i class="fa-solid fa-add"></i></span>
+          </button>
+          <button (click)="setAction('delete')" type="submit" *ngIf="hasValidId"
+          class="block w-full px-4 py-2 mr-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center"> Delete <i class="fa-solid fa-trash"></i> </button>
+          <button type="submit"
+          (click)="cancel()" *ngIf="hasValidId || bannerForm.dirty"
+          class="block w-full px-4 py-2 text-sm hover:bg-white bg-gray-200 border rounded-lg text-center"> Clear <i class="fa-solid fa-cancel"></i>
+          </button>
+      </div>
+      </form>
     </div>
   </div>
-
-        <div class="flex items-start px-5 pb-2 border-b mb-5 mt-16">
-          <span class="w-1/12 text-center">
-            <input type="checkbox"/>
-          </span>
-          <span class="w-1/12 text-center">
-            <span class="text-xs uppercase text-gray-600 font-bold">serial number</span>
-          </span>
-          <span class="w-1/2 text-center">
-            <span class="text-xs uppercase text-gray-600 font-bold">banner message</span>
-          </span>
-          <span class="w-1/6 text-center">
-            <span class="text-xs uppercase text-gray-600 font-bold">button</span>
-          </span>
-          <span class="w-1/12 text-center">
-            <span class="text-xs uppercase text-gray-600 font-bold w-1">Is Active</span>
-          </span>
-          <span class="w-1/6 text-center">
-            <span class="text-xs uppercase text-gray-600 font-bold">created At</span>
-          </span>
-          <div class="w-1/6 text-center">
-            <a class="inline-block px-4 py-2 text-sm text-white bg-gray-700 rounded-md text-center uppercase min-w-15"><i class="fa-solid fa-trash"></i> Selected </a>
-          </div>
-        </div>
-
-
-        @defer ()  {
-            <div id="banners" class="space-y-5 h-[60vh] overflow-scroll">
-          <div class="flex items-center px-4 rounded-md shadow border p-4 bg-gray-50" *ngFor="let b of banners let i = index" [ngClass]="(b.id==banner.id)?' border-[#5f5f5f7c] shadow-xl':''" [ngClass]="b.isActive ? 'bg-white' : 'bg-gray-50'">
-            <span class="w-1/12 text-center">
-              <input type="checkbox" class="contact-checkbox mr-4">
-            </span>
-            <span class="w-1/12 text-center">
-              {{ i + 2 }}
-            </span>
-
-            <span class="w-1/2 px-5">
-              <span class="text-xs text-gray-600 font-bold">{{ b?.message }}</span>
-            </span>
-
-            <span class="w-1/6 text-center">
-              <div class="text-xs font-bold bg-gray-800 text-white p-2 px-3 rounded-2xl">{{ b?.button }}→</div>
-            </span>
-
-            <span class="w-1/12 text-center">
-              <div class="inline-flex rounded-md bg-gray-50 p-2 font-medium text-gray-700 ring-1 ring-inset ring-gray-600/20 mb-3 mx-2 capitalize text-sm mt-3">
-                <i class="fa-solid" [ngClass]="b.isActive ? 'fa-check' : 'fa-x'"></i>
-              </div>
-            </span>
-
-            <span class="w-1/6 text-center">
-              <span class="text-xs text-gray-600 font-bold">
-                {{ b?.createdAt | date: 'dd-mm-yyyy' }}
-                {{ b?.createdAt | date: 'h:mm:ss' }}
-              </span>
-            </span>
-            <span class="w-1/6 flex items-center justify-center">
-              <button class="block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14" (click)="editBanner(b?.id ?? 0)">
-                <i class="fa-solid fa-pen-to-square"></i>
-              </button>
-            </span>
-          </div>
-          <div *ngIf="banners.length == 0" class="bg-white p-8  text-center mt-4 rounded-md shadow border">
-            <i class="fa-solid fa-xmark"></i>
-            No banner available.
-          </div>
-        </div>
-          } @placeholder (minimum 1s) {
-            <div class="pt-10 flex justify-center items-center">
-              <i class="fa-solid fa-spinner text-5xl animate-spin text-gray-500 mr-5"></i> Loading..
-            </div>
-          }
-          <pagination (newPageNumber)="getPageNumber($event)"
-        [pageNumber]="pageNumber" [pageTotal]="pageTotal"
-        *ngIf="banners.length != 0"/>
+    <div class="flex items-start px-5 pb-2 border-b mb-5 mt-16">
+      <span class="w-1/12 text-center">
+        <input type="checkbox"/>
+      </span>
+      <span class="w-1/12 text-center">
+        <span class="text-xs uppercase text-gray-600 font-bold">serial number</span>
+      </span>
+      <span class="w-1/2 text-center">
+        <span class="text-xs uppercase text-gray-600 font-bold">banner message</span>
+      </span>
+      <span class="w-1/6 text-center">
+        <span class="text-xs uppercase text-gray-600 font-bold">button</span>
+      </span>
+      <span class="w-1/12 text-center">
+        <span class="text-xs uppercase text-gray-600 font-bold w-1">Is Active</span>
+      </span>
+      <span class="w-1/6 text-center">
+        <span class="text-xs uppercase text-gray-600 font-bold">created At</span>
+      </span>
+      <div class="w-1/6 text-center">
+        <a class="inline-block px-4 py-2 text-sm text-white bg-gray-700 rounded-md text-center uppercase min-w-15"><i class="fa-solid fa-trash"></i> Selected </a>
       </div>
+    </div>
+
+    @defer ()  {
+        <div id="banners" class="space-y-5 h-[60vh] overflow-scroll">
+      <div class="flex items-center px-4 rounded-md shadow border p-4 bg-gray-50" *ngFor="let b of banners let i = index" [ngClass]="(b.id==id?.value)?' border-[#5f5f5f7c] shadow-xl':''" [ngClass]="b.isActive ? 'bg-white' : 'bg-gray-50'">
+        <span class="w-1/12 text-center">
+          <input type="checkbox" class="contact-checkbox mr-4">
+        </span>
+        <span class="w-1/12 text-center">
+          {{ i + 2 }}
+        </span>
+
+        <span class="w-1/2 px-5">
+          <span class="text-xs text-gray-600 font-bold">{{ b?.message }}</span>
+        </span>
+
+        <span class="w-1/6 text-center">
+          <div class="text-xs font-bold bg-gray-800 text-white p-2 px-3 rounded-2xl">{{ b?.button }}→</div>
+        </span>
+
+        <span class="w-1/12 text-center">
+          <div class="inline-flex rounded-md bg-gray-50 p-2 font-medium text-gray-700 ring-1 ring-inset ring-gray-600/20 mb-3 mx-2 capitalize text-sm mt-3">
+            <i class="fa-solid" [ngClass]="b.isActive ? 'fa-check' : 'fa-x'"></i>
+          </div>
+        </span>
+
+        <span class="w-1/6 text-center">
+          <span class="text-xs text-gray-600 font-bold">
+            {{ b?.createdAt | date: 'dd-mm-yyyy' }}
+            {{ b?.createdAt | date: 'h:mm:ss' }}
+          </span>
+        </span>
+        <span class="w-1/6 flex items-center justify-center">
+          <button class="block mx-1 px-2 py-2 border text-sm hover:text-white hover:bg-gray-700 rounded-md text-center w-14" (click)="editBanner(b?.id ?? 0)">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+        </span>
+      </div>
+      <div *ngIf="banners.length == 0" class="bg-white p-8  text-center mt-4 rounded-md shadow border">
+        <i class="fa-solid fa-xmark"></i>
+        No banner available.
+      </div>
+    </div>
+      } @placeholder (minimum 1s) {
+        <div class="pt-10 flex justify-center items-center">
+          <i class="fa-solid fa-spinner text-5xl animate-spin text-gray-500 mr-5"></i> Loading..
+        </div>
+      }
+      <pagination (newPageNumber)="getPageNumber($event)"
+    [pageNumber]="pageNumber" [pageTotal]="pageTotal"
+    *ngIf="banners.length != 0 && pageTotal>1"/>
+  </div>

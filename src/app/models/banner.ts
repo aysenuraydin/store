@@ -2,7 +2,7 @@ export class Banner {
     id:number;
     message: string;
     button: string;
-    createdAt?: Date;
+    createdAt: Date;
     isActive: boolean;
 
     constructor() {

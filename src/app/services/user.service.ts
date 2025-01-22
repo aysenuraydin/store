@@ -78,6 +78,17 @@ export class UserService {
       )
     );
   }
+  getUsersByRoleId(roleId:number) :Observable<User[]> {
+    return this.http.get<User[]>(this.apiUrl).pipe(
+      map( user =>user.filter(r=> r.roleId==roleId))
+    );
+  }
+  getUsersLengthByRoleId(roleId: number): Observable<number> {
+    return this.getUsersByRoleId(roleId).pipe(
+      map(users => users.length),
+      catchError(() => of(0))
+    );
+  }
   getUsers() :Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl).pipe(
       map( user =>user )

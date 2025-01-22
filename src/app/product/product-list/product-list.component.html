@@ -61,7 +61,7 @@
           <div class="pl-10">
             <pagination (newPageNumber)="getPageNumber($event)"
             [pageNumber]="pageNumber" [pageTotal]="pageTotal"
-            *ngIf="products.length != 0"/>
+            *ngIf="products.length != 0 && pageTotal>1"/>
           </div>
         </div>
         </div>

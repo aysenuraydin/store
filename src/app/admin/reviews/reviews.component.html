@@ -164,7 +164,7 @@
       </div>
       <pagination (newPageNumber)="getPageNumber($event)"
         [pageNumber]="pageNumber" [pageTotal]="pageTotal"
-        *ngIf="reviews.length != 0"/>
+        *ngIf="reviews.length != 0 && pageTotal>1"/>
 </div>
 
 

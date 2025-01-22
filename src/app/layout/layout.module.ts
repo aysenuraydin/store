@@ -11,7 +11,7 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SubscribeComponent } from './subscribe/subscribe.component';
 import { SharedModule } from '../shared/shared.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SidebarItemComponent } from './admin-layout/sidebar-item/sidebar-item.component';
 
 
@@ -32,6 +32,7 @@ import { SidebarItemComponent } from './admin-layout/sidebar-item/sidebar-item.c
     RouterModule,
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     SharedModule
   ],
   exports: [
