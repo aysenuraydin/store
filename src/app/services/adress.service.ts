@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, Observable, of, pipe, switchMap } from 'rxjs';
+import { catchError, map, Observable, of, pipe, switchMap, throwError } from 'rxjs';
 import { AdressItem } from '../models/adressItem';
 import { AuthService } from './auth.service';
 @Injectable({
@@ -15,11 +15,19 @@ export class AdressItemService {
     const currentUser = this.authService.getUser();
 
     return this.http.get<AdressItem[]>(this.apiUrl).pipe(
-      map(adress => adress.filter(i=>i.userId==currentUser?.id))
+      map(adress => adress.filter(i=>i.userId==currentUser?.id)),
+      catchError(this.handleError)
     );
   }
+  private handleError(error: any): Observable<never> {
+    console.error('An error occurred:', error);
+    const errorMessage = error.error?.message || 'An unexpected error occurred. Please try again later.';
+    return throwError(() => new Error(errorMessage));
+  }
   getAdressItem(id:number) : Observable<AdressItem>{
-    return this.http.get<AdressItem>(this.apiUrl+'/'+id);
+    return this.http.get<AdressItem>(this.apiUrl+'/'+id).pipe(
+      catchError(this.handleError)
+    )
   }
   createAdressItem(adress: AdressItem): Observable<AdressItem> {
     const httpOptions = {
@@ -34,25 +42,21 @@ export class AdressItemService {
       switchMap((c) => {
         c.userId = this.authService.getUser()?.id
         return this.http.post<AdressItem>(this.apiUrl, c, httpOptions);
-      })
+      }),
+      catchError(this.handleError)
     );
   }
   updateAdressItem(adress: AdressItem): Observable<any>  {
     const httpOptions= {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
-    return this.http.put(this.apiUrl, adress, httpOptions)
+    return this.http.put(this.apiUrl, adress, httpOptions).pipe(
+      catchError(this.handleError)
+    )
   }
   deleteAdressItem(id: number): Observable<AdressItem>  {
-    return this.http.delete<AdressItem>(this.apiUrl+'/'+id)
+    return this.http.delete<AdressItem>(this.apiUrl+'/'+id).pipe(
+      catchError(this.handleError)
+    )
   }
 }
-
-
-
-
-
-
-
-
-

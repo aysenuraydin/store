@@ -37,15 +37,6 @@ export class ProductDetailComponent {
   ngOnInit(): void {
     let id = Number(this.route.snapshot.paramMap.get('id'));
     this.getProduct(id);
-
-    let alert:Alert =  {
-      // id:1,
-      // userId:1,
-      className: ClassName.error,
-      message:"Lorem ing elit.1",
-      color: Color.red
-    }
-    this.alertService.addAlert(alert);
   }
   heartClick(product: ProductList): void {
     this.product?.isFav , product.isFav = !product.isFav;
@@ -101,6 +92,12 @@ export class ProductDetailComponent {
     this.cartService.createOrUpdateCartItem(product).subscribe(
       (data) => {
         this.router.navigate(['/cart/']);
+        let alert:Alert =  {
+          className: ClassName.success,
+          message:"Product added to cart",
+          color: Color.green
+        }
+        this.alertService.addAlert(alert);
       }
     );
   }

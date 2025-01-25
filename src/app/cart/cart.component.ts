@@ -5,6 +5,8 @@ import { AdressItemService } from '../services/adress.service';
 import { AdressItem } from '../models/adressItem';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from '../services/order.service';
+import { Alert, ClassName, Color } from '../models/alert';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'cart',
@@ -24,7 +26,8 @@ export class CartComponent {
     private route: ActivatedRoute,
     private cartService: CartService,
     private orderService: OrderService,
-    private adressItemService: AdressItemService
+    private adressItemService: AdressItemService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -77,7 +80,16 @@ export class CartComponent {
     this.orderService.createOrder(this.cartItems, this.selectedAddressId).subscribe(
       data => {
         this.cartService.deleteAllCartItems().subscribe(
-          d=> this.router.navigate([`/cart/cart-confirm/${data.id}`])
+          d=> {
+            this.router.navigate([`/cart/cart-confirm/${data.id}`])
+
+            let alert:Alert =  {
+              className: ClassName.success,
+              message:"Your order is being prepared",
+              color: Color.green
+            }
+            this.alertService.addAlert(alert);
+          }
         );
       }
     );

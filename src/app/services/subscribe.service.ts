@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SubscribeRepository } from '../repository/subscribe.repository';
 import { Subscribe } from '../models/Subscribe';
-import { map, Observable, of, switchMap } from 'rxjs';
+import { catchError, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
@@ -11,7 +11,11 @@ export class SubscribeService {
   private apiUrl = 'api/subscribe';
 
   constructor (private http: HttpClient) { }
-
+  private handleError(error: any): Observable<never> {
+    console.error('An error occurred:', error);
+    const errorMessage = error.error?.message || 'An unexpected error occurred. Please try again later.';
+    return throwError(() => new Error(errorMessage));
+  }
   searchSubscribes(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Subscribe[]; totalPages: number }> {
     return this.getAllSubscribes().pipe(
         map(response => {
@@ -24,12 +28,14 @@ export class SubscribeService {
             const totalPages = Math.ceil(filteredProducts.length / pageSize);
 
             return { products: paginatedProducts, totalPages };
-        })
+        }),
+        catchError(this.handleError)
     );
   }
   getAllSubscribes() :Observable<Subscribe[]> {
     return this.http.get<Subscribe[]>(this.apiUrl).pipe(
-      map(categories => categories)
+      map(categories => categories),
+      catchError(this.handleError)
     );
   }
   getSubscribes(pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Subscribe[]; totalPages: number }> {
@@ -40,7 +46,8 @@ export class SubscribeService {
             const totalPages = Math.ceil(products.length / pageSize);
 
             return { products: paginatedProducts, totalPages };
-        })
+        }),
+        catchError(this.handleError)
     );
   }
   getSubscribe(id:number) : Observable<Subscribe>{
@@ -58,16 +65,21 @@ export class SubscribeService {
       }),
       switchMap((updatedSubscribe) => {
         return this.http.post<Subscribe>(this.apiUrl, updatedSubscribe, httpOptions);
-      })
+      }),
+      catchError(this.handleError)
     );
   }
   updateSubscribe(subscribe: Subscribe): Observable<any>  {
     const httpOptions= {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
-    return this.http.put(this.apiUrl, subscribe, httpOptions)
+    return this.http.put(this.apiUrl, subscribe, httpOptions).pipe(
+      catchError(this.handleError)
+    )
   }
   deleteSubscribe(id: number): Observable<Subscribe>  {
-    return this.http.delete<Subscribe>(this.apiUrl+'/'+id)
+    return this.http.delete<Subscribe>(this.apiUrl+'/'+id).pipe(
+      catchError(this.handleError)
+    )
   }
 }

@@ -16,24 +16,29 @@ export class FavService {
     private authService: AuthService
     ) {}
 
+  private handleError(error: any): Observable<never> {
+    console.error('An error occurred:', error);
+    const errorMessage = error.error?.message || 'An unexpected error occurred. Please try again later.';
+    return throwError(() => new Error(errorMessage));
+  }
   getFavItems(): Observable<FavItem[]> {
     const id = this.authService.getUser()?.id ?? 0;
       return this.http.get<FavItem[]>(this.apiUrl).pipe(
-        map(fav => fav.filter(i=>i.userId == id))
+        map(fav => fav.filter(i=>i.userId == id)),
+        catchError(this.handleError)
       );
   }
   getFavItem(id:number): Observable<FavItem> {
     return this.http.get<FavItem>(this.apiUrl+'/'+id).pipe(
-      map(fav => fav)
+      map(fav => fav),
+      catchError(this.handleError)
     );
   }
   isOrNot(id:number): Observable<boolean> {
     const userId = this.authService.getUser()?.id ?? 0;
     return this.http.get<FavItem>(this.apiUrl+'/'+id).pipe(
       map((fav) => fav.userId == userId),
-      catchError(() => {
-        return of(false);
-      })
+      catchError(this.handleError)
     );
   }
 
@@ -43,18 +48,19 @@ export class FavService {
     };
     return this.getFavItems().pipe(
       map(c => {
-        // const lastId = c.length > 0 ? c.at(-1)?.id ?? 0 : 0;
-        // fav.id = lastId + 1;
         return fav as FavItem;
       }),
       switchMap((c) => {
         c.userId = this.authService.getUser()?.id ?? 0;
         return this.http.post<FavItem>(this.apiUrl, c, httpOptions);
-      })
+      }),
+      catchError(this.handleError)
     );
   }
   deleteFavItem(id: number): Observable<FavItem>  {
-    return this.http.delete<FavItem>(this.apiUrl+'/'+id)
+    return this.http.delete<FavItem>(this.apiUrl+'/'+id).pipe(
+      catchError(this.handleError)
+    )
   }
 }
 

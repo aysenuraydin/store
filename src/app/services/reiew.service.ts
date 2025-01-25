@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, count, forkJoin, map, Observable, of, switchMap } from 'rxjs';
+import { catchError, count, forkJoin, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { Review } from '../models/review';
 import { UserService } from './user.service';
 import { ProductService } from './product.service';
@@ -16,10 +16,15 @@ export class ReviewService {
     private userService: UserService,
     private productService: ProductService
   ) {  }
-
+  private handleError(error: any): Observable<never> {
+    console.error('An error occurred:', error);
+    const errorMessage = error.error?.message || 'An unexpected error occurred. Please try again later.';
+    return throwError(() => new Error(errorMessage));
+  }
   getReviews() :Observable<Review[]> {
     return this.http.get<Review[]>(this.apiUrl).pipe(
-      map(reviews => reviews)
+      map(reviews => reviews),
+      catchError(this.handleError)
     );
   }
   getAllReviewsWithUserAndProduct(): Observable<(Review & { username: string; productName: string; productUrl: string })[]> {
@@ -45,7 +50,8 @@ export class ReviewService {
           )
         );
         return forkJoin(reviewsWithUserAndProduct$); // Tüm yorumları birleştir
-      })
+      }),
+      catchError(this.handleError)
     );
   }
   getReviewsWithUserAndProduct(pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Review[]; totalPages: number }> {
@@ -56,7 +62,8 @@ export class ReviewService {
             const totalPages = Math.ceil(products.length / pageSize);
 
             return { products: paginatedProducts, totalPages };
-        })
+        }),
+        catchError(this.handleError)
     );
   }
   getReviewWithUserAndProduct(id: number): Observable<Review & { username: string; productName: string; productUrl: string }> {
@@ -82,7 +89,8 @@ export class ReviewService {
             });
           })
         )
-      )
+      ),
+      catchError(this.handleError)
     );
   }
 
@@ -99,7 +107,8 @@ export class ReviewService {
             const totalPages = Math.ceil(filteredProducts.length / pageSize);
 
             return { products: paginatedProducts, totalPages };
-        })
+        }),
+        catchError(this.handleError)
     );
   }
 
@@ -108,7 +117,8 @@ export class ReviewService {
     return this.http.get<Review[]>(this.apiUrl).pipe(
       map(reviews =>
         reviews.filter(review => review.isConfirmed && review.productId==id)
-      )
+      ),
+      catchError(this.handleError)
     );
   }
 
@@ -120,16 +130,20 @@ export class ReviewService {
         const total = productReviews.reduce((sum, item) => sum + item.starCount, 0);
         const average = count > 0 ? total / count : 0;
         return {average, count};
-      })
+      }),
+      catchError(this.handleError)
     );
   }
 
   getReview(id:number) :Observable<Review>{
-    return this.http.get<Review>(this.apiUrl+'/'+id);
+    return this.http.get<Review>(this.apiUrl+'/'+id).pipe(
+      catchError(this.handleError)
+    )
   }
   getActiveReview(productId:number): Observable<Review> {
     return this.http.get<Review[]>(this.apiUrl).pipe(
-      map(review => review.find(r => r.isConfirmed) ?? new Review())
+      map(review => review.find(r => r.isConfirmed) ?? new Review()),
+      catchError(this.handleError)
     );
   }
   createReview(review: Review): Observable<Review> {
@@ -144,17 +158,22 @@ export class ReviewService {
       }),
       switchMap((updatedReview) => {
         return this.http.post<Review>(this.apiUrl, updatedReview, httpOptions);
-      })
+      }),
+      catchError(this.handleError)
     );
   }
   updateReview(review: Review): Observable<any>  {
     const httpOptions= {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
-    return this.http.put(this.apiUrl, review, httpOptions)
+    return this.http.put(this.apiUrl, review, httpOptions).pipe(
+      catchError(this.handleError)
+    )
   }
   deleteReview(id: number): Observable<Review>  {
-    return this.http.delete<Review>(this.apiUrl+'/'+id)
+    return this.http.delete<Review>(this.apiUrl+'/'+id).pipe(
+      catchError(this.handleError)
+    )
   }
 }
 

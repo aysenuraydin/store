@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, forkJoin, map, Observable, of, switchMap } from 'rxjs';
+import { catchError, forkJoin, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { Order, OrderItem, OrderList, OrderState } from '../models/order';
 import { ProductList } from '../models/productList';
 import { CartItem } from '../models/cart';
@@ -20,16 +20,22 @@ export class OrderService {
     private authService: AuthService
   ) {  }
 
+  private handleError(error: any): Observable<never> {
+    console.error('An error occurred:', error);
+    const errorMessage = error.error?.message || 'An unexpected error occurred. Please try again later.';
+    return throwError(() => new Error(errorMessage));
+  }
   getOrders(): Observable<Order[]> {
     return this.http.get<Order[]>(this.apiUrl).pipe(
-      map(orders => orders )
+      map(orders => orders ),
+      catchError(this.handleError)
     );
   }
-
   getOrdersByUserId(): Observable<Order[]> {
     const currentUser = this.authService.getUser();
     return this.http.get<Order[]>(this.apiUrl).pipe(
-      map(orders => orders.filter(i=>i.userId == currentUser?.id) )
+      map(orders => orders.filter(i=>i.userId == currentUser?.id) ),
+      catchError(this.handleError)
     );
   }
   getOrdersByOrderState(state?: OrderState): Observable<OrderList[]> {
@@ -45,7 +51,8 @@ export class OrderService {
           )
         );
         return forkJoin(ordersWithAddress$);
-      })
+      }),
+      catchError(this.handleError)
     );
   }
   getAllOrdersWithFullname(): Observable<(OrderList & { username: string; adressFullname: string })[]> {
@@ -72,7 +79,8 @@ export class OrderService {
           )
         );
         return forkJoin(ordersWithDetails$);
-      })
+      }),
+      catchError(this.handleError)
     );
   }
   getOrdersWithFullname(pageNumber: number = 1, pageSize: number = 3,state?:OrderState): Observable<{ products: (OrderList & { username: string; })[]; totalPages: number }> {
@@ -86,7 +94,8 @@ export class OrderService {
           const totalPages = Math.ceil(filteredProducts.length / pageSize);
 
           return { products: paginatedProducts, totalPages };
-        })
+        }),
+        catchError(this.handleError)
     );
   }
 
@@ -105,7 +114,8 @@ export class OrderService {
           )
         );
         return forkJoin(ordersWithAddress$.reverse());
-      })
+      }),
+      catchError(this.handleError)
     );
   }
 
@@ -130,7 +140,8 @@ export class OrderService {
             });
           })
         )
-      )
+      ),
+      catchError(this.handleError)
     );
   }
 
@@ -147,7 +158,8 @@ export class OrderService {
             const totalPages = Math.ceil(filteredProducts.length / pageSize);
 
             return { products: paginatedProducts, totalPages };
-        })
+        }),
+        catchError(this.handleError)
     );
   }
   getOrderWithFullnameByUserId(orderId: number): Observable<OrderList | null> {
@@ -161,13 +173,16 @@ export class OrderService {
           map(address => ({
             ...order,
             adressFullname: address.fullname,
-          }))
+          })),
+          catchError(this.handleError)
         );
       })
     );
   }
   getOrder(id:number) :Observable<Order>{
-    return this.http.get<Order>(this.apiUrl+'/'+id);
+    return this.http.get<Order>(this.apiUrl+'/'+id).pipe(
+      catchError(this.handleError)
+    )
   }
   createOrder(cartItems: CartItem[],adressId:number): Observable<Order> {
     const httpOptions = {
@@ -194,35 +209,21 @@ export class OrderService {
       switchMap((order) => {
         order.userId = this.authService.getUser()?.id ?? 0;
         return this.http.post<Order>(this.apiUrl, order, httpOptions);
-      })
+      }),
+      catchError(this.handleError)
     );
   }
   updateOrder(order: Order): Observable<any>  {
     const httpOptions= {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
-    return this.http.put(this.apiUrl, order, httpOptions)
+    return this.http.put(this.apiUrl, order, httpOptions).pipe(
+      catchError(this.handleError)
+    )
   }
   deleteOrder(id: number): Observable<Order>  {
-    return this.http.delete<Order>(this.apiUrl+'/'+id)
+    return this.http.delete<Order>(this.apiUrl+'/'+id).pipe(
+      catchError(this.handleError)
+    )
   }
 }
-// getOrdersWithFullname2(): Observable<(OrderList & { username: string; })[]> {
-//   return this.http.get<Order[]>(this.apiUrl).pipe(
-//     switchMap(orders => {
-//       const ordersWithDetails$ = orders.map(order =>
-//         forkJoin({
-//           address: this.adressItemService.getAdressItem(order.adressId),
-//           user: this.userService.getUser(order.userId)
-//         }).pipe(
-//           map(({ address, user }) => ({
-//             ...order,
-//             adressFullname: address ? address.fullname : 'Unknown Address',
-//             username: user ? `${user.name} ${user.surname}` : 'Unknown User'
-//           }))
-//         )
-//       );
-//       return forkJoin(ordersWithDetails$);
-//     })
-//   );
-// }
