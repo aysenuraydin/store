@@ -1,7 +1,7 @@
 
 import { forwardRef, Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { forkJoin, map, Observable, of, switchMap, pipe, catchError } from 'rxjs';
+import { forkJoin, map, Observable, of, switchMap, pipe, catchError, throwError } from 'rxjs';
 import { User } from '../models/user';
 import { RoleService } from './role.service';
 import { AuthService } from './auth.service';
@@ -18,7 +18,11 @@ export class UserService {
     private authService: AuthService
   ) {}
 
-
+  private handleError(error: any): Observable<never> {
+    console.error('An error occurred:', error);
+    const errorMessage = error.error?.message || 'An unexpected error occurred. Please try again later.';
+    return throwError(() => new Error(errorMessage));
+  }
   getAllUsersWithRoleName(): Observable<(User & { roleName: string; roleColor: string })[]> {
     return forkJoin({
       users: this.http.get<User[]>(this.apiUrl),
@@ -34,7 +38,8 @@ export class UserService {
             roleName: role?.name || '--',
             roleColor: role?.color || ''
           };
-        })
+        }),
+        catchError(this.handleError)
       )
     );
   }
@@ -46,7 +51,8 @@ export class UserService {
             const totalPages = Math.ceil(products.length / pageSize);
 
             return { products: paginatedProducts, totalPages };
-        })
+        }),
+        catchError(this.handleError)
     );
   }
   searchUsers(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ products: (User & { roleName: string; roleColor: string })[]; totalPages: number }> {
@@ -62,7 +68,8 @@ export class UserService {
             const totalPages = Math.ceil(filteredProducts.length / pageSize);
 
             return { products: paginatedProducts, totalPages };
-        })
+        }),
+        catchError(this.handleError)
     );
   }
   getUserWithRoleName(id: number): Observable<User & { roleName: string; roleColor: string }> {
@@ -73,14 +80,16 @@ export class UserService {
             ...user,
             roleName: role?.name || '--',
             roleColor: role?.color || ''
-          }))
+          })),
+          catchError(this.handleError)
         )
       )
     );
   }
   getUsersByRoleId(roleId:number) :Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl).pipe(
-      map( user =>user.filter(r=> r.roleId==roleId))
+      map( user =>user.filter(r=> r.roleId==roleId)),
+      catchError(this.handleError)
     );
   }
   getUsersLengthByRoleId(roleId: number): Observable<number> {
@@ -91,11 +100,14 @@ export class UserService {
   }
   getUsers() :Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl).pipe(
-      map( user =>user )
+      map( user =>user ),
+      catchError(this.handleError)
     );
   }
   getUser(id:number) : Observable<User>{
-    return this.http.get<User>(this.apiUrl+'/'+id);
+    return this.http.get<User>(this.apiUrl+'/'+id).pipe(
+      catchError(this.handleError)
+    )
   }
   userLogin(email: string, password: string): Observable<User | null> {
     return this.getUsers().pipe(
@@ -107,7 +119,8 @@ export class UserService {
         } else {
           return null;
         }
-      })
+      }),
+      catchError(this.handleError)
     );
   }
 
@@ -133,16 +146,21 @@ export class UserService {
       }),
       switchMap((c) => {
         return this.http.post<User>(this.apiUrl, c, httpOptions);
-      })
+      }),
+      catchError(this.handleError)
     );
   }
   updateUser(user: User): Observable<any>  {
     const httpOptions= {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
-    return this.http.put(this.apiUrl, user, httpOptions)
+    return this.http.put(this.apiUrl, user, httpOptions).pipe(
+      catchError(this.handleError)
+    )
   }
   deleteUser(id: number): Observable<User>  {
-    return this.http.delete<User>(this.apiUrl+'/'+id)
+    return this.http.delete<User>(this.apiUrl+'/'+id).pipe(
+      catchError(this.handleError)
+    )
   }
 }

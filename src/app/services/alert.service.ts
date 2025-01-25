@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Alert } from '../models/alert';
-import { BehaviorSubject, catchError, forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, throwError} from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -20,38 +19,56 @@ export class AlertService {
       } else {
         this.clearAlerts();
       }
+    },
+    (error) => {
+      console.error('Kullanıcı bilgisi alınırken bir hata oluştu:', error);
     });
   }
-
   filterAlertsForUser(userId: number): void {
-    const filteredAlerts = this.alerts.filter(alert => alert.userId === userId);
-    this.alertsSubject.next(filteredAlerts);
+    try {
+      const filteredAlerts = this.alerts.filter(alert => alert.userId === userId);
+      this.alertsSubject.next(filteredAlerts);
+    } catch (error) {
+      console.error('Uyarıları filtrelerken bir hata oluştu:', error);
+    }
   }
 
   addAlert(alert: Alert): void {
-    const currentUser = this.authService.getUser();
-    if (currentUser) {
-      alert.userId = currentUser.id;
+    try {
+      const currentUser = this.authService.getUser();
+      if (currentUser) {
+        alert.userId = currentUser.id;
+      }
+      const lastId = this.alerts.length > 0 ? this.alerts.at(-1)?.id ?? 0 : 0;
+      alert.id = lastId + 1;
+
+      setTimeout(() => {
+        this.removeAlert(alert?.id??0);
+      }, 5000);
+
+      this.alerts.push(alert);
+      this.alertsSubject.next(this.alerts);
+    } catch (error) {
+      console.error('Uyarı eklenirken bir hata oluştu:', error);
     }
-    const lastId = this.alerts.length > 0 ? this.alerts.at(-1)?.id ?? 0 : 0;
-    alert.id = lastId + 1;
-
-    setTimeout(() => {
-      this.removeAlert(alert?.id??0);
-    }, 5000);
-
-    this.alerts.push(alert);
-    this.alertsSubject.next(this.alerts);
   }
 
   removeAlert(id: number): void {
-    this.alerts = this.alerts.filter((alert) => alert.id !== id);
-    this.alertsSubject.next(this.alerts);
+    try {
+      this.alerts = this.alerts.filter((alert) => alert.id !== id);
+      this.alertsSubject.next(this.alerts);
+    } catch (error) {
+      console.error('Uyarı kaldırılırken bir hata oluştu:', error);
+    }
   }
 
   clearAlerts(): void {
-    this.alerts = [];
-    this.alertsSubject.next(this.alerts);
+    try {
+      this.alerts = [];
+      this.alertsSubject.next(this.alerts);
+    } catch (error) {
+      console.error('Uyarılar temizlenirken bir hata oluştu:', error);
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 
 import { forwardRef, Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { forkJoin, map, Observable, of, switchMap, pipe } from 'rxjs';
+import { forkJoin, map, Observable, of, switchMap, pipe, throwError, catchError } from 'rxjs';
 import { Role } from '../models/role';
 
 @Injectable({
@@ -11,10 +11,15 @@ export class RoleService {
   private apiUrl:string = 'api/role';
 
   constructor(private http: HttpClient) {}
-
+  private handleError(error: any): Observable<never> {
+    console.error('An error occurred:', error);
+    const errorMessage = error.error?.message || 'An unexpected error occurred. Please try again later.';
+    return throwError(() => new Error(errorMessage));
+  }
   getAllRoles() :Observable<Role[]> {
     return this.http.get<Role[]>(this.apiUrl).pipe(
-      map( role =>role)
+      map( role =>role),
+       catchError(this.handleError)
     );
   }
   getRoles(pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Role[]; totalPages: number }> {
@@ -25,7 +30,8 @@ export class RoleService {
             const totalPages = Math.ceil(products.length / pageSize);
 
             return { products: paginatedProducts, totalPages };
-        })
+        }),
+        catchError(this.handleError)
     );
   }
 
@@ -42,11 +48,14 @@ export class RoleService {
             const totalPages = Math.ceil(filteredProducts.length / pageSize);
 
             return { products: paginatedProducts, totalPages };
-        })
+        }),
+        catchError(this.handleError)
     );
   }
   getRole(id:number) : Observable<Role>{
-    return this.http.get<Role>(this.apiUrl+'/'+id);
+    return this.http.get<Role>(this.apiUrl+'/'+id).pipe(
+      catchError(this.handleError)
+    )
   }
   createRole(role: Role): Observable<Role> {
     const httpOptions = {
@@ -60,16 +69,21 @@ export class RoleService {
       }),
       switchMap((c) => {
         return this.http.post<Role>(this.apiUrl, c, httpOptions);
-      })
+      }),
+      catchError(this.handleError)
     );
   }
   updateRole(role: Role): Observable<any>  {
     const httpOptions= {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
-    return this.http.put(this.apiUrl, role, httpOptions)
+    return this.http.put(this.apiUrl, role, httpOptions).pipe(
+      catchError(this.handleError)
+    )
   }
   deleteRole(id: number): Observable<Role>  {
-    return this.http.delete<Role>(this.apiUrl+'/'+id)
+    return this.http.delete<Role>(this.apiUrl+'/'+id).pipe(
+      catchError(this.handleError)
+    )
   }
 }

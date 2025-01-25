@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Message } from '../models/message';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, Observable, switchMap } from 'rxjs';
+import { catchError, map, Observable, switchMap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,11 @@ export class MessageService {
 
   constructor(private http: HttpClient) {  }
 
+  private handleError(error: any): Observable<never> {
+    console.error('An error occurred:', error);
+    const errorMessage = error.error?.message || 'An unexpected error occurred. Please try again later.';
+    return throwError(() => new Error(errorMessage));
+  }
   searchContacts(value: boolean ,query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Message[]; totalPages: number }> {
     return this.getAllContacts(value).pipe(
         map(response => {
@@ -24,7 +29,8 @@ export class MessageService {
             const totalPages = Math.ceil(filteredProducts.length / pageSize);
 
             return { products: paginatedProducts, totalPages };
-        })
+        }),
+        catchError(this.handleError)
     );
   }
 
@@ -36,7 +42,8 @@ export class MessageService {
             ...m,
             message: m.message ? `${m.message.slice(0, 30)}...` : m.message,
           }))
-      )
+      ),
+      catchError(this.handleError)
     );
   }
   getAllContacts(value: boolean): Observable<Message[]> {
@@ -50,7 +57,8 @@ export class MessageService {
             ...m,
             message: m.message ? `${m.message.slice(0, 30)}...` : m.message,
           }))
-      )
+      ),
+      catchError(this.handleError)
     );
   }
   getContacts(value: boolean ,pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Message[]; totalPages: number }> {
@@ -61,11 +69,14 @@ export class MessageService {
             const totalPages = Math.ceil(products.length / pageSize);
 
             return { products: paginatedProducts, totalPages };
-        })
+        }),
+        catchError(this.handleError)
     );
   }
   getContact(id:number) :Observable<Message>{
-    return this.http.get<Message>(this.apiUrl+'/'+id);
+    return this.http.get<Message>(this.apiUrl+'/'+id).pipe(
+      catchError(this.handleError)
+    )
   }
   createContact(message: Message): Observable<Message> {
     const httpOptions = {
@@ -79,17 +90,22 @@ export class MessageService {
       }),
       switchMap((c) => {
         return this.http.post<Message>(this.apiUrl, c, httpOptions)
-      })
+      }),
+      catchError(this.handleError)
     );
   }
   updateContact(message: Message): Observable<any>  {
     const httpOptions= {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     }
-    return this.http.put(this.apiUrl, message, httpOptions)
+    return this.http.put(this.apiUrl, message, httpOptions).pipe(
+      catchError(this.handleError)
+    )
   }
   deleteContact(id: number): Observable<Message>  {
-    return this.http.delete<Message>(this.apiUrl+'/'+id)
+    return this.http.delete<Message>(this.apiUrl+'/'+id).pipe(
+      catchError(this.handleError)
+    )
   }
 }
 

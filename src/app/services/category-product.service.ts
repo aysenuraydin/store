@@ -1,4 +1,4 @@
-import { forkJoin, map, Observable, of, switchMap } from "rxjs";
+import { catchError, forkJoin, map, Observable, of, switchMap, throwError } from "rxjs";
 import { ProductService } from "./product.service";
 import { CategoryService } from "./category.service";
 import { Injectable } from "@angular/core";
@@ -14,7 +14,11 @@ export class CategoryProductService {
     private productService: ProductService,
     private categoryService: CategoryService
   ) {}
-
+  private handleError(error: any): Observable<never> {
+    console.error('An error occurred:', error);
+    const errorMessage = error.error?.message || 'An unexpected error occurred. Please try again later.';
+    return throwError(() => new Error(errorMessage));
+  }
   getProductsWithCategoryNames(pageNumber: number = 1, pageSize: number = 3): Observable<{ products: ExtendedProduct[]; totalPages: number }> {
     return this.productService.getProducts().pipe(
       switchMap(products => {
@@ -42,7 +46,8 @@ export class CategoryProductService {
         return productObservables.length > 0
           ? forkJoin(productObservables).pipe(map(products => ({ products, totalPages })))
           : of({ products: [], totalPages });
-      })
+      }),
+      catchError(this.handleError)
     );
   }
   getAllProductsWithCategoryNames(): Observable<ExtendedProduct[]> {
@@ -62,7 +67,8 @@ export class CategoryProductService {
                 'border-style': 'solid',
               }
             }))
-          )
+          ),
+          catchError(this.handleError)
         );
 
         return productObservables.length > 0
@@ -82,9 +88,9 @@ export class CategoryProductService {
         const startIndex = (pageNumber - 1) * pageSize;
         const paginatedProducts = pageSize > 0 ? filteredProducts.reverse().slice(startIndex, startIndex + pageSize) : filteredProducts;
         const totalPages = Math.ceil(filteredProducts.length / pageSize);
-
         return { products: paginatedProducts, totalPages };
-      })
+      }),
+      catchError(this.handleError)
     );
   }
   getProductWithCategoryName(id: number): Observable<any> {
@@ -102,13 +108,16 @@ export class CategoryProductService {
               'border-width': '1px',
               'border-style': 'solid',
             }
-          }))
+          })),
+          catchError(this.handleError)
         )
       )
-    );
+    )
   }
   getCategories(): Observable<Category[]>{
-    return this.categoryService.getAllCategories();
+    return this.categoryService.getAllCategories().pipe(
+      catchError(this.handleError)
+    );
   }
   getCategory(id: number): Observable<Category>{
     return this.categoryService.getCategory(id);
@@ -127,7 +136,8 @@ export class CategoryProductService {
               switchMap(() => this.categoryService.deleteCategory(id))
             )
           : this.categoryService.deleteCategory(id);
-      })
-    );
+      }),
+      catchError(this.handleError)
+    )
   }
 }
