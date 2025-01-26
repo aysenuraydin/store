@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, forkJoin, map, Observable, of, pipe, switchMap, throwError } from 'rxjs';
+import { forkJoin, map, Observable, of, pipe, switchMap } from 'rxjs';
 import { RecentlyItem } from '../models/recentlyItem';
 import { ProductList } from '../models/productList';
-import { ProductService } from './product.service';
 import { FavService } from './fav.service';
 import { AuthService } from './auth.service';
+import { ProductService } from './product.service';
 
 @Injectable({
 providedIn: 'root'
@@ -19,11 +19,7 @@ export class RecentlyService {
     private authService: AuthService,
     private favService: FavService
   ) {  }
-  private handleError(error: any): Observable<never> {
-    console.error('An error occurred:', error);
-    const errorMessage = error.error?.message || 'An unexpected error occurred. Please try again later.';
-    return throwError(() => new Error(errorMessage));
-  }
+
   getRecentlyItems(): Observable<ProductList[]> {
     const currentUser = this.authService.getUser();
     return this.http.get<RecentlyItem[]>(this.apiUrl).pipe(
@@ -50,8 +46,7 @@ export class RecentlyService {
           )
         );
         return forkJoin(productsWithFavStatus$);
-      }),
-      catchError(this.handleError)
+      })
     );
   }
 
@@ -75,13 +70,10 @@ export class RecentlyService {
       switchMap((recentlyToSave) => {
         recentlyToSave.userId =this.authService.getUser()?.id ?? 0;
         return this.http.post<RecentlyItem>(this.apiUrl, recentlyToSave, httpOptions);
-      }),
-      catchError(this.handleError)
+      })
     );
   }
   deleteRecentlyItem(id: number): Observable<RecentlyItem>  {
-    return this.http.delete<RecentlyItem>(this.apiUrl+'/'+id).pipe(
-      catchError(this.handleError)
-    )
+    return this.http.delete<RecentlyItem>(this.apiUrl+'/'+id)
   }
 }

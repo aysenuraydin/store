@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, Observable, of, pipe, switchMap, throwError } from 'rxjs';
 import { FavItem } from '../models/favItem';
 import { ProductList } from '../models/productList';
-import { ProductService } from './product.service';
 import { AuthService } from './auth.service';
 @Injectable({
 providedIn: 'root'
@@ -12,13 +11,11 @@ export class FavService {
   private apiUrl:string = 'api/fav';
 
   constructor(
-    private http: HttpClient,
-    private authService: AuthService
-    ) {}
-
+  private http: HttpClient,
+  private authService: AuthService
+  ) {}
   private handleError(error: any): Observable<never> {
-    console.error('An error occurred:', error);
-    const errorMessage = error.error?.message || 'An unexpected error occurred. Please try again later.';
+    const errorMessage = error.error?.message || 'error';
     return throwError(() => new Error(errorMessage));
   }
   getFavItems(): Observable<FavItem[]> {
@@ -38,7 +35,9 @@ export class FavService {
     const userId = this.authService.getUser()?.id ?? 0;
     return this.http.get<FavItem>(this.apiUrl+'/'+id).pipe(
       map((fav) => fav.userId == userId),
-      catchError(this.handleError)
+      catchError(() => {
+        return of(false);
+      })
     );
   }
 
@@ -48,6 +47,8 @@ export class FavService {
     };
     return this.getFavItems().pipe(
       map(c => {
+        // const lastId = c.length > 0 ? c.at(-1)?.id ?? 0 : 0;
+        // fav.id = lastId + 1;
         return fav as FavItem;
       }),
       switchMap((c) => {
