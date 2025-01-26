@@ -11,6 +11,10 @@ export class AdressItemService {
 
   constructor( private http: HttpClient, private authService: AuthService) {  }
 
+  private handleError(error: any): Observable<never> {
+    const errorMessage = error.error?.message || 'error';
+    return throwError(() => new Error(errorMessage));
+  }
   getAdressItems(): Observable<AdressItem[]> {
     const currentUser = this.authService.getUser();
 
@@ -19,11 +23,7 @@ export class AdressItemService {
       catchError(this.handleError)
     );
   }
-  private handleError(error: any): Observable<never> {
-    console.error('An error occurred:', error);
-    const errorMessage = error.error?.message || 'An unexpected error occurred. Please try again later.';
-    return throwError(() => new Error(errorMessage));
-  }
+
   getAdressItem(id:number) : Observable<AdressItem>{
     return this.http.get<AdressItem>(this.apiUrl+'/'+id).pipe(
       catchError(this.handleError)

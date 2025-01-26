@@ -19,7 +19,8 @@ export class CategoryProductService {
     const errorMessage = error.error?.message || 'An unexpected error occurred. Please try again later.';
     return throwError(() => new Error(errorMessage));
   }
-  getProductsWithCategoryNames(pageNumber: number = 1, pageSize: number = 3): Observable<{ products: ExtendedProduct[]; totalPages: number }> {
+  getProductsWithCategoryNames(pageNumber: number = 1, pageSize: number = 3):
+  Observable<{ products: ExtendedProduct[]; totalPages: number }> {
     return this.productService.getProducts().pipe(
       switchMap(products => {
         const startIndex = (pageNumber - 1) * pageSize;
@@ -42,7 +43,6 @@ export class CategoryProductService {
             }))
           )
         );
-
         return productObservables.length > 0
           ? forkJoin(productObservables).pipe(map(products => ({ products, totalPages })))
           : of({ products: [], totalPages });
