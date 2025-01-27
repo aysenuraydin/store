@@ -1,7 +1,7 @@
 
 import { RecentlyItem} from "../models/recentlyItem";
 
-export class recentlyItemRepository {
+export class RecentlyItemRepository {
   private recentlies: RecentlyItem[];
 
   constructor() {

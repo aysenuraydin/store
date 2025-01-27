@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { ProductService } from '../services/product.service';
 import { ProductList } from '../models/productList';
 import { FavService } from '../services/fav.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Category } from '../models/category';
 import { CategoryService } from '../services/category.service';
+import { ProductService } from '../services/product.service';
 
 @Component({
   selector: 'home',

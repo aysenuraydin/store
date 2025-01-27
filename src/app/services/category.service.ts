@@ -38,32 +38,32 @@ export class CategoryService {
     );
 }
 
-getCategories(pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Category[]; totalPages: number }> {
+getCategories(pageNumber: number = 1, pageSize: number = 3): Observable<{ categories: Category[]; totalPages: number }> {
   return this.getAllCategories().pipe(
-      map(products => {
+      map(categories => {
           const startIndex = (pageNumber - 1) * pageSize;
-          const paginatedProducts = pageSize > 0 ? products.reverse().slice(startIndex, startIndex + pageSize) : products;
-          const totalPages = Math.ceil(products.length / pageSize);
+          const paginatedCategories = pageSize > 0 ? categories.reverse().slice(startIndex, startIndex + pageSize) : categories;
+          const totalPages = Math.ceil(categories.length / pageSize);
 
-          return { products: paginatedProducts, totalPages };
+          return { categories: paginatedCategories, totalPages };
       }),
       catchError(this.handleError)
   );
 }
 
-searchCategories(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Category[]; totalPages: number }> {
+searchCategories(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ categories: Category[]; totalPages: number }> {
   return this.getAllCategories().pipe(
       map(response => {
-          const filteredProducts = response.filter(category =>
+          const filteredCategories = response.filter(category =>
               [category.name, category.iconCssClass, category.color]
                   .some(field => field?.toLowerCase().includes(query.toLowerCase()))
           );
 
           const startIndex = (pageNumber - 1) * pageSize;
-          const paginatedProducts = pageSize > 0 ? filteredProducts.reverse().slice(startIndex, startIndex + pageSize) : filteredProducts;
-          const totalPages = Math.ceil(filteredProducts.length / pageSize);
+          const paginatedCategories = pageSize > 0 ? filteredCategories.reverse().slice(startIndex, startIndex + pageSize) : filteredCategories;
+          const totalPages = Math.ceil(filteredCategories.length / pageSize);
 
-          return { products: paginatedProducts, totalPages };
+          return { categories: paginatedCategories, totalPages };
       }),
       catchError(this.handleError)
   );4

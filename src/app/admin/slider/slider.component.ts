@@ -14,7 +14,7 @@ export class SliderComponent {
   buttonVisible:boolean = true;
   search:string = "";
   pageNumber:number = 1;
-  pageSize:number = 3;
+  pageSize:number = 5;
   pageTotal:number = 1;
   isSubmitted = false;
 
@@ -50,7 +50,7 @@ export class SliderComponent {
       this.sliderService.searchSliders(this.search,this.pageNumber, this.pageSize)
           .subscribe(
             (data) => {
-              this.sliders = data.products;
+              this.sliders = data.sliders;
               this.pageTotal = data.totalPages;
           }
         );
@@ -63,7 +63,7 @@ export class SliderComponent {
     this.sliderService.getSliders(this.pageNumber, this.pageSize)
     .subscribe(
       data => {
-        this.sliders=data.products;
+        this.sliders=data.sliders;
         this.pageTotal = data.totalPages;
       }
     )

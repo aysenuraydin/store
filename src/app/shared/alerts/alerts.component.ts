@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Alert, Color, } from '../../models/alert';
 import { AlertService } from '../../services/alert.service';
+import { Alert, Color } from '../../models/alert';
 
 @Component({
   selector: 'alerts',

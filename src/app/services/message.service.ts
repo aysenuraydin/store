@@ -16,19 +16,19 @@ export class MessageService {
     const errorMessage = error.error?.message || 'An unexpected error occurred. Please try again later.';
     return throwError(() => new Error(errorMessage));
   }
-  searchContacts(value: boolean ,query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Message[]; totalPages: number }> {
+  searchContacts(value: boolean ,query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ contacts: Message[]; totalPages: number }> {
     return this.getAllContacts(value).pipe(
         map(response => {
-            const filteredProducts = response.filter(p =>
+            const filteredContacts = response.filter(p =>
               [p.firstname, p.lastname, p.email, p.message, p.company]
                     .some(field => field?.toLowerCase().includes(query.toLowerCase()))
             );
 
             const startIndex = (pageNumber - 1) * pageSize;
-            const paginatedProducts = pageSize > 0 ? filteredProducts.reverse().slice(startIndex, startIndex + pageSize) : filteredProducts;
-            const totalPages = Math.ceil(filteredProducts.length / pageSize);
+            const paginatedContacts = pageSize > 0 ? filteredContacts.reverse().slice(startIndex, startIndex + pageSize) : filteredContacts;
+            const totalPages = Math.ceil(filteredContacts.length / pageSize);
 
-            return { products: paginatedProducts, totalPages };
+            return { contacts: paginatedContacts, totalPages };
         }),
         catchError(this.handleError)
     );
@@ -61,14 +61,14 @@ export class MessageService {
       catchError(this.handleError)
     );
   }
-  getContacts(value: boolean ,pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Message[]; totalPages: number }> {
+  getContacts(value: boolean ,pageNumber: number = 1, pageSize: number = 3): Observable<{ contacts: Message[]; totalPages: number }> {
     return this.getAllContacts(value).pipe(
-        map(products => {
+        map(contacts => {
             const startIndex = (pageNumber - 1) * pageSize;
-            const paginatedProducts = pageSize > 0 ? products.reverse().slice(startIndex, startIndex + pageSize) : products;
-            const totalPages = Math.ceil(products.length / pageSize);
+            const paginatedContacts = pageSize > 0 ? contacts.reverse().slice(startIndex, startIndex + pageSize) : contacts;
+            const totalPages = Math.ceil(contacts.length / pageSize);
 
-            return { products: paginatedProducts, totalPages };
+            return { contacts: paginatedContacts, totalPages };
         }),
         catchError(this.handleError)
     );

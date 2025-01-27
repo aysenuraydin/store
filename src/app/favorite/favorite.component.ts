@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { FavService } from '../services/fav.service';
 import { ProductList } from '../models/productList';
+import { FavService } from '../services/fav.service';
 
 @Component({
   selector: 'favorite',

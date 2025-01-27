@@ -54,7 +54,7 @@ export class SubscribesComponent {
       this.subscribeService.getSubscribes(this.pageNumber, this.pageSize)
         .subscribe(
           (data) => {
-            this.subscribes = data.products;
+            this.subscribes = data.subscribes;
             this.pageTotal = data.totalPages;
             this.toggleWindow(true);
         }

@@ -1,7 +1,7 @@
 import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
-import { ProductService } from '../../services/product.service';
 import { ProductList } from '../../models/productList';
 import { forkJoin, map, switchMap } from 'rxjs';
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'most-popular',

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { InformationsService } from '../services/informations.service';
 import { Contact, Faqs } from '../models/informations';
+import { InformationsService } from '../services/informations.service';
 
 @Component({
   selector: 'faqs',

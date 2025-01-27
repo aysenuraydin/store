@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, forkJoin, map, Observable, pipe, switchMap, throwError } from 'rxjs';
-import { ProductService } from './product.service';
 import { CartItem } from '../models/cart';
 import { AuthService } from './auth.service';
 @Injectable({
@@ -12,7 +11,6 @@ export class CartService {
 
   constructor(
     private http: HttpClient,
-    private productService: ProductService,
     private authService: AuthService
     ) {}
   private handleError(error: any): Observable<never> {

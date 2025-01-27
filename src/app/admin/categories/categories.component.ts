@@ -55,7 +55,7 @@ export class CategoriesComponent {
     this.categoryService.searchCategories(this.search,this.pageNumber, this.pageSize)
         .subscribe(
           (data) => {
-            this.categories = data.products;
+            this.categories = data.categories;
             this.pageTotal = data.totalPages;
         }
       );
@@ -68,7 +68,7 @@ export class CategoriesComponent {
     this.categoryService.getCategories(this.pageNumber, this.pageSize)
       .subscribe(
         (data) => {
-          this.categories = data.products
+          this.categories = data.categories
           this.pageTotal = data.totalPages;
       }
     );

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { AdressItem } from '../models/adressItem';
-import { AdressItemService } from '../services/adress.service';
-import { UserService } from '../services/user.service';
 import { User } from '../models/user';
 import { EMPTY, Observable, switchMap } from 'rxjs';
+import { AdressItemService } from '../services/adress.service';
+import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 
 @Component({

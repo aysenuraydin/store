@@ -8,55 +8,42 @@ export class CategoryRepository {
           { id: 0, name: '---', color: '#dddddd' },
           {
             id: 1,
-            name: 'Sofas',
+            name: 'Mac',
             createdAt: new Date(),
             color: '#a4b2b0',
             iconCssClass: 'active'
           },
           {
             id: 2,
-            name: 'Chairs',
+            name: 'iPad',
             createdAt: new Date(),
             color: '#896863'
           },
           {
             id: 3,
-            name: 'Tables',
+            name: 'iPhone',
             createdAt: new Date(),
             color: '#C27D42'
           },
           {
             id: 4,
-            name: 'Beds',
+            name: 'Watch',
             createdAt: new Date(),
             color: '#BE969B'
           },
           {
             id: 5,
-            name: 'Storage Units',
+            name: 'AirPods',
             createdAt: new Date(),
             color: '#828DE5'
           },
           {
             id: 6,
-            name: 'Rugs',
+            name: 'Accessories',
             createdAt: new Date(),
             color: '#BF8882',
             iconCssClass: 'active'
-          },
-          {
-            id: 7,
-            name: 'Lighting',
-            createdAt: new Date(),
-            color: '#595B56'
-          },
-          {
-            id: 8,
-            name: 'Outdoor Furniture',
-            createdAt: new Date(),
-            color: '#DEBDB0',
-            iconCssClass: 'active'
-          },
+          }
       );
   }
 

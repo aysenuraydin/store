@@ -43,31 +43,31 @@ export class UserService {
       )
     );
   }
-  getUsersWithRoleName(pageNumber: number = 1, pageSize: number = 3): Observable<{ products: (User & { roleName: string; roleColor: string })[]; totalPages: number }> {
+  getUsersWithRoleName(pageNumber: number = 1, pageSize: number = 3): Observable<{ users: (User & { roleName: string; roleColor: string })[]; totalPages: number }> {
     return this.getAllUsersWithRoleName().pipe(
-        map(products => {
+        map(users => {
             const startIndex = (pageNumber - 1) * pageSize;
-            const paginatedProducts = pageSize > 0 ? products.slice(startIndex, startIndex + pageSize) : products;
-            const totalPages = Math.ceil(products.length / pageSize);
+            const paginatedUsers = pageSize > 0 ? users.slice(startIndex, startIndex + pageSize) : users;
+            const totalPages = Math.ceil(users.length / pageSize);
 
-            return { products: paginatedProducts, totalPages };
+            return { users: paginatedUsers, totalPages };
         }),
         catchError(this.handleError)
     );
   }
-  searchUsers(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ products: (User & { roleName: string; roleColor: string })[]; totalPages: number }> {
+  searchUsers(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ users: (User & { roleName: string; roleColor: string })[]; totalPages: number }> {
     return this.getAllUsersWithRoleName().pipe(
         map(response => {
-            const filteredProducts = response.filter(p =>
+            const filteredUsers = response.filter(p =>
               [p.name, p.surname, p.email, p.roleName, p.roleColor]
                     .some(field => field?.toLowerCase().includes(query.toLowerCase()))
             );
 
             const startIndex = (pageNumber - 1) * pageSize;
-            const paginatedProducts = pageSize > 0 ? filteredProducts.slice(startIndex, startIndex + pageSize) : filteredProducts;
-            const totalPages = Math.ceil(filteredProducts.length / pageSize);
+            const paginatedUsers = pageSize > 0 ? filteredUsers.slice(startIndex, startIndex + pageSize) : filteredUsers;
+            const totalPages = Math.ceil(filteredUsers.length / pageSize);
 
-            return { products: paginatedProducts, totalPages };
+            return { users: paginatedUsers, totalPages };
         }),
         catchError(this.handleError)
     );
