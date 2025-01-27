@@ -135,7 +135,7 @@ export class ProductService {
   getProduct(id:number) : Observable<Product>{
     return this.http.get<Product>(this.apiUrl+'/'+id);
   }
-  createProduct2(product: Product): Observable<Product> {
+  createProduct(product: Product): Observable<Product> {
     const httpOptions = {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
@@ -147,25 +147,6 @@ export class ProductService {
       }),
       switchMap((c) => {
         return this.http.post<Product>(this.apiUrl, c, httpOptions);
-      })
-    );
-  }
-  createProduct(product: Product): Observable<Product> {
-    const httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    };
-    return this.getProducts().pipe(
-      map(products => {
-        const lastId = products.length > 0 ? products.at(-1)?.id ?? 0 : 0;
-        product.id = lastId + 1;
-        return product;
-      }),
-      switchMap((newProduct) => {
-        return this.http.post<Product>(
-          'https://ng-store-app-4b8c3-default-rtdb.firebaseio.com/products.json',
-          newProduct,
-          httpOptions
-        );
       })
     );
   }
