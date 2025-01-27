@@ -1,19 +1,7 @@
-<div *ngIf="sliders.length>0" class="flex justify-center items-center max-h-[50vh] overflow-hidden object-cover">
-  <div class="carousel relative w-full h-full">
-    <div class="overflow-hidden rounded-xl">
-      <div class="carousel-slides relative w-full flex gap-6 snap-x snap-mandatory scroll-smooth overflow-x-auto -mb-10 pt-2 pb-12">
-        <div class="snap-always snap-center shrink-0 relative overflow-hidden aspect-[3/2] w-full rounded-lg" *ngFor="let slider of sliders let i = index">
-          <img class="shrink-0 my-0 object-cover object-bottom w-full h-full" [src]="slider.imgUrl">
-        </div>
-      </div>
-    </div>
-    <div class="carousel-nav hidden">
-      <button type="button" class="carousel-nav-prev rounded-full  p-1.5 text-gray-600 shadow-sm hover:bg-gray-300 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-gray-200 transition-all duration-300">
-        <svg class="lucide lucide-chevron-left w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-      </button>
-      <button type="button" class="carousel-nav-next rounded-full  p-1.5 text-gray-600 shadow-sm hover:bg-gray-300 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-gray-200 transition-all duration-300">
-        <svg class="lucide lucide-chevron-right w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-      </button>
+<div *ngIf="sliders.length>0" class="flex justify-center items-center overflow-hidden">
+  <div class="carousel-slides relative w-full flex gap-6 snap-x snap-mandatory scroll-smooth overflow-x-auto">
+    <div class="snap-always snap-center shrink-0 relative overflow-hidden w-full" *ngFor="let slider of sliders let i = index">
+      <img class="shrink-0 my-0 object-contain w-full" [src]="slider.imgUrl">
     </div>
   </div>
 </div>

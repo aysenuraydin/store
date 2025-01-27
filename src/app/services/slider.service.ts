@@ -37,18 +37,18 @@ export class SliderService {
       catchError(this.handleError)
     );
   }
-  searchSliders(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Slider[]; totalPages: number }> {
+  searchSliders(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ sliders: Slider[]; totalPages: number }> {
     return this.getAllSliders().pipe(
         map(response => {
-            const filteredProducts = response.filter(p => [p.name, p.imgUrl]
+            const filteredSliders = response.filter(p => [p.name, p.imgUrl]
                     .some(field => field?.toLowerCase().includes(query.toLowerCase()))
             );
 
             const startIndex = (pageNumber - 1) * pageSize;
-            const paginatedProducts = pageSize > 0 ? filteredProducts.reverse().slice(startIndex, startIndex + pageSize) : filteredProducts;
-            const totalPages = Math.ceil(filteredProducts.length / pageSize);
+            const paginatedSliders = pageSize > 0 ? filteredSliders.reverse().slice(startIndex, startIndex + pageSize) : filteredSliders;
+            const totalPages = Math.ceil(filteredSliders.length / pageSize);
 
-            return { products: paginatedProducts, totalPages };
+            return { sliders: paginatedSliders, totalPages };
         }),
         catchError(this.handleError)
     );
@@ -71,21 +71,21 @@ export class SliderService {
         disabled: this.getDisableSliders(),
       }).pipe(
         map(({ actived, disabled }) => {
-          const activeBanners = actived.reverse();
-          const disableBanners = disabled.reverse();
-          return [...activeBanners, ...disableBanners];
+          const activesliders = actived.reverse();
+          const disablesliders = disabled.reverse();
+          return [...activesliders, ...disablesliders];
         }),
         catchError(this.handleError)
       );
     }
-  getSliders(pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Slider[]; totalPages: number }> {
+  getSliders(pageNumber: number = 1, pageSize: number = 3): Observable<{ sliders: Slider[]; totalPages: number }> {
     return this.getAllSliders().pipe(
-        map(products => {
+        map(sliders => {
             const startIndex = (pageNumber - 1) * pageSize;
-            const paginatedProducts = pageSize > 0 ? products.slice(startIndex, startIndex + pageSize) : products;
-            const totalPages = Math.ceil(products.length / pageSize);
+            const paginatedSliders = pageSize > 0 ? sliders.slice(startIndex, startIndex + pageSize) : sliders;
+            const totalPages = Math.ceil(sliders.length / pageSize);
 
-            return { products: paginatedProducts, totalPages };
+            return { sliders: paginatedSliders, totalPages };
         }),
         catchError(this.handleError)
     );

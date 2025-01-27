@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
-import { ProductService } from '../../services/product.service';
 import { ProductList } from '../../models/productList';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { CategoryProductService } from '../../services/category-product.service';
 import { AlertService } from '../../services/alert.service';
-import { Alert, ClassName, Color } from '../../models/alert';
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'product-list',
@@ -38,15 +36,6 @@ export class ProductListComponent {
         this.getProducts();
       }
     });
-
-    let alert:Alert =  {
-      id:1,
-      userId:1,
-      className: ClassName.info,
-      message:"Lorem ing elit.1",
-      color: Color.blue
-    }
-    this.alertService.addAlert(alert)
   }
   getrouterId(categoryId:number){
     this.routeId=categoryId;

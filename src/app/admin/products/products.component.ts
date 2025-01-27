@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { ExtendedProduct, Product } from '../../models/product';
-import { ProductService } from '../../services/product.service';
 import { Category } from '../../models/category';
-import { CategoryProductService } from '../../services/category-product.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ProductService } from '../../services/product.service';
+import { CategoryProductService } from '../../services/category-product.service';
 
 @Component({
   selector: 'products',

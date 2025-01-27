@@ -19,33 +19,33 @@ export class SubscribeService {
   searchSubscribes(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Subscribe[]; totalPages: number }> {
     return this.getAllSubscribes().pipe(
         map(response => {
-            const filteredProducts = response.filter(category =>  [category.email]
+            const filteredSubscribes = response.filter(category =>  [category.email]
                     .some(field => field?.toLowerCase().includes(query.toLowerCase()))
             );
 
             const startIndex = (pageNumber - 1) * pageSize;
-            const paginatedProducts = pageSize > 0 ? filteredProducts.reverse().slice(startIndex, startIndex + pageSize) : filteredProducts;
-            const totalPages = Math.ceil(filteredProducts.length / pageSize);
+            const paginatedSubscribes = pageSize > 0 ? filteredSubscribes.reverse().slice(startIndex, startIndex + pageSize) : filteredSubscribes;
+            const totalPages = Math.ceil(filteredSubscribes.length / pageSize);
 
-            return { products: paginatedProducts, totalPages };
+            return { products: paginatedSubscribes, totalPages };
         }),
         catchError(this.handleError)
     );
   }
   getAllSubscribes() :Observable<Subscribe[]> {
     return this.http.get<Subscribe[]>(this.apiUrl).pipe(
-      map(categories => categories),
+      map(subscribes => subscribes),
       catchError(this.handleError)
     );
   }
-  getSubscribes(pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Subscribe[]; totalPages: number }> {
+  getSubscribes(pageNumber: number = 1, pageSize: number = 3): Observable<{ subscribes: Subscribe[]; totalPages: number }> {
     return this.getAllSubscribes().pipe(
-        map(products => {
+        map(subscribes => {
             const startIndex = (pageNumber - 1) * pageSize;
-            const paginatedProducts = pageSize > 0 ? products.reverse().slice(startIndex, startIndex + pageSize) : products;
-            const totalPages = Math.ceil(products.length / pageSize);
+            const paginatedSubscribes = pageSize > 0 ? subscribes.reverse().slice(startIndex, startIndex + pageSize) : subscribes;
+            const totalPages = Math.ceil(subscribes.length / pageSize);
 
-            return { products: paginatedProducts, totalPages };
+            return { subscribes: paginatedSubscribes, totalPages };
         }),
         catchError(this.handleError)
     );

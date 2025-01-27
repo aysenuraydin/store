@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FavService } from '../../services/fav.service';
 import { ProductList } from '../../models/productList';
 import { Router } from '@angular/router';
+import { FavService } from '../../services/fav.service';
 
 @Component({
   selector: 'add-fav',

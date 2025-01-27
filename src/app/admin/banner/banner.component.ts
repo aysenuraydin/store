@@ -49,7 +49,7 @@ export class BannerComponent {
         this.bannerService.searchBanners(this.search,this.pageNumber, this.pageSize)
             .subscribe(
               (data) => {
-                this.banners = data.products;
+                this.banners = data.banners;
                 this.pageTotal = data.totalPages;
             }
           );
@@ -62,7 +62,7 @@ export class BannerComponent {
       this.bannerService.getBanners(this.pageNumber, this.pageSize)
         .subscribe(data =>
           {
-            this.banners=data.products;
+            this.banners=data.banners;
             this.pageTotal = data.totalPages;
           }
         )

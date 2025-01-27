@@ -54,14 +54,14 @@ export class ReviewService {
       catchError(this.handleError)
     );
   }
-  getReviewsWithUserAndProduct(pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Review[]; totalPages: number }> {
+  getReviewsWithUserAndProduct(pageNumber: number = 1, pageSize: number = 3): Observable<{ reviews: Review[]; totalPages: number }> {
     return this.getAllReviewsWithUserAndProduct().pipe(
-        map(products => {
+        map(reviews => {
             const startIndex = (pageNumber - 1) * pageSize;
-            const paginatedProducts = pageSize > 0 ? products.reverse().slice(startIndex, startIndex + pageSize) : products;
-            const totalPages = Math.ceil(products.length / pageSize);
+            const paginatedReviews = pageSize > 0 ? reviews.reverse().slice(startIndex, startIndex + pageSize) : reviews;
+            const totalPages = Math.ceil(reviews.length / pageSize);
 
-            return { products: paginatedProducts, totalPages };
+            return { reviews: paginatedReviews, totalPages };
         }),
         catchError(this.handleError)
     );
@@ -95,18 +95,18 @@ export class ReviewService {
   }
 
 
-  searchReviews(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Review[]; totalPages: number }> {
+  searchReviews(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ reviews: Review[]; totalPages: number }> {
     return this.getAllReviewsWithUserAndProduct().pipe(
         map(response => {
-            const filteredProducts = response.filter(p => [p.username, p.productName, p.text]
+            const filteredReviews = response.filter(p => [p.username, p.productName, p.text]
                     .some(field => field?.toLowerCase().includes(query.toLowerCase()))
             );
 
             const startIndex = (pageNumber - 1) * pageSize;
-            const paginatedProducts = pageSize > 0 ? filteredProducts.reverse().slice(startIndex, startIndex + pageSize) : filteredProducts;
-            const totalPages = Math.ceil(filteredProducts.length / pageSize);
+            const paginatedReviews = pageSize > 0 ? filteredReviews.reverse().slice(startIndex, startIndex + pageSize) : filteredReviews;
+            const totalPages = Math.ceil(filteredReviews.length / pageSize);
 
-            return { products: paginatedProducts, totalPages };
+            return { reviews: paginatedReviews, totalPages };
         }),
         catchError(this.handleError)
     );

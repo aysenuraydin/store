@@ -47,7 +47,7 @@ export class ReviewsComponent {
       this.reviewService.searchReviews(this.search,this.pageNumber, this.pageSize)
           .subscribe(
             (data) => {
-              this.reviews = data.products;
+              this.reviews = data.reviews;
               this.pageTotal = data.totalPages;
           }
         );
@@ -62,7 +62,7 @@ export class ReviewsComponent {
         .subscribe(
           (data) => {
             this.toggleWindow(false);
-            this.reviews = data.products
+            this.reviews = data.reviews
             this.pageTotal = data.totalPages;
         }
       );

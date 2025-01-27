@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Message } from '../models/message';
-import { MessageService } from '../services/message.service';
-import { InformationsService } from '../services/informations.service';
 import { Info } from '../models/informations';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { InformationsService } from '../services/informations.service';
+import { MessageService } from '../services/message.service';
 
 @Component({
   selector: 'contact',

@@ -43,7 +43,7 @@ export class MessagesComponent {
       this.messageService.searchContacts(this.showOrHide,this.search,this.pageNumber, this.pageSize)
           .subscribe(
             (data) => {
-              this.messages = data.products;
+              this.messages = data.contacts;
               this.pageTotal = data.totalPages;
           }
         );
@@ -64,7 +64,7 @@ export class MessagesComponent {
       this.messageService.getContacts(value,this.pageNumber, this.pageSize)
       .subscribe(
         (data) => {
-          this.messages = data.products;
+          this.messages = data.contacts;
           this.pageTotal = data.totalPages;
       }
     );

@@ -58,32 +58,32 @@ export class BannerService {
       catchError(this.handleError)
     );
   }
-  getBanners(pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Banner[]; totalPages: number }> {
+  getBanners(pageNumber: number = 1, pageSize: number = 3): Observable<{ banners: Banner[]; totalPages: number }> {
     return this.getAllBanners().pipe(
-        map(products => {
+        map(banners => {
             const startIndex = (pageNumber - 1) * pageSize;
-            const paginatedProducts = pageSize > 0 ? products.slice(startIndex, startIndex + pageSize) : products;
-            const totalPages = Math.ceil(products.length / pageSize);
+            const paginatedBanners = pageSize > 0 ? banners.slice(startIndex, startIndex + pageSize) : banners;
+            const totalPages = Math.ceil(banners.length / pageSize);
 
-            return { products: paginatedProducts, totalPages };
+            return { banners: paginatedBanners, totalPages };
         }),
       catchError(this.handleError)
     );
   }
 
-  searchBanners(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ products: Banner[]; totalPages: number }> {
+  searchBanners(query: string, pageNumber: number = 1, pageSize: number = 3): Observable<{ banners: Banner[]; totalPages: number }> {
     return this.getAllBanners().pipe(
         map(response => {
-            const filteredProducts = response.filter(r =>
+            const filteredBanners = response.filter(r =>
               [r.message, r.button]
                     .some(field => field?.toLowerCase().includes(query.toLowerCase()))
             );
 
             const startIndex = (pageNumber - 1) * pageSize;
-            const paginatedProducts = pageSize > 0 ? filteredProducts.slice(startIndex, startIndex + pageSize) : filteredProducts;
-            const totalPages = Math.ceil(filteredProducts.length / pageSize);
+            const paginatedBanners = pageSize > 0 ? filteredBanners.slice(startIndex, startIndex + pageSize) : filteredBanners;
+            const totalPages = Math.ceil(filteredBanners.length / pageSize);
 
-            return { products: paginatedProducts, totalPages };
+            return { banners: paginatedBanners, totalPages };
         }),
         catchError(this.handleError)
     );

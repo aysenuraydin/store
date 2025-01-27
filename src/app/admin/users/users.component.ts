@@ -49,7 +49,7 @@ export class UsersComponent implements OnInit {
     this.userService.searchUsers(this.search, this.pageNumber, this.pageSize)
         .subscribe(
           (data) => {
-            this.users = data.products;
+            this.users = data.users;
             this.pageTotal = data.totalPages;
         }
       );
@@ -75,7 +75,7 @@ export class UsersComponent implements OnInit {
     this.userService.getUsersWithRoleName(this.pageNumber, this.pageSize)
         .subscribe(
           (data) => {
-            this.users = data.products;
+            this.users = data.users;
             this.pageTotal = data.totalPages;
         }
       );

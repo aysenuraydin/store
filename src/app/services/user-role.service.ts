@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserService } from './user.service';
 import { catchError, forkJoin, map, Observable, switchMap, throwError } from 'rxjs';
-import { RoleRepository } from '../repository/role.repository';
 import { RoleService } from './role.service';
 import { Role } from '../models/role';
 
